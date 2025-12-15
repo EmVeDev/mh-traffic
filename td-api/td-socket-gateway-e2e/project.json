@@ -1,0 +1,17 @@
+{
+  "name": "td-socket-gateway-e2e",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "implicitDependencies": ["td-socket-gateway"],
+  "projectType": "application",
+  "targets": {
+    "e2e": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{e2eProjectRoot}"],
+      "options": {
+        "jestConfig": "td-api/td-socket-gateway-e2e/jest.config.cts",
+        "passWithNoTests": true
+      },
+      "dependsOn": ["td-socket-gateway:build", "td-socket-gateway:serve"]
+    }
+  }
+}

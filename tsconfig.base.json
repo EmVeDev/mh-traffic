@@ -1,0 +1,25 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "rootDir": ".",
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "es2015",
+    "module": "esnext",
+    "lib": ["es2020", "dom"],
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@mh-traffic/mh-types": ["libs/mh-types/src/index.ts"],
+      "@mh-traffic/mh-clients": ["libs/mh-clients/src/index.ts"],
+      "@mh-traffic/mh-design": ["libs/mh-design/src/index.ts"],
+      "@mh-traffic/mh-testing": ["libs/mh-testing/src/index.ts"]
+    }
+  },
+  "exclude": ["node_modules", "tmp"]
+}

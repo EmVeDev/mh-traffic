@@ -1,0 +1,9 @@
+{
+  "name": "td-ui-e2e",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/td-ui-e2e/src",
+  "implicitDependencies": ["td-ui"],
+  "// targets": "to see all targets run: nx show project td-ui-e2e --web",
+  "targets": {}
+}
