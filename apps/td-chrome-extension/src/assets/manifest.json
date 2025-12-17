@@ -1,0 +1,35 @@
+{
+  "manifest_version": 3,
+  "name": "Mediahuis Traffic Dashboard Extension",
+  "description": "Traffic Dahsboard Chrome Extension @Mediahuis",
+  "version": "0.0.0",
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "td-ui/*",
+        "td-ui/**"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
+    }
+  ],
+  "action": {
+    "default_icon": "icon.png",
+    "default_title": "Traffic Chrome Extension"
+  },
+  "background": {
+    "service_worker": "src/service-worker.js",
+    "type": "module"
+  },
+  "permissions": [
+    "activeTab",
+    "scripting"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self';"
+  }
+}

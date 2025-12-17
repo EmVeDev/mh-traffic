@@ -18,7 +18,9 @@
       "@mh-traffic/mh-types": ["libs/mh-types/src/index.ts"],
       "@mh-traffic/mh-clients": ["libs/mh-clients/src/index.ts"],
       "@mh-traffic/mh-design": ["libs/mh-design/src/index.ts"],
-      "@mh-traffic/mh-testing": ["libs/mh-testing/src/index.ts"]
+      "@mh-traffic/mh-testing": ["libs/mh-testing/src/index.ts"],
+      "@mh-traffic/mh-traffic-api": ["libs/mh-traffic-api/src/index.ts"],
+      "@mh-traffic/mh-i18n": ["libs/mh-i18n/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

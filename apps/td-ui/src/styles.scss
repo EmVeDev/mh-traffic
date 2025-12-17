@@ -1,1 +1,276 @@
-/* You can add global styles to this file, and also import other style files */
+@use "sass:color";
+@use "sass:map";
+@use "sass:meta";
+
+$td-colors: (
+  "primary": #d9372b,
+  "secondary": #f39200,
+  "tertiary": #f8f8f8,
+  "white": #fff,
+  "white-1": #f8f8f8,
+  "white-2": #f0f0f0,
+  "black": #434343,
+  "danger": #d34d3d,
+  "success": #09c98d,
+  "info": #192a56,
+  "warn": #ffb500,
+  "standaard.be": #44c4d1,
+  "gva.be": #d21d10,
+  "hbvl.be": #f7d10f,
+  "nieuwsblad.be": #0071c7
+);
+
+$space: (
+  1: 0.25rem,
+  2: 0.5rem,
+  4: 1rem
+);
+
+
+.td-ui {
+  color: map.get($td-colors, "black");
+  background-color: map.get($td-colors, "white-1");
+  font-size: 16px;
+  font-family: "Raleway", system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+
+  // Color utility classes:
+  // - .text-<color>, .text-<color>-light, .text-<color>-dark
+  // - .bg-<color>, .bg-<color>-light, .bg-<color>-dark
+  // - .fill-<color>, .fill-<color>-light, .fill-<color>-dark
+  // - .border-<color>, .border-<color>-light, .border-<color>-dark
+  //
+  // Notes:
+  // - Names with hyphens (e.g. white-0) are supported as written.
+  // - `fill-*` is for SVG (and other fill-capable elements).
+  // - `*-light` / `*-dark` variants adjust lightness by ±10% via `sass:color` (`color.adjust`).
+
+  @each $name, $value in $td-colors {
+    .text-#{$name} {
+      color: $value;
+    }
+    .text-#{$name}-light {
+      color: color.adjust($value, $lightness: 10%);
+    }
+    .text-#{$name}-dark {
+      color: color.adjust($value, $lightness: -10%);
+    }
+
+    .bg-#{$name} {
+      background-color: $value;
+    }
+    .bg-#{$name}-light {
+      background-color: color.adjust($value, $lightness: 10%);
+    }
+    .bg-#{$name}-dark {
+      background-color: color.adjust($value, $lightness: -10%);
+    }
+
+    .fill-#{$name} {
+      fill: $value;
+    }
+    .fill-#{$name}-light {
+      fill: color.adjust($value, $lightness: 10%);
+    }
+    .fill-#{$name}-dark {
+      fill: color.adjust($value, $lightness: -10%);
+    }
+
+    .border-#{$name} {
+      border-color: $value;
+    }
+    .border-#{$name}-light {
+      border-color: color.adjust($value, $lightness: 10%);
+    }
+    .border-#{$name}-dark {
+      border-color: color.adjust($value, $lightness: -10%);
+    }
+  }
+
+  /* Text size helpers */
+  .text-xs {
+    font-size: 0.75rem;
+    line-height: 1.1;
+  }
+
+  /* 12px  */
+  .text-sm {
+    font-size: 0.875rem;
+    line-height: 1.2;
+  }
+
+  /* 14px  */
+  .text-base {
+    font-size: 0.875rem;
+    line-height: 1.2;
+  }
+
+  /* 14px  */
+  .text-md {
+    font-size: 1rem;
+    line-height: 1.25;
+  }
+
+  /* 16px  */
+  .text-lg {
+    font-size: 1.125rem;
+    line-height: 1.3;
+  }
+
+  /* 18px  */
+  .text-xl {
+    font-size: 1.25rem;
+    line-height: 1.35;
+  }
+
+  /* 20px  */
+  .text-2xl {
+    font-size: 1.5rem;
+    line-height: 1.25;
+  }
+
+  /* 24px  */
+  .text-3xl {
+    font-size: 1.875rem;
+    line-height: 1.2;
+  }
+
+  /* 30px  */
+
+
+  /* Layout utilities (subset) */
+  .flex {
+    display: flex;
+  }
+
+  .flex-col {
+    flex-direction: column;
+  }
+
+  .flex-row {
+    flex-direction: row;
+  }
+
+  .inline-flex {
+    display: inline-flex;
+  }
+
+  .grid {
+    display: grid;
+  }
+
+  .items-center {
+    align-items: center;
+  }
+
+  .justify-center {
+    justify-content: center;
+  }
+
+  .justify-between {
+    justify-content: space-between;
+  }
+
+  // - `.gap-1`, `.gap-2`, `.gap-4`
+  // - `.p-1`, `.p-2`, `.p-4`
+  // - `.px-1`, `.px-4` (add more if you want)
+  // - `.m-1`, `.m-2`, `.m-4`
+  // - `.mx-1`, `.mx-4`
+  // - `.my-1`, `.my-2`
+  @each $k, $v in $space {
+    .gap-#{$k} {
+      gap: $v;
+    }
+
+    .p-#{$k} {
+      padding: $v;
+    }
+    .m-#{$k} {
+      margin: $v;
+    }
+
+    .mx-#{$k} {
+      margin-left: $v;
+      margin-right: $v;
+    }
+    .my-#{$k} {
+      margin-top: $v;
+      margin-bottom: $v;
+    }
+
+    .px-#{$k} {
+      padding-left: $v;
+      padding-right: $v;
+    }
+    .py-#{$k} {
+      padding-top: $v;
+      padding-bottom: $v;
+    }
+  }
+
+  .w-full {
+    width: 100%;
+  }
+
+  .h-full {
+    height: 100%;
+  }
+
+  .border-r {
+    border-right: 1px solid rgba(0, 0, 0, 0.08);
+  }
+
+  .border-l {
+    border-left: 1px solid rgba(0, 0, 0, 0.08);
+  }
+
+  .border-t {
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+  }
+
+  .border-b {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  }
+
+  .shadow-r {
+    box-shadow: 10px 0 10px rgba(0, 0, 0, 0.08);
+  }
+
+  .shadow-l {
+    box-shadow: -10px 0 10px rgba(0, 0, 0, 0.08);
+  }
+
+  .shadow-b {
+    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.08);
+  }
+
+  .shadow-t {
+    box-shadow: 0 -10px 10px rgba(0, 0, 0, 0.08);
+  }
+
+  .page {
+    padding: .5rem;
+  }
+
+
+  a,
+  a:visited,
+  a:hover,
+  a:active,
+  a:focus {
+    color: map.get($td-colors, "primary");
+  }
+
+  button {
+    box-shadow: none;
+    border-style: none;
+    cursor: pointer;
+  }
+
+  .bold {
+    font-weight: bold;
+  }
+
+  .italic {
+    font-style: italic;
+  }
+}

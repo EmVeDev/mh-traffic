@@ -5,7 +5,8 @@ import {TrafficStatusResponseDto, TRAFFIC_PATTERNS} from "@mh-traffic/mh-types";
 
 @Controller()
 export class TrafficMessageHandler {
-  constructor(private readonly metrics: TrafficMetricsService) {}
+  constructor(private readonly metrics: TrafficMetricsService) {
+  }
 
   @MessagePattern(TRAFFIC_PATTERNS.getStatus)
   getStatus(): TrafficStatusResponseDto {

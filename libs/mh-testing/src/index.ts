@@ -1,1 +1,1 @@
-export * from './lib/mh-testing';
+export * from './lib/nest/create-testing-module';

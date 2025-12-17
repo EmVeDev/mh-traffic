@@ -1,1 +1,2 @@
-export * from './lib/mh-design/mh-design';
+export * from './lib/mh-design.module';
+

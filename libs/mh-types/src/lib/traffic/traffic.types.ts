@@ -1,16 +1,5 @@
 import { IsNumber, IsObject, IsString } from 'class-validator';
 
-export class TrafficStatusResponseDto {
-  @IsString()
-  status!: 'ok';
-
-  @IsNumber()
-  timestamp!: number;
-
-  @IsObject()
-  metrics!: TrafficMetricsDto;
-}
-
 export class TrafficMetricsDto {
   @IsNumber()
   pid!: number;
@@ -43,4 +32,15 @@ export class TrafficMetricsDto {
     delayMeanMs: number;
     delayMaxMs: number;
   };
+}
+
+export class TrafficStatusResponseDto {
+  @IsString()
+  status!: 'ok';
+
+  @IsNumber()
+  timestamp!: number;
+
+  @IsObject()
+  metrics!: TrafficMetricsDto;
 }

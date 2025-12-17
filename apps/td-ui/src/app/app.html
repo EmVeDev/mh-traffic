@@ -1,2 +1,96 @@
-<app-nx-welcome></app-nx-welcome>
-<router-outlet></router-outlet>
+<div class="shell">
+  <!-- Mobile hamburger (only visible on small screens via CSS) -->
+  <button
+    type="button"
+    class="hamburger bg-white"
+    aria-label="Open menu"
+    (click)="uiStore.openSubmenu(uiStore.activeNavId() ?? uiStore.navItems()[0]?.id ?? 'home')"
+  >
+    <mhd-icon icon="fa-bars" size="text-lg"></mhd-icon>
+  </button>
+
+  <!-- Desktop narrow sidebar (hidden on small screens via CSS) -->
+  <aside class="sidebar flex flex-col items-center bg-white-2" aria-label="Navigation">
+    <mhd-logo [size]="44" class="py-1"></mhd-logo>
+
+    @for (item of uiStore.navItems(); track item.id) {
+      <button
+        class="bg-white-2 py-2 px-4 my-1"
+        type="button"
+        (click)="categoryClick(item)"
+        [title]="item.label"
+      >
+        <mhd-icon [icon]="item.icon" [color]="isOnItemRoute(item) ? 'text-primary' : 'text-black'" size="text-lg"></mhd-icon>
+      </button>
+    }
+  </aside>
+
+  <!-- Solid page/background: always present in non-extension behavior -->
+  <div class="content-shell" role="application">
+    <header class="content-topbar border-b">
+      <nav class="content-nav"></nav>
+
+      <div class="content-search">
+        <input class="search-input" type="search" placeholder="Search…"/>
+      </div>
+
+      <button type="button" class="content-close" (click)="uiStore.collapse()">Close</button>
+    </header>
+
+    <main class="content-main">
+      <router-outlet/>
+    </main>
+  </div>
+
+  <!-- Hovering navigation layer -->
+  @if (uiStore.showSubmenu()) {
+    <div class="drawer-layer">
+      <div class="backdrop" (click)="uiStore.collapse()"></div>
+
+      <section class="drawer shadow-r bg-white-1" role="region" aria-label="Menu">
+        <header class="topbar">
+          <div class="topbar-title">{{ uiStore.activeNavItem()?.label || "Menu" }}</div>
+          <button type="button" class="close-btn" (click)="uiStore.collapse()">Close</button>
+        </header>
+
+        <!-- Mobile: show categories + children in one overlay -->
+        <nav class="menu-mobile">
+          @for (item of uiStore.navItems(); track item.id) {
+            <button
+              class="menu-cat"
+              type="button"
+              (click)="categoryClick(item)"
+            >
+              <span class="menu-cat-icon">
+                <mhd-icon [icon]="item.icon" size="text-lg"></mhd-icon>
+              </span>
+              <span class="menu-cat-label">{{ item.label }}</span>
+            </button>
+
+            @if (uiStore.activeNavId() === item.id && item.children?.length) {
+              <div class="menu-children">
+                @for (child of item.children; track child.id) {
+                  <button class="submenu-item" type="button" (click)="onSubmenuClick(child.route)">
+                    {{ child.label }}
+                  </button>
+                }
+              </div>
+            }
+          }
+        </nav>
+
+        <!-- Desktop: keep your existing submenu area feel (optional).
+             If you prefer, you can delete this block and keep only menu-mobile. -->
+        @if (uiStore.activeNavItem()?.children?.length) {
+          <nav class="submenu submenu-desktop">
+            @for (child of uiStore.activeNavItem()!.children!; track child.id) {
+              <button class="submenu-item" type="button" (click)="onSubmenuClick(child.route)">
+                {{ child.label }}
+              </button>
+            }
+          </nav>
+        }
+      </section>
+    </div>
+  }
+</div>

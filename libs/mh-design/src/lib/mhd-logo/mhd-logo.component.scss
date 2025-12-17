@@ -1,0 +1,70 @@
+:host {
+  display: inline-block;
+}
+
+:host {
+  display: inline-block;
+}
+
+.mhd-logo {
+  --aa: 0.35deg; /* small overlap to avoid hairline gaps */
+  --speed: 1.2s;
+
+  /* Colors (starting from top-right, clockwise) */
+  --c1: #e6332d;
+  --c2: #ebebeb;
+  --c3: #bdbdbe;
+  --c4: #bdbdbe;
+  --c5: #ebebeb;
+  --c6: #f18825;
+
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 1;
+  position: relative;
+  display: block;
+  isolation: isolate;
+
+
+  background: conic-gradient(
+      from 0deg,
+      var(--c1) 0deg 60deg,
+      var(--c2) 60deg 120deg,
+      var(--c3) 120deg 180deg,
+      var(--c4) 180deg 240deg,
+      var(--c5) 240deg 300deg,
+      var(--c6) 300deg 360deg
+  );
+
+  clip-path: polygon(
+      50% 0%,
+      100% 25%,
+      100% 75%,
+      50% 100%,
+      0% 75%,
+      0% 25%
+  );
+}
+
+/* Optional stepping highlight (disabled unless .is-animated is present) */
+:host(.is-animated) .mhd-logo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  background: conic-gradient(
+      from 0deg,
+      #ffffff 0deg calc(60deg + var(--aa)),
+      transparent calc(60deg + var(--aa)) 360deg
+  );
+
+  transform-origin: 50% 50%;
+  animation: mhd-logo-step var(--speed) steps(6, end) infinite;
+  will-change: transform;
+}
+
+@keyframes mhd-logo-step {
+  to {
+    transform: rotate(360deg);
+  }
+}

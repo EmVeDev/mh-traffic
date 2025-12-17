@@ -1,0 +1,147 @@
+$sidebarWidth: 60px;
+$drawerWidth: 260px;
+$topbarHeight: 56px;
+
+:host {
+  display: block;
+  height: 100vh;
+  width: 100vw;
+}
+
+.shell {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+
+  /* Reserve space for sidebar + content on desktop */
+  display: grid;
+  grid-template-columns: $sidebarWidth 1fr;
+  grid-template-rows: 1fr;
+}
+
+/* Always-on page background/content */
+.content-shell {
+  pointer-events: auto;
+  position: static; /* was absolute */
+  z-index: 1;
+  background: #fff;
+  display: grid;
+  grid-template-rows: $topbarHeight 1fr;
+}
+
+.content-topbar {
+  height: $topbarHeight;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 12px; /* was padding-left including sidebar */
+}
+
+.content-main {
+  overflow: auto;
+  min-height: 0;
+}
+
+/* Desktop: narrow sidebar always visible (in-flow now) */
+.sidebar {
+  pointer-events: auto;
+  position: static; /* was absolute */
+  width: $sidebarWidth;
+  z-index: 3;
+}
+
+/* Hovering drawer layer */
+.drawer-layer {
+  pointer-events: auto;
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+}
+
+.backdrop {
+  position: absolute;
+  inset: 0;
+}
+
+.drawer {
+  position: absolute;
+  left: $sidebarWidth;
+  top: 0;
+  bottom: 0;
+  width: $drawerWidth;
+}
+
+/* Hamburger only on small screens */
+.hamburger {
+  pointer-events: auto;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 5;
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Mobile overlay menu layout */
+.menu-mobile {
+  display: none;
+  padding: 12px;
+}
+
+.menu-cat {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 8px;
+  border-radius: 10px;
+  text-align: left;
+}
+
+.menu-children {
+  padding-left: 38px;
+  padding-bottom: 10px;
+}
+
+.submenu-desktop {
+  /* visible on desktop, hidden on mobile below */
+}
+
+/* Responsive: hide sidebar, drawer becomes full overlay, show hamburger */
+@media (max-width: 768px) {
+  html.td-extension {
+    .shell {
+      grid-template-columns: $sidebarWidth 1fr !important;
+    }
+
+    .sidebar {
+      display: flex !important;
+    }
+
+    .hamburger {
+      display: none !important;
+    }
+
+    .menu-mobile {
+      display: none !important;
+    }
+
+    .submenu-desktop {
+      display: block !important;
+    }
+
+    .content-topbar {
+      padding-left: 12px !important;
+    }
+
+    .drawer {
+      left: $sidebarWidth !important;
+      width: $drawerWidth !important;
+    }
+  }
+
+}

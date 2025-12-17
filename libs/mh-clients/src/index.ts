@@ -1,1 +1,2 @@
-export * from './lib/mh-clients.module';
+export * from './lib/traffic.client.module';
+export * from './lib/traffic.client';

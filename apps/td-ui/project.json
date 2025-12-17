@@ -2,7 +2,7 @@
   "name": "td-ui",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
-  "prefix": "app",
+  "prefix": "td",
   "sourceRoot": "apps/td-ui/src",
   "tags": [],
   "targets": {
@@ -21,7 +21,10 @@
             "input": "apps/td-ui/public"
           }
         ],
-        "styles": ["apps/td-ui/src/styles.scss"]
+        "styles": [
+          "apps/td-ui/src/styles.scss",
+          "node_modules/@fortawesome/fontawesome-free/css/all.min.css"
+        ]
       },
       "configurations": {
         "production": {
@@ -37,10 +40,19 @@
               "maximumError": "8kb"
             }
           ],
+          "optimization": {
+            "styles": {
+              "inlineCritical": false
+            }
+          },
           "outputHashing": "all"
         },
         "development": {
-          "optimization": false,
+          "optimization": {
+            "styles": {
+              "inlineCritical": false
+            }
+          },
           "extractLicenses": false,
           "sourceMap": true
         }
@@ -52,10 +64,12 @@
       "executor": "@angular/build:dev-server",
       "configurations": {
         "production": {
-          "buildTarget": "td-ui:build:production"
+          "buildTarget": "td-ui:build:production",
+          "port": 3000
         },
         "development": {
-          "buildTarget": "td-ui:build:development"
+          "buildTarget": "td-ui:build:development",
+          "port": 3000
         }
       },
       "defaultConfiguration": "development"
@@ -82,7 +96,7 @@
       "executor": "@nx/web:file-server",
       "options": {
         "buildTarget": "td-ui:build",
-        "port": 4200,
+        "port": 3000,
         "staticFilePath": "dist/apps/td-ui/browser",
         "spa": true
       }

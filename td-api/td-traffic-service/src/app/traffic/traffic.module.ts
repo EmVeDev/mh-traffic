@@ -3,6 +3,7 @@ import { TrafficMessageHandler } from './traffic.message-handler';
 import { TrafficMetricsService } from './traffic.metrics.service';
 
 @Module({
-  providers: [TrafficMessageHandler, TrafficMetricsService],
+  controllers: [TrafficMessageHandler],
+  providers: [TrafficMetricsService],
 })
 export class TrafficModule {}

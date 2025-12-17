@@ -1,11 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import {Injectable} from '@nestjs/common';
 import * as os from 'node:os';
-import { performance, monitorEventLoopDelay } from 'node:perf_hooks';
+import {performance, monitorEventLoopDelay} from 'node:perf_hooks';
 import {TrafficMetricsDto} from "@mh-traffic/mh-types";
 
 @Injectable()
 export class TrafficMetricsService {
-  private readonly elDelay = monitorEventLoopDelay({ resolution: 20 });
+  private readonly elDelay = monitorEventLoopDelay({resolution: 20});
 
   constructor() {
     this.elDelay.enable();
@@ -28,7 +28,7 @@ export class TrafficMetricsService {
     return {
       pid: process.pid,
       uptimeSec: Math.floor(process.uptime()),
-      cpu: { processPercent: Number(processPercent.toFixed(2)) },
+      cpu: {processPercent: Number(processPercent.toFixed(2))},
       memory: {
         rssBytes: mem.rss,
         heapUsedBytes: mem.heapUsed,

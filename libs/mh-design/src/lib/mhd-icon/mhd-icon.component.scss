@@ -1,0 +1,23 @@
+:host {
+  line-height: 1;
+}
+
+.mhd-icon__stack {
+  position: relative;
+  display: inline-block;
+  line-height: 1;
+}
+
+.mhd-icon__sub {
+  position: absolute;
+
+  /* “hovering” on the right */
+  right: -0.25em;
+  top: -0.15em;
+
+  /* default smaller size (can be overridden by subSize Tailwind class) */
+  font-size: 0.6em;
+
+  /* optional readability on varied backgrounds */
+  text-shadow: 0 0 0.12em rgba(255, 255, 255, 0.85);
+}

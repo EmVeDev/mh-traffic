@@ -1,15 +1,21 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "outDir": "../../dist/out-tsc",
-    "types": []
+    "outDir": "../../dist/apps/td-chrome-extension",
+    "rootDir": "./src",
+
+    "target": "ES2022",
+    "lib": ["ES2022", "DOM"],
+
+    "module": "ES2022",
+    "moduleResolution": "Bundler",
+
+    "sourceMap": false,
+    "declaration": false,
+
+    "noEmitOnError": true,
+    "skipLibCheck": true
   },
   "include": ["src/**/*.ts"],
-  "exclude": [
-    "jest.config.ts",
-    "src/test-setup.ts",
-    "src/**/*.test.ts",
-    "src/**/*.spec.ts",
-    "jest.config.cts"
-  ]
+  "exclude": ["**/*.spec.ts", "**/*.test.ts"]
 }

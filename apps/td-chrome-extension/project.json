@@ -2,89 +2,50 @@
   "name": "td-chrome-extension",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
-  "prefix": "app",
   "sourceRoot": "apps/td-chrome-extension/src",
   "tags": [],
   "targets": {
     "build": {
-      "executor": "@angular/build:application",
+      "executor": "nx:run-commands",
+      "outputs": ["{workspaceRoot}/dist/apps/td-chrome-extension"],
+      "options": {
+        "commands": [
+          "npx nx build td-ui --base-href=/td-ui/",
+          "npx nx tsc td-chrome-extension",
+          "npx nx run td-chrome-extension:copy-assets",
+          "npx nx run td-chrome-extension:copy-td-ui"
+        ],
+        "parallel": false
+      }
+    },
+    "tsc": {
+      "executor": "@nx/js:tsc",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/apps/td-chrome-extension",
-        "browser": "apps/td-chrome-extension/src/main.ts",
-        "polyfills": ["zone.js"],
+        "main": "apps/td-chrome-extension/src/service-worker.ts",
         "tsConfig": "apps/td-chrome-extension/tsconfig.app.json",
-        "inlineStyleLanguage": "scss",
-        "assets": [
-          {
-            "glob": "**/*",
-            "input": "apps/td-chrome-extension/public"
-          }
+        "assets": []
+      }
+    },
+    "copy-assets": {
+      "executor": "nx:run-commands",
+      "outputs": ["{workspaceRoot}/dist/apps/td-chrome-extension"],
+      "options": {
+        "commands": [
+          "node -e \"const fs=require('fs'); const path=require('path'); const src='apps/td-chrome-extension/src/assets'; const dst='dist/apps/td-chrome-extension'; fs.mkdirSync(dst,{recursive:true}); fs.cpSync(src,dst,{recursive:true});\""
         ],
-        "styles": ["apps/td-chrome-extension/src/styles.scss"]
-      },
-      "configurations": {
-        "production": {
-          "budgets": [
-            {
-              "type": "initial",
-              "maximumWarning": "500kb",
-              "maximumError": "1mb"
-            },
-            {
-              "type": "anyComponentStyle",
-              "maximumWarning": "4kb",
-              "maximumError": "8kb"
-            }
-          ],
-          "outputHashing": "all"
-        },
-        "development": {
-          "optimization": false,
-          "extractLicenses": false,
-          "sourceMap": true
-        }
-      },
-      "defaultConfiguration": "production"
-    },
-    "serve": {
-      "continuous": true,
-      "executor": "@angular/build:dev-server",
-      "configurations": {
-        "production": {
-          "buildTarget": "td-chrome-extension:build:production"
-        },
-        "development": {
-          "buildTarget": "td-chrome-extension:build:development"
-        }
-      },
-      "defaultConfiguration": "development"
-    },
-    "extract-i18n": {
-      "executor": "@angular/build:extract-i18n",
-      "options": {
-        "buildTarget": "td-chrome-extension:build"
+        "parallel": false
       }
     },
-    "lint": {
-      "executor": "@nx/eslint:lint"
-    },
-    "test": {
-      "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+    "copy-td-ui": {
+      "executor": "nx:run-commands",
+      "outputs": ["{workspaceRoot}/dist/apps/td-chrome-extension/td-ui"],
       "options": {
-        "jestConfig": "apps/td-chrome-extension/jest.config.ts",
-        "tsConfig": "apps/td-chrome-extension/tsconfig.spec.json"
-      }
-    },
-    "serve-static": {
-      "continuous": true,
-      "executor": "@nx/web:file-server",
-      "options": {
-        "buildTarget": "td-chrome-extension:build",
-        "port": 4200,
-        "staticFilePath": "dist/apps/td-chrome-extension/browser",
-        "spa": true
+        "commands": [
+          "node -e \"const fs=require('fs'); const src='dist/apps/td-ui/browser'; const dst='dist/apps/td-chrome-extension/td-ui'; fs.rmSync(dst,{recursive:true,force:true}); fs.mkdirSync(dst,{recursive:true}); fs.cpSync(src,dst,{recursive:true});\""
+        ],
+        "parallel": false
       }
     }
   }

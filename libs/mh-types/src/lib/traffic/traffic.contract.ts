@@ -1,5 +1,5 @@
 import { TRAFFIC_PATTERNS } from './traffic.patterns';
-import {TrafficStatusResponseDto} from "@mh-traffic/mh-types";
+import {TrafficStatusResponseDto} from "./traffic.types";
 
 export type TrafficContract = {
   [TRAFFIC_PATTERNS.getStatus]: {
