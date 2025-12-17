@@ -26,11 +26,14 @@ $space: (
   4: 1rem
 );
 
+$toolbar-height: 50px;
+
 
 .td-ui {
   color: map.get($td-colors, "black");
   background-color: map.get($td-colors, "white-1");
   font-size: 16px;
+  margin: 0;
   font-family: "Raleway", system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
 
   // Color utility classes:
@@ -272,5 +275,9 @@ $space: (
 
   .italic {
     font-style: italic;
+  }
+
+  .h-toolbar {
+    height: $toolbar-height
   }
 }

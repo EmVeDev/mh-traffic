@@ -1,96 +1,82 @@
-<div class="shell">
-  <!-- Mobile hamburger (only visible on small screens via CSS) -->
-  <button
-    type="button"
-    class="hamburger bg-white"
-    aria-label="Open menu"
-    (click)="uiStore.openSubmenu(uiStore.activeNavId() ?? uiStore.navItems()[0]?.id ?? 'home')"
-  >
-    <mhd-icon icon="fa-bars" size="text-lg"></mhd-icon>
-  </button>
+<div
+  class="layout bg-white-2"
+  [class.mode-collapsed]="uiStore.uiMode() === 'collapsed'"
+  [class.mode-submenu]="uiStore.uiMode() === 'submenu'"
+  [class.is-extension]="uiStore.isExtension()"
+  [class.is-mobile]="uiStore.isMobile()"
+>
 
-  <!-- Desktop narrow sidebar (hidden on small screens via CSS) -->
-  <aside class="sidebar flex flex-col items-center bg-white-2" aria-label="Navigation">
-    <mhd-logo [size]="44" class="py-1"></mhd-logo>
+  @if (!uiStore.isExtension() && uiStore.isMobile()) {
+    <button
+      type="button"
+      class="hamburger h-toolbar"
+      (click)="uiStore.toggleMobile()"
+      aria-label="Open menu"
+    >
+      <mhd-icon icon="fa-bars" iconSet="fas"></mhd-icon>
+    </button>
 
-    @for (item of uiStore.navItems(); track item.id) {
-      <button
-        class="bg-white-2 py-2 px-4 my-1"
-        type="button"
-        (click)="categoryClick(item)"
-        [title]="item.label"
-      >
-        <mhd-icon [icon]="item.icon" [color]="isOnItemRoute(item) ? 'text-primary' : 'text-black'" size="text-lg"></mhd-icon>
-      </button>
+    @if (uiStore.mobileOpen()) {
+      <div class="backdrop" (click)="uiStore.closeMobile()"></div>
     }
+  }
+
+  <!-- Sidebar -->
+  <aside
+    class="sidebar bg-white-2"
+    [class.expanded]="uiStore.sidebarExpanded()"
+    [class.mobile-drawer]="uiStore.isMobile()"
+    [class.mobile-open]="uiStore.isMobile() && uiStore.mobileOpen()"
+    (mouseenter)="uiStore.onSidebarEnter()"
+    (mouseleave)="uiStore.onSidebarLeave()"
+  >
+    <nav class="nav" aria-label="Primary">
+      @for (item of uiStore.navItems(); track item.id) {
+        <div
+          class="nav-item"
+          [class.active]="uiStore.isItemActive(item)"
+          [class.has-children]="!!item.children?.length"
+          (mouseenter)="uiStore.onItemEnter(item)"
+          (mouseleave)="uiStore.onItemLeave(item)"
+        >
+          <button
+            type="button"
+            class="nav-btn"
+            [class.text-primary]="uiStore.isItemActive(item)"
+            (click)="uiStore.onItemClick(item)"
+          >
+            <i class="icon fa-solid" [class]="item.icon"></i>
+            <span class="label">{{ item.label }}</span>
+
+            @if (item.children?.length) {
+              <i class="chev fa-solid fa-chevron-down"></i>
+            }
+          </button>
+
+          @if (item.children?.length && uiStore.sidebarExpanded()) {
+            <div class="children" [class.open]="uiStore.openCategoryId() === item.id">
+              @if (uiStore.openCategoryId() === item.id) {
+                @for (child of item.children; track child.id) {
+                  <a
+                    class="child"
+                    [class.text-primary]="uiStore.isExactActive(child.route)"
+                    [routerLink]="child.route"
+                    (mouseenter)="uiStore.onChildEnter(item)"
+                    (click)="uiStore.onChildClick(child)"
+                  >
+                    <span class="child-label">{{ child.label }}</span>
+                  </a>
+                }
+              }
+            </div>
+          }
+        </div>
+      }
+    </nav>
   </aside>
 
-  <!-- Solid page/background: always present in non-extension behavior -->
-  <div class="content-shell" role="application">
-    <header class="content-topbar border-b">
-      <nav class="content-nav"></nav>
-
-      <div class="content-search">
-        <input class="search-input" type="search" placeholder="Search…"/>
-      </div>
-
-      <button type="button" class="content-close" (click)="uiStore.collapse()">Close</button>
-    </header>
-
-    <main class="content-main">
-      <router-outlet/>
-    </main>
-  </div>
-
-  <!-- Hovering navigation layer -->
-  @if (uiStore.showSubmenu()) {
-    <div class="drawer-layer">
-      <div class="backdrop" (click)="uiStore.collapse()"></div>
-
-      <section class="drawer shadow-r bg-white-1" role="region" aria-label="Menu">
-        <header class="topbar">
-          <div class="topbar-title">{{ uiStore.activeNavItem()?.label || "Menu" }}</div>
-          <button type="button" class="close-btn" (click)="uiStore.collapse()">Close</button>
-        </header>
-
-        <!-- Mobile: show categories + children in one overlay -->
-        <nav class="menu-mobile">
-          @for (item of uiStore.navItems(); track item.id) {
-            <button
-              class="menu-cat"
-              type="button"
-              (click)="categoryClick(item)"
-            >
-              <span class="menu-cat-icon">
-                <mhd-icon [icon]="item.icon" size="text-lg"></mhd-icon>
-              </span>
-              <span class="menu-cat-label">{{ item.label }}</span>
-            </button>
-
-            @if (uiStore.activeNavId() === item.id && item.children?.length) {
-              <div class="menu-children">
-                @for (child of item.children; track child.id) {
-                  <button class="submenu-item" type="button" (click)="onSubmenuClick(child.route)">
-                    {{ child.label }}
-                  </button>
-                }
-              </div>
-            }
-          }
-        </nav>
-
-        <!-- Desktop: keep your existing submenu area feel (optional).
-             If you prefer, you can delete this block and keep only menu-mobile. -->
-        @if (uiStore.activeNavItem()?.children?.length) {
-          <nav class="submenu submenu-desktop">
-            @for (child of uiStore.activeNavItem()!.children!; track child.id) {
-              <button class="submenu-item" type="button" (click)="onSubmenuClick(child.route)">
-                {{ child.label }}
-              </button>
-            }
-          </nav>
-        }
-      </section>
-    </div>
-  }
+  <!-- Page -->
+  <main class="page" [class.hidden]="!uiStore.showPage()">
+    <router-outlet />
+  </main>
 </div>
