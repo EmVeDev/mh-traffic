@@ -1,6 +1,7 @@
 @use "sass:color";
 @use "sass:map";
 @use "sass:meta";
+@use "sass:string";
 
 $td-colors: (
   "primary": #d9372b,
@@ -19,7 +20,6 @@ $td-colors: (
   "hbvl.be": #f7d10f,
   "nieuwsblad.be": #0071c7
 );
-
 $space: (
   1: 0.25rem,
   2: 0.5rem,
@@ -27,6 +27,38 @@ $space: (
 );
 
 $toolbar-height: 50px;
+
+// Helper to make the CSS var name safe (dots -> dashes, etc.)
+@function mhd-color-var-suffix($name) {
+  $s: "#{$name}";
+  $s: str-replace($s, ".", "-");
+  @return $s;
+}
+
+// Replacement using module string functions (Dart Sass 3 compatible)
+@function str-replace($value, $search, $replace: "") {
+  $s: "#{$value}";
+  $index: string.index($s, $search);
+
+  @if $index == null {
+    @return $s;
+  }
+
+  @return string.slice($s, 1, $index - 1) + $replace +
+    str-replace(
+      string.slice($s, $index + string.length($search)),
+      $search,
+      $replace
+    );
+}
+
+:root {
+  @each $name, $value in $td-colors {
+    --mhd-color-#{mhd-color-var-suffix($name)}: #{$value};
+  }
+  --var-mhd-border: 1px solid rgba(0, 0, 0, 0.2);
+  --mhd-toolbar-height: #{$toolbar-height};
+}
 
 
 .td-ui {
@@ -139,10 +171,42 @@ $toolbar-height: 50px;
 
   /* 30px  */
 
+  .border-r {
+    border-right: var(--var-mhd-border);
+  }
+
+  .border-l {
+    border-left: var(--var-mhd-border);
+  }
+
+  .border-t {
+    border-top: var(--var-mhd-border);
+  }
+
+  .border-b {
+    border-bottom: var(--var-mhd-border);
+  }
+
+  .border-y {
+    border-top: var(--var-mhd-border);
+    border-bottom: var(--var-mhd-border);
+  }
+
+  /* top + bottom */
+  .border-x {
+    border-left: var(--var-mhd-border);
+    border-right: var(--var-mhd-border);
+  }
+
+  /* left + right */
 
   /* Layout utilities (subset) */
   .flex {
     display: flex;
+  }
+
+  .flex-1 {
+    flex: 1;
   }
 
   .flex-col {
@@ -165,8 +229,32 @@ $toolbar-height: 50px;
     align-items: center;
   }
 
+  .items-start {
+    align-items: start;
+  }
+
+  .items-end {
+    align-items: end;
+  }
+
   .justify-center {
     justify-content: center;
+  }
+
+  .justify-start {
+    justify-content: start;
+  }
+
+  .justify-end {
+    justify-content: end;
+  }
+
+  .justify-around {
+    justify-content: space-around;
+  }
+
+  .justify-evenly {
+    justify-content: space-evenly;
   }
 
   .justify-between {
@@ -210,6 +298,14 @@ $toolbar-height: 50px;
     }
   }
 
+  .mr-auto {
+    margin-right: auto;
+  }
+
+  .ml-auto {
+    margin-left: auto;
+  }
+
   .w-full {
     width: 100%;
   }
@@ -218,21 +314,53 @@ $toolbar-height: 50px;
     height: 100%;
   }
 
-  .border-r {
-    border-right: 1px solid rgba(0, 0, 0, 0.08);
+  .menu-container {
+    position: absolute;
+    z-index: 1000;
+    min-width: 180px;
+    padding: var(--pad-1);
+    background-color: var(--mhd-color-white);
+
+    .menu-item {
+      width: 100%;
+      padding: var(--pad-2);
+      background-color: var(--mhd-color-white);
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: var(--pad-2);
+      cursor: pointer;
+    }
+
+    // Positioning classes
+    &.pos-bottom-start {
+      top: 100%;
+      left: 0;
+    }
+
+    &.pos-bottom-end {
+      top: 100%;
+      right: 0;
+    }
+
+    &.pos-top-start {
+      bottom: 100%;
+      left: 0;
+    }
+
+    &.pos-top-end {
+      bottom: 100%;
+      right: 0;
+    }
   }
 
-  .border-l {
-    border-left: 1px solid rgba(0, 0, 0, 0.08);
+  .menu-backdrop {
+    position: fixed;
+    inset: 0; // Modern way to write top/left/right/bottom: 0
+    z-index: 999;
+    background: transparent;
   }
 
-  .border-t {
-    border-top: 1px solid rgba(0, 0, 0, 0.08);
-  }
-
-  .border-b {
-    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
-  }
 
   .shadow-r {
     box-shadow: 10px 0 10px rgba(0, 0, 0, 0.08);
@@ -278,6 +406,6 @@ $toolbar-height: 50px;
   }
 
   .h-toolbar {
-    height: $toolbar-height
+    height: var(--mhd-toolbar-height);
   }
 }

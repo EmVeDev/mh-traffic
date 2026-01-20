@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -10,36 +10,36 @@ import { CommonModule } from '@angular/common';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MhdIconComponent {
-  @Input() color: string = '';
-  @Input() size: string = '';
+  readonly color = input<string>('');
+  readonly size = input<string>('');
 
-  @Input({ required: true }) icon!: string;
-  @Input() iconSet: string = 'fas';
+  readonly icon = input.required<string>();
+  readonly iconSet = input<string>('fas');
 
-  @Input() subIcon: string = '';
-  @Input() subIconSet: string = 'fas';
+  readonly subIcon = input<string>('');
+  readonly subIconSet = input<string>('fas');
 
-  @Input() subSize: string = '';
-  @Input() subColor: string = '';
+  readonly subSize = input<string>('');
+  readonly subColor = input<string>('');
 
   @HostBinding('class')
   get hostClasses(): string {
-    return ['mhd-icon', 'inline-flex', 'items-center', this.color, this.size]
+    return ['mhd-icon', 'inline-flex', 'items-center', this.color(), this.size()]
       .filter(Boolean)
       .join(' ');
   }
 
   get mainIconClasses(): string {
-    return [this.iconSet, this.icon].filter(Boolean).join(' ');
+    return [this.iconSet(), this.icon()].filter(Boolean).join(' ');
   }
 
   get subIconClasses(): string {
-    return [this.subIconSet, this.subIcon, this.subSize, this.subColor]
+    return [this.subIconSet(), this.subIcon(), this.subSize(), this.subColor()]
       .filter(Boolean)
       .join(' ');
   }
 
   get hasSubIcon(): boolean {
-    return !!this.subIcon;
+    return !!this.subIcon();
   }
 }

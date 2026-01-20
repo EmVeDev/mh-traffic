@@ -24,7 +24,7 @@ async function bootstrap() {
   const doc = SwaggerModule.createDocument(app, swaggerConfig);
   SwaggerModule.setup('api/docs', app, doc);
 
-  const port = Number(process.env.PORT ?? 3001);
+  const port = Number(process.env.PORT ?? 3002);
   await app.listen(port);
   Logger.log(`REST gateway on http://localhost:${port}/api`);
 }

@@ -4,7 +4,7 @@ import {
   effect,
   inject,
   signal,
-  untracked,
+  untracked
 } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs';
@@ -25,6 +25,10 @@ type DrawerMsg =
   | { type: 'TD_UI_DRAWER'; widthPx: number; fullWidth?: false }
   | { type: 'TD_UI_DRAWER'; fullWidth: true };
 
+/**
+ * Determines if the app is running as a Chrome Extension.
+ * Checked via a global flag or the protocol.
+ */
 function isExtensionMode(): boolean {
   return (
     (globalThis as any).__TD_EXTENSION__ === true ||
@@ -36,79 +40,93 @@ function clamp(n: number, min: number, max: number): number {
   return Math.max(min, Math.min(max, n));
 }
 
+/**
+ * Strips query parameters and hashes from a URL to ensure stable route matching.
+ * Prevents logic from breaking when URLs include tracking params or anchors.
+ */
+function normalizePath(url: string): string {
+  const q = url.indexOf('?');
+  const h = url.indexOf('#');
+  const cut =
+    q === -1 && h === -1
+      ? -1
+      : Math.min(q === -1 ? Infinity : q, h === -1 ? Infinity : h);
+
+  return cut === -1 ? url : url.slice(0, cut);
+}
+
+
+
+/**
+ * Global state management for the UI Shell (Sidebar, Navigation, and Layout).
+ * Handles responsiveness, hover/click interactions for the navigation accordion,
+ * and specific communication logic for when the app is embedded in a browser extension.
+ */
 @Injectable({ providedIn: 'root' })
 export class UiShellStore {
-  private readonly router = inject(Router);
-
-  /** Mode */
+  /** Indicates if the application is running in Extension mode */
   readonly isExtension = signal<boolean>(isExtensionMode());
-
-  /** Nav */
+  /** The primary navigation structure including direct routes and nested categories */
   readonly navItems = signal<NavItem[]>([
     { id: 'home', label: 'Dashboard', icon: 'fa-home', route: '/' },
     {
       id: 'content',
       label: 'Content',
       icon: 'fa-newspaper',
-      children: [{ id: 'tool-a', label: 'Tool A', route: '/tool-a' }],
+      children: [
+        { id: 'tags', label: 'Tags', route: '/tags' },
+        {
+          id: 'sections',
+          label: 'Sections',
+          route: '/sections'
+        }
+      ]
     },
     {
       id: 'referrers',
       label: 'Referrers',
       icon: 'fa-hexagon-nodes',
-      route: '/referrers',
+      route: '/referrers'
     },
     {
       id: 'audiences',
       label: 'Audiences',
       icon: 'fa-users',
-      route: '/audiences',
+      route: '/audiences'
     },
     {
       id: 'performance-kpis',
       label: 'Performance KPIs',
       icon: 'fa-arrow-trend-up',
-      route: '/performance-kpis',
+      route: '/performance-kpis'
     },
     {
       id: 'admin',
       label: 'Admin',
       icon: 'fa-cog',
-      route: '/admin',
+      route: '/admin'
     },
+    {
+      id: 'tools',
+      label: 'Tools',
+      icon: 'fa-screwdriver-wrench',
+      children: [
+        { id: 'suggestions', label: 'Suggestions', route: '/suggestions' },
+        { id: 'ab-testing', label: 'A/B Testing', route: '/ab-testing' }
+      ]
+    }
   ]);
-
-  /** Router url (exact match rules handled in helpers below) */
-  readonly url = signal<string>(this.router.url);
-
   /** Hover/expand behavior (web + extension) */
   readonly hoveredItemId = signal<string | null>(null);
   readonly pinnedCategoryId = signal<string | null>(null); // accordion open while expanded
   readonly sidebarHover = signal<boolean>(false);
-
   /** Mobile drawer (web only) */
   readonly mobileOpen = signal<boolean>(false);
-
-  /** Responsive breakpoint (ignored in extension mode) */
-  private readonly mobileBpPx = 860;
-  private readonly viewportW = signal<number>(
-    typeof window !== 'undefined' ? window.innerWidth : 9999
-  );
-
-  readonly isMobile = computed<boolean>(() => {
-    if (this.isExtension()) return false;
-    return this.viewportW() <= this.mobileBpPx;
-  });
-
-  /** Sidebar expanded means labels + accordion are visible */
-  readonly sidebarExpanded = computed<boolean>(() => {
-    if (this.isMobile()) return this.mobileOpen();
-
-    // Desktop: expand while hovering anywhere in sidebar
-    return this.sidebarHover();
-  });
-
-  /** Which category is currently open in the accordion */
+  /**
+   * Computed: Identifies which category (if any) should currently be open.
+   * If the sidebar is collapsed, no category can be open.
+   * Pinned (clicked) categories take precedence over hovered categories.
+   */
   readonly openCategoryId = computed<string | null>(() => {
     if (!this.sidebarExpanded()) return null;
 
@@ -126,40 +144,67 @@ export class UiShellStore {
 
     return null;
   });
-
-  /** Hide page in extension until on a non-root route (so iframe can be expanded by parent) */
-  readonly showPage = computed<boolean>(() => {
-    if (!this.isExtension()) return true;
-
-    // "only when they navigate to a page" — treat '/' as the shell-only route.
-    return this.url() !== '/';
-  });
-
-  /** Layout mode (used for CSS hooks) */
+  /** Semantic layout mode for CSS class binding */
   readonly uiMode = computed<UiMode>(() => {
     if (!this.sidebarExpanded()) return 'collapsed';
     return 'submenu';
   });
-
-  /** Sidebar width for extension messaging (optional) */
+  /**
+   * Computed: The width in pixels the sidebar occupies.
+   * Essential for the extension to tell the parent window how much space to reserve.
+   */
   readonly sidebarWidthPx = computed<number>(() => {
     // collapsed icon bar vs expanded accordion
     return this.sidebarExpanded() ? 280 : 56;
   });
+  private readonly router = inject(Router);
+  /** Current normalized URL signal updated on every navigation event */
+  readonly url = signal<string>(normalizePath(this.router.url));
+  /**
+   * Extension: show actual content for all routes EXCEPT "/_blank".
+   * Web: always show.
+   */
+  readonly showPage = computed<boolean>(() => {
+    if (!this.isExtension()) return true;
+    return this.url() !== '/_blank';
+  });
+  /** Responsive breakpoint (ignored in extension mode) */
+  private readonly mobileBpPx = 860;
+  private readonly viewportW = signal<number>(
+    typeof window !== 'undefined' ? window.innerWidth : 9999
+  );
+  /** Responsive check: Mobile behavior is disabled in Extension mode */
+  readonly isMobile = computed<boolean>(() => {
+    if (this.isExtension()) return false;
+    return this.viewportW() <= this.mobileBpPx;
+  });
+  /**
+   * Computed: Determines if the sidebar should show labels and expanded accordions.
+   * On Mobile: Depends on the drawer toggle.
+   * On Desktop: Depends on whether the user is hovering the sidebar area.
+   */
+  readonly sidebarExpanded = computed<boolean>(() => {
+    if (this.isMobile()) return this.mobileOpen();
+
+    // Desktop: expand while hovering anywhere in sidebar
+    return this.sidebarHover();
+  });
 
   constructor() {
-    // Track router URL
+    // Sync Router events to our internal URL signal and handle post-navigation side effects
     this.router.events
       .pipe(filter((e): e is NavigationEnd => e instanceof NavigationEnd))
       .subscribe((e) => {
-        this.url.set(e.urlAfterRedirects || e.url);
+        const next = normalizePath(e.urlAfterRedirects || e.url);
+        this.url.set(next);
+
         // Close mobile drawer after navigation (web only)
         if (!this.isExtension()) this.mobileOpen.set(false);
 
-        // In extension mode, inform parent iframe about desired width/full-width
+        // Extension: Inform the host iframe to go 'full-width' or 'sidebar-only'
         if (this.isExtension()) {
           const msg: DrawerMsg =
-            (e.urlAfterRedirects || e.url) === '/'
+            next === '/_blank'
               ? { type: 'TD_UI_DRAWER', widthPx: this.sidebarWidthPx() }
               : { type: 'TD_UI_DRAWER', fullWidth: true };
 
@@ -171,12 +216,13 @@ export class UiShellStore {
         }
       });
 
-    // Keep parent iframe informed about sidebar width changes while in extension
+    // Extension Effect: Whenever the sidebar expands/collapses while hidden,
+    // update the parent iframe so it can resize the drawer container.
     effect(() => {
       if (!this.isExtension()) return;
 
-      // Only send width updates while on shell route (page hidden)
-      if (this.url() !== '/') return;
+      // Only send width updates while hidden (blank page)
+      if (this.url() !== '/_blank') return;
 
       const widthPx = this.sidebarWidthPx();
       const msg: DrawerMsg = { type: 'TD_UI_DRAWER', widthPx };
@@ -188,7 +234,7 @@ export class UiShellStore {
       }
     });
 
-    // Safety: when leaving expanded state, clear hover and unpinned accordion
+    // Cleanup Effect: Reset interaction states when the sidebar is no longer expanded
     effect(() => {
       const expanded = this.sidebarExpanded();
       if (!expanded) {
@@ -226,12 +272,15 @@ export class UiShellStore {
     }
   }
 
-  /** Keep parent category open while hovering children */
+  /** Ensures the parent category remains 'hovered' while the mouse is over its children */
   onChildEnter(parent: NavItem): void {
     this.hoveredItemId.set(parent.id);
   }
 
-  /** Accordion: click category to pin open while expanded */
+  /**
+   * Toggles the 'pinned' state of a category.
+   * If a category is pinned, it stays open even if the mouse leaves the item.
+   */
   togglePinCategory(item: NavItem): void {
     if (!item.children?.length) return;
 
@@ -257,7 +306,7 @@ export class UiShellStore {
 
   /** Route helpers (exact match) */
   isExactActive(route: string): boolean {
-    return this.url() === route;
+    return this.url() === normalizePath(route);
   }
 
   isChildActive(item: NavItem): boolean {
@@ -276,10 +325,10 @@ export class UiShellStore {
   onItemClick(item: NavItem): void {
     // In collapsed desktop mode, we don't auto-navigate categories; we expand on hover.
     // But click behavior:
-    // - direct route item => navigate
+    // - direct route item => navigate (with extension toggle logic)
     // - category => pin/unpin accordion (only meaningful when expanded)
     if (item.route) {
-      void this.router.navigateByUrl(item.route);
+      void this.navigateNav(item.route);
     }
     if (item.children?.length) {
       this.togglePinCategory(item);
@@ -288,6 +337,35 @@ export class UiShellStore {
   }
 
   onChildClick(child: NavChild): void {
-    void this.router.navigateByUrl(child.route);
+    void this.navigateNav(child.route);
+  }
+
+  logout() {
+    console.log('Logging out'); // TODO: logout
+  }
+
+  /**
+   * Internal navigation wrapper.
+   * In Extension Mode: Acts as a toggle. Clicking the active route
+   * navigates to "/_blank", effectively 'closing' the app drawer.
+   */
+  private async navigateNav(targetRoute: string): Promise<void> {
+    const targetPath = normalizePath(targetRoute);
+    const currentPath = this.url();
+
+    // Only toggle-hide in extension mode.
+    if (!this.isExtension()) {
+      await this.router.navigateByUrl(targetRoute);
+      return;
+    }
+
+    // If user clicks the route they are already on (and it's not "/"), hide via "/_blank".
+    if (currentPath === targetPath) {
+      await this.router.navigateByUrl('/_blank');
+      return;
+    }
+
+    // Otherwise navigate normally to show content.
+    await this.router.navigateByUrl(targetRoute);
   }
 }

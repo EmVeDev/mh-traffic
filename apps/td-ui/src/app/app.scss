@@ -1,198 +1,347 @@
+@use "sass:map";
+
 :host {
   display: block;
   height: 100%;
 }
 
-/* Layout */
+/* Spacing scale (single source of truth) */
+$space: (
+  1: 0.25rem,
+  2: 0.5rem,
+  4: 1rem,
+  6: 1.5rem
+);
+
+@function s($key) {
+  @return map.get($space, $key);
+}
+
+/*
+  Structured to follow the template hierarchy:
+  .layout
+    .h-toolbar
+      .hamburger
+    .backdrop
+    aside.sidebar
+      nav.nav
+        .nav-item
+          .nav-btn
+            .icon / .label / .chev
+          .children
+            .child
+    main.page
+*/
+
 .layout {
+  /* Layout tokens derived from spacing scale */
+  --pad-1: #{s(1)};
+  --pad-2: #{s(2)};
+  --pad-4: #{s(4)};
+  --pad-6: #{s(6)};
+
+  /* Fixed sizes (not "padding") */
+  --icon-size: 30px;
+  --chev-size: 18px;
+
+  --sidebar-collapsed-w: 56px;
+  --sidebar-expanded-w: 280px;
+
   height: 100dvh;
   display: grid;
   grid-template-columns: var(--sidebar-w, 56px) 1fr;
   grid-template-areas: "sidebar page";
   position: relative;
-}
 
-/* Sidebar sizing by mode */
-.layout.mode-collapsed {
-  --sidebar-w: 56px;
-}
+  /* Sidebar sizing by mode */
+  &.mode-collapsed {
+    --sidebar-w: var(--sidebar-collapsed-w);
+  }
 
-.layout.mode-submenu {
-  --sidebar-w: 280px;
-}
+  &.mode-submenu {
+    --sidebar-w: var(--sidebar-expanded-w);
+  }
 
-/* Sidebar */
-.sidebar {
-  position: relative;
-  overflow: hidden;
-  border-right: 1px solid rgba(0, 0, 0, 0.06);
-  height: 100dvh;
-  grid-area: sidebar;
-}
-
-@media (max-width: 768px) {
-  .layout:not(.is-extension) {
+  /* When mobile drawer is active, layout grid is effectively irrelevant */
+  &.is-mobile {
     grid-template-columns: 1fr;
-    grid-template-areas: "page";
-    .sidebar {
-      display: none;
+  }
+
+  /* Mobile (web only): hide sidebar when not extension */
+  @media (max-width: 768px) {
+    &:not(.is-extension) {
+      grid-template-columns: 1fr;
+      grid-template-areas: "page";
+
+      .sidebar {
+        display: none;
+      }
     }
   }
-}
 
+  /* Mobile drawer trigger */
+  .hamburger {
+    position: fixed;
+    top: var(--pad-4);
+    left: var(--pad-4);
+    z-index: 40;
 
-/* Expanded state shows labels/accordion; collapsed shows icons only */
-.sidebar .label,
-.sidebar .chev,
-.sidebar .children {
-  display: none;
-}
+    border: 0;
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(8px);
+    padding: var(--pad-2) var(--pad-4);
 
-.sidebar.expanded .label,
-.sidebar.expanded .chev {
-  display: inline-flex;
-}
+    cursor: pointer;
+  }
 
-.sidebar.expanded .children {
-  display: block;
-}
+  /* Mobile drawer backdrop */
+  .backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 39;
+    background: rgba(0, 0, 0, 0.35);
+  }
 
-.nav {
-  display: flex;
-  flex-direction: column;
-  padding: 8px;
-  gap: 4px;
-}
+  /* ---- Sidebar ---- */
+  .sidebar {
+    position: relative;
+    overflow: hidden;
+    border-right: var(--var-mhd-border);
+    height: 100dvh;
+    grid-area: sidebar;
 
-.nav-item {
-  display: block;
-}
+    /* Default (collapsed) visibility: icons only */
+    .label,
+    .chev,
+    .children {
+      display: none;
+    }
 
-.nav-btn {
-  width: 100%;
-  display: grid;
-  grid-template-columns: 28px 1fr 18px;
-  align-items: center;
-  gap: 10px;
+    /* Brand header aligns with nav: [icon-slot][label-slot] */
+    .brand {
+      display: grid;
+      grid-template-columns: var(--sidebar-collapsed-w) 1fr;
+      align-items: center;
+      width: 100%;
 
-  border: 0;
-  background: transparent;
-  padding: 10px 10px;
-  border-radius: 10px;
+      /* This keeps the logo centered inside the icon slot in BOTH states */
+      .brand-icon {
+        width: var(--icon-size);
+        height: var(--icon-size);
+        display: grid;
+        place-items: center;
+        justify-self: center; /* prevents “sticking to the left” in expanded mode */
+      }
 
-  color: inherit;
-  cursor: pointer;
-  text-align: left;
-}
+      /* Two text elements should stack (each on its own line) */
+      .brand-text {
+        display: flex;
+        flex-direction: column;
+      }
+    }
 
-.icon {
-  width: 28px;
-  text-align: center;
-  font-size: 16px;
-  line-height: 1;
-}
+    /* Optional: make the logo fit the icon slot nicely */
+    .brand .brand-icon mhd-logo {
+      width: 100%;
+      height: 100%;
+    }
 
-/* Collapsed: keep only icon centered */
-.layout.mode-collapsed .nav-btn {
-  grid-template-columns: 1fr;
-  justify-items: center;
-  padding: 10px 0;
-}
+    /* Expanded state shows labels/accordion */
+    &.expanded {
+      .label,
+      .chev {
+        display: inline-flex;
+      }
 
-.layout.mode-collapsed .icon {
-  width: auto;
-}
+      .children {
+        display: block;
+      }
+    }
 
-/* Hover/active styling */
-.nav-btn:hover {
-  background: rgba(0, 0, 0, 0.05);
-}
+    /* Mobile drawer (web only) */
+    &.mobile-drawer {
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      z-index: 50;
+      width: 280px;
+      transform: translateX(-110%);
+      transition: transform 160ms ease;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
 
-.nav-item.active > .nav-btn {
-  background: rgba(0, 0, 0, 0.05);
-}
+      /* In mobile drawer we always show expanded content */
+      overflow: auto;
 
-/* Children accordion */
-.children {
-  padding-left: 38px;
-  padding-top: 4px;
-  padding-bottom: 6px;
-}
+      &.mobile-open {
+        transform: translateX(0);
+      }
 
-.child {
-  display: block;
-  padding: 8px 10px;
-  border-radius: 8px;
-  text-decoration: none;
-  color: inherit;
-}
+      .label,
+      .chev,
+      .children {
+        display: block;
+      }
+    }
 
-.child:hover {
-  background: rgba(0, 0, 0, 0.05);
-}
+    /* ---- Nav ---- */
+    .nav {
+      display: flex;
+      flex-direction: column;
 
-/* Page */
-.page {
-  min-width: 0;
-  height: 100dvh;
-  overflow: auto;
-  grid-area: page;
-}
+      .sidebar-footer {
+        border-top: var(--var-mhd-border);
+        padding-top: var(--pad-4);
+        padding-bottom: var(--pad-4);
+        width: 100%;
+        position: absolute;
+        bottom: 0;
+        box-sizing: border-box;
 
-.page.hidden {
-  display: none; /* extension mode: hide until navigated */
-}
+        .user-profile-btn {
+          position: relative;
+          display: flex;
+          width: 100%;
+          flex-direction: row;
+          justify-content: space-between;
+          align-items: center;
+        }
 
-/* Mobile drawer (web only) */
-.hamburger {
-  position: fixed;
-  top: 10px;
-  left: 10px;
-  z-index: 40;
+        .avatar {
+          width: 24px;
+          height: 24px;
+          min-width: 24px;
+          background: var(--mhd-color-primary);
+          color: white;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-weight: bold;
+          font-size: 0.5rem;
+        }
+      }
 
-  border: 0;
-  background: rgba(255, 255, 255, 0.9);
-  backdrop-filter: blur(8px);
-  border-radius: 10px;
-  padding: 10px 12px;
+      .nav-item {
+        display: block;
 
-  cursor: pointer;
-}
+        &.active > .nav-btn {
+          background: var(--mhd-color-white);
+          color: var(--mhd-color-primary);
+          border-top: var(--var-mhd-border);
+          border-bottom: var(--var-mhd-border);
+        }
 
-.backdrop {
-  position: fixed;
-  inset: 0;
-  z-index: 39;
-  background: rgba(0, 0, 0, 0.35);
-}
+        .nav-btn {
+          width: 100%;
+          display: grid;
+          grid-template-columns: var(--icon-size) 1fr var(--chev-size);
+          align-items: center;
+          gap: var(--pad-2);
+          border: 0;
+          background: transparent;
+          padding: var(--pad-4) var(--pad-4);
+          color: inherit;
+          cursor: pointer;
+          text-align: left;
 
-.sidebar.mobile-drawer {
-  position: fixed;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  z-index: 50;
+          &:hover {
+            background: rgba(0, 0, 0, 0.05);
+          }
 
-  width: 280px;
-  transform: translateX(-110%);
-  transition: transform 160ms ease;
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+          /* icon cell */
+          > .icon {
+            justify-self: center;
+            align-self: center;
+          }
 
-  /* In mobile drawer we always show expanded content */
-  overflow: auto;
-}
+          .icon {
+            width: var(--icon-size);
+            height: var(--icon-size);
+            display: inline-grid;
+            place-items: center;
 
-.sidebar.mobile-drawer.mobile-open {
-  transform: translateX(0);
-}
+            text-align: center;
+            font-size: 16px;
+            line-height: 1;
+          }
+        }
 
-.sidebar.mobile-drawer .label,
-.sidebar.mobile-drawer .chev,
-.sidebar.mobile-drawer .children {
-  display: block;
-}
+        /* Children accordion */
+        .children {
+          /* aligns children under the label column:
+             icon width + gap == left padding */
+          padding-left: calc(var(--icon-size) + var(--pad-2));
 
-/* When mobile drawer is active, layout grid is effectively irrelevant */
-.layout.is-mobile {
-  grid-template-columns: 1fr;
+          .child {
+            display: block;
+            padding: var(--pad-4) var(--pad-2);
+            text-decoration: none;
+            color: var(--mhd-color-black);
+
+            &.text-primary {
+              color: var(--mhd-color-primary);
+            }
+
+            &:hover {
+              color: var(--mhd-color-primary);
+            }
+          }
+        }
+      }
+    }
+  }
+
+  /* Collapsed: keep same grid model to avoid vertical shifting (layout-level mode) */
+  &.mode-collapsed {
+    .sidebar {
+      .nav {
+        .nav-item {
+          .nav-btn {
+            /* keep the same layout model to avoid vertical shifting */
+            display: grid;
+            grid-template-columns: var(--icon-size) 0 0; /* collapse label + chev */
+            align-items: center;
+
+            /* remove extra spacing that can affect height/positioning */
+            gap: 0;
+
+            /* optional: keep hit-area stable */
+            padding-left: var(--pad-4);
+            padding-right: var(--pad-4);
+
+            > .icon {
+              justify-self: center;
+            }
+
+            > .label,
+            > .chev {
+              display: none !important;
+            }
+          }
+        }
+
+      }
+
+      /* Collapsed: center the logo within the sidebar when collapsed */
+      .brand {
+        grid-template-columns: var(--sidebar-collapsed-w);
+        justify-content: center;
+        column-gap: 0;
+      }
+    }
+  }
+
+  /* ---- Page ---- */
+  .page {
+    min-width: 0;
+    padding: 0;
+    height: 100dvh;
+    overflow: auto;
+    grid-area: page;
+
+    &.hidden {
+      display: none; /* extension mode: hide until navigated */
+    }
+  }
 }

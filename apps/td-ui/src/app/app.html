@@ -7,14 +7,16 @@
 >
 
   @if (!uiStore.isExtension() && uiStore.isMobile()) {
-    <button
-      type="button"
-      class="hamburger h-toolbar"
-      (click)="uiStore.toggleMobile()"
-      aria-label="Open menu"
-    >
-      <mhd-icon icon="fa-bars" iconSet="fas"></mhd-icon>
-    </button>
+    <div class="h-toolbar">
+      <button
+        type="button"
+        class="hamburger"
+        (click)="uiStore.toggleMobile()"
+        aria-label="Open menu"
+      >
+        <mhd-icon icon="fa-bars" iconSet="fas"></mhd-icon>
+      </button>
+    </div>
 
     @if (uiStore.mobileOpen()) {
       <div class="backdrop" (click)="uiStore.closeMobile()"></div>
@@ -23,7 +25,7 @@
 
   <!-- Sidebar -->
   <aside
-    class="sidebar bg-white-2"
+    class="sidebar bg-white-2 border-r"
     [class.expanded]="uiStore.sidebarExpanded()"
     [class.mobile-drawer]="uiStore.isMobile()"
     [class.mobile-open]="uiStore.isMobile() && uiStore.mobileOpen()"
@@ -31,6 +33,23 @@
     (mouseleave)="uiStore.onSidebarLeave()"
   >
     <nav class="nav" aria-label="Primary">
+
+      <div class="h-toolbar brand">
+        <div class="brand">
+          <div class="brand-icon">
+            <mhd-logo [size]="30"></mhd-logo>
+          </div>
+
+          @if (uiStore.sidebarExpanded()) {
+            <div class="brand-text">
+              <div class="brand-title bold text-md">Traffic</div>
+              <div class="brand-subtitle text-sm" [textContent]="'@Mediahuis'">…</div>
+            </div>
+          }
+        </div>
+      </div>
+
+
       @for (item of uiStore.navItems(); track item.id) {
         <div
           class="nav-item"
@@ -42,19 +61,20 @@
           <button
             type="button"
             class="nav-btn"
+            [class.border-y]="uiStore.isItemActive(item)"
             [class.text-primary]="uiStore.isItemActive(item)"
             (click)="uiStore.onItemClick(item)"
           >
-            <i class="icon fa-solid" [class]="item.icon"></i>
-            <span class="label">{{ item.label }}</span>
+            <mhd-icon [icon]="item.icon" [size]="'text-xl'"></mhd-icon>
+            <span class="label text-md">{{ item.label }}</span>
 
             @if (item.children?.length) {
-              <i class="chev fa-solid fa-chevron-down"></i>
+              <i class="chev fa-solid fa-chevron-right"></i>
             }
           </button>
 
           @if (item.children?.length && uiStore.sidebarExpanded()) {
-            <div class="children" [class.open]="uiStore.openCategoryId() === item.id">
+            <div class="children bg-white" [class.open]="uiStore.openCategoryId() === item.id">
               @if (uiStore.openCategoryId() === item.id) {
                 @for (child of item.children; track child.id) {
                   <a
@@ -64,7 +84,7 @@
                     (mouseenter)="uiStore.onChildEnter(item)"
                     (click)="uiStore.onChildClick(child)"
                   >
-                    <span class="child-label">{{ child.label }}</span>
+                    <span class="child-label text-base">{{ child.label }}</span>
                   </a>
                 }
               }
@@ -72,11 +92,33 @@
           }
         </div>
       }
+      <div class="sidebar-footer border-t">
+        <mhd-menu #userMenu (backdropClick)="uiStore.onSidebarLeave()">
+          <button class="menu-item" (click)="userMenu.toggle(); uiStore.logout();">
+            <mhd-icon [icon]="'fa-sign-out-alt'" [size]="'text-sm'" class="mr-2"></mhd-icon>
+            <span class="menu-item-label">Log out</span>
+          </button>
+        </mhd-menu>
+        <button type="button" class="user-profile-btn" (click)="userMenu.toggle()">
+          <div class="avatar">
+            <span class="initials">MV</span>
+          </div>
+          @if (uiStore.sidebarExpanded()) {
+            <div class="inline-flex flex-col items-start px-2">
+              <span class="user-name text-sm">Michael Vervloet</span>
+              <span class="user-name text-xs" [innerText]="'michael.vervloet@mediahuis.be'"></span>
+            </div>
+          }
+          <mhd-icon icon="fa-chevron-down" [size]="'text-xs'" class="ml-auto"></mhd-icon>
+        </button>
+      </div>
+
     </nav>
   </aside>
 
   <!-- Page -->
   <main class="page" [class.hidden]="!uiStore.showPage()">
+    <mhd-toolbar [title]="'Content'"></mhd-toolbar>
     <router-outlet />
   </main>
 </div>
