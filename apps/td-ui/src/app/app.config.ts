@@ -1,5 +1,6 @@
 import {
   ApplicationConfig,
+  isDevMode,
   provideBrowserGlobalErrorListeners,
   provideZoneChangeDetection,
 } from '@angular/core';
@@ -11,6 +12,9 @@ import {
 } from '@angular/common';
 import {appRoutes} from './routing/app.routes';
 import {NoopLocationStrategy} from './routing/noop-location-strategy';
+import { provideTransloco } from '@jsverse/transloco';
+import { TranslationHttpLoader } from './TranslationHttpLoader';
+import { provideHttpClient } from '@angular/common/http';
 
 function isExtensionMode(): boolean {
   const isExt = (globalThis as any).__TD_EXTENSION__ === true || globalThis.location?.protocol === 'chrome-extension:';
@@ -22,7 +26,17 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(appRoutes),
     provideBrowserGlobalErrorListeners(),
-    provideZoneChangeDetection({eventCoalescing: true}),
+    provideZoneChangeDetection({ eventCoalescing: true }),
+    provideHttpClient(),
+    provideTransloco({
+      config: {
+        availableLangs: ['en', 'nl', 'de'],
+        defaultLang: 'en',
+        reRenderOnLangChange: true,
+        prodMode: !isDevMode(),
+      },
+      loader: TranslationHttpLoader,
+    }),
     {
       provide: LocationStrategy,
       useFactory: (platformLocation: PlatformLocation) =>

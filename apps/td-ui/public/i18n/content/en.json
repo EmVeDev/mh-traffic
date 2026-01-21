@@ -1,0 +1,11 @@
+{
+  "PAGE_TITLE": "Content",
+  "CHILD_ROUTES": {
+    "ALL-CONTENT": "All content",
+    "TAGS": "Tags",
+    "SECTIONS": "Sections",
+    "AUTHORS": "Authors",
+    "USER-NEEDS": "User needs",
+    "GENRES": "Genres"
+  }
+}

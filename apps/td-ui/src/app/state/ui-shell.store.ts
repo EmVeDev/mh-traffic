@@ -74,11 +74,11 @@ export class UiShellStore {
       label: 'Content',
       icon: 'fa-newspaper',
       children: [
-        { id: 'tags', label: 'Tags', route: '/tags' },
+        { id: 'tags', label: 'Tags', route: '/content/tags' },
         {
           id: 'sections',
           label: 'Sections',
-          route: '/sections'
+          route: '/content/sections'
         }
       ]
     },

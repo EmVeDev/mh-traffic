@@ -8,17 +8,10 @@ export const appRoutes: Routes = [
       import('../features/home/home.component').then((x) => x.HomeComponent),
   },
   {
-    path: 'referrers',
+    path: 'content/:childRoute',
     loadComponent: () =>
-      import('../features/referrers/referrers.component').then(
-        (x) => x.ReferrersComponent
-      ),
-  },
-  {
-    path: 'tags',
-    loadComponent: () =>
-      import('../features/tags/tags.component').then((x) =>
-        x.TagsComponent
+      import('../features/content/content.component').then(
+        (x) => x.ContentComponent
       ),
   },
   {
