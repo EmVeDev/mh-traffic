@@ -1,11 +1,3 @@
-export * from './lib/mh-design.module';
-export * from './lib/mhd-icon/mhd-icon.component';
-export * from './lib/mhd-menu/mhd-menu.component';
-export * from './lib/mhd-logo/mhd-logo.component';
-export * from './lib/report-panel/report-panel.component';
-export * from './lib/metric-card/metric-card.component';
-export * from './lib/journey-bar/journey-bar.component';
-export * from './lib/simple-list-card/simple-list-card.component';
-export * from './lib/mhd-pill-select/mhd-pill-select.component';
-export * from './lib/mhd-toolbar/mhd-toolbar.component';
-
+export * from './lib/components/logo/mhd-logo.component';
+export * from './lib/components/icon/mhd-icon.component';
+export * from './lib/components/menu/mhd-menu.component';

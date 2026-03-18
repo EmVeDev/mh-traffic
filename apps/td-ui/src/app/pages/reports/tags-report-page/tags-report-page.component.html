@@ -1,0 +1,74 @@
+<section class="report-page">
+  <td-report-page-header
+    [title]="'Tags report'"
+    [siteLabel]="siteLabel()"
+    [analysisTypeLabel]="analysisTypeLabel()"
+    [selectedDateLabel]="selectedDateLabel()"
+  />
+
+  <div class="report-page__content">
+    <td-report-toolbar
+      [tokens]="toolbarTokens()"
+      [middleLabel]="'performance by'"
+    />
+
+    <td-report-overview
+      [title]="'How articles in <strong>tags</strong> generates <strong>pageviews</strong>'"
+      [leftGroups]="overviewLeftGroups()"
+      [rightGroups]="overviewRightGroups()"
+    />
+
+    <td-report-table
+      [title]="'How do <strong>tags</strong> differ when broken down by <strong>applications</strong>'"
+      [firstColumnHeader]="'Top 30 tags'"
+      [columns]="tableColumns()"
+      [rows]="tableRows()"
+      [totals]="tableTotals()"
+      [valueDisplayMode]="valueDisplayMode()"
+      [tableDisplayMode]="tableDisplayMode()"
+      [distributionColumnLabel]="'Applications'"
+    >
+      <div table-display-controls class="table-card__display-modes">
+        <div class="segmented-toggle" aria-label="Value display mode">
+          <button
+            type="button"
+            class="segmented-toggle__option"
+            [class.segmented-toggle__option--active]="valueDisplayMode() === 'raw'"
+            (click)="setValueDisplayMode('raw')"
+          >
+            #
+          </button>
+
+          <button
+            type="button"
+            class="segmented-toggle__option"
+            [class.segmented-toggle__option--active]="valueDisplayMode() === 'percentage'"
+            (click)="setValueDisplayMode('percentage')"
+          >
+            %
+          </button>
+        </div>
+
+        <div class="segmented-toggle" aria-label="Secondary table display mode">
+          <button
+            type="button"
+            class="segmented-toggle__option"
+            [class.segmented-toggle__option--active]="tableDisplayMode() === 'chart'"
+            (click)="setTableDisplayMode('chart')"
+          >
+            <mhd-icon icon="fa-chart-column" iconSet="fas"></mhd-icon>
+          </button>
+
+          <button
+            type="button"
+            class="segmented-toggle__option"
+            [class.segmented-toggle__option--active]="tableDisplayMode() === 'table'"
+            (click)="setTableDisplayMode('table')"
+          >
+            <mhd-icon icon="fa-table-cells" iconSet="fas"></mhd-icon>
+          </button>
+        </div>
+      </div>
+    </td-report-table>
+  </div>
+</section>

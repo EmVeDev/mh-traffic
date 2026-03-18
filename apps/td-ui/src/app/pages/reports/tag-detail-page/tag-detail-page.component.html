@@ -1,0 +1,32 @@
+<section class="report-page">
+  <td-report-subpage-header
+    [backLabel]="'Tags report'"
+    [backRoute]="'/content/tags'"
+    [title]="pageTitle()"
+    [siteLabel]="siteLabel()"
+    [analysisTypeLabel]="analysisTypeLabel()"
+    [selectedDateLabel]="selectedDateLabel()"
+  />
+
+  <div class="report-page__content">
+    <td-report-toolbar
+      [tokens]="toolbarTokens()"
+      [middleLabel]="'performance by'"
+    />
+
+    <td-report-overview
+      [title]="'How articles in <strong>' + pageTitle() + '</strong> generates <strong>pageviews</strong>'"
+      [leftGroups]="overviewLeftGroups()"
+      [rightGroups]="overviewRightGroups()"
+    />
+
+    <td-report-table
+      [title]="'How do <strong>articles</strong> in <strong>' + pageTitle() + '</strong> differ when broken down by <strong>main metrics</strong>'"
+      [firstColumnHeader]="'Top articles'"
+      [columns]="tableColumns()"
+      [rows]="tableRows()"
+      [totals]="tableTotals()"
+      [tableDisplayMode]="'table'"
+    />
+  </div>
+</section>

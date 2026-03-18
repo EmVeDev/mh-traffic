@@ -1,0 +1,30 @@
+<section class="report-page">
+  <td-report-page-header
+    [title]="'Referrers report'"
+    [siteLabel]="siteLabel()"
+    [analysisTypeLabel]="analysisTypeLabel()"
+    [selectedDateLabel]="selectedDateLabel()"
+  />
+
+  <div class="report-page__content">
+    <td-report-toolbar
+      [tokens]="toolbarTokens()"
+      [middleLabel]="'performance by'"
+    />
+
+    <td-report-overview
+      [title]="'How articles in <strong>referrers</strong> generates <strong>pageviews</strong>'"
+      [leftGroups]="overviewLeftGroups()"
+      [rightGroups]="overviewRightGroups()"
+    />
+
+    <td-report-table
+      [title]="'How do <strong>referrers</strong> differ when broken down by <strong>main metrics</strong>'"
+      [firstColumnHeader]="'Referrers'"
+      [columns]="tableColumns()"
+      [rows]="tableRows()"
+      [totals]="tableTotals()"
+      [tableDisplayMode]="'table'"
+    />
+  </div>
+</section>

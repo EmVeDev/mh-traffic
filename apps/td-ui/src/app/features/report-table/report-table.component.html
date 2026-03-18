@@ -1,0 +1,151 @@
+<section
+  class="table-card"
+  [class.table-card--distribution-mode]="hasDistribution()"
+  [class.table-card--plain-mode]="!hasDistribution()"
+>
+  <header class="table-card__header">
+    <h2 class="table-card__title" [innerHTML]="title()"></h2>
+
+    <div class="table-card__header-right">
+      <div class="table-card__pagination">
+        <span class="table-card__rows-label">Rows per page</span>
+
+        <button type="button" class="table-card__rows-btn">
+          <span>10</span>
+          <mhd-icon icon="fa-chevron-down" iconSet="fas" size="text-xs"></mhd-icon>
+        </button>
+
+        <button type="button" class="table-card__pager-btn">
+          <mhd-icon icon="fa-chevron-left" iconSet="fas" size="text-xs"></mhd-icon>
+        </button>
+
+        <span class="table-card__pager-text">Showing 1-10 of 1000</span>
+
+        <button type="button" class="table-card__pager-btn">
+          <mhd-icon icon="fa-chevron-right" iconSet="fas" size="text-xs"></mhd-icon>
+        </button>
+      </div>
+
+      <ng-content select="[table-display-controls]"></ng-content>
+    </div>
+  </header>
+
+  <div class="table-card__table-wrap">
+    <table class="table-card__table">
+      <thead>
+      <tr>
+        <th class="table-card__head table-card__head--name">
+          {{ firstColumnHeader() }}
+        </th>
+
+        @for (column of columns(); track column.key) {
+          <th
+            class="table-card__head"
+            [class]="cellAlignClass(column.align)"
+          >
+              <span class="table-card__head-inner">
+                <span>{{ column.label }}</span>
+
+                @if (column.sortable !== false) {
+                  <mhd-icon
+                    icon="fa-sort"
+                    iconSet="fas"
+                    size="text-xs"
+                  ></mhd-icon>
+                }
+              </span>
+          </th>
+        }
+
+        @if (hasDistribution()) {
+          <th class="table-card__head table-card__cell--left">
+            {{ distributionColumnLabel() }}
+          </th>
+        }
+      </tr>
+      </thead>
+
+      <tbody>
+      <tr class="table-card__row table-card__row--totals">
+        <td class="table-card__cell table-card__cell--name">
+          {{ totals().name }}
+        </td>
+
+        @for (column of columns(); track column.key) {
+          <td
+            class="table-card__cell"
+            [class]="cellAlignClass(column.align)"
+          >
+            {{ totals().values[column.key] }}
+          </td>
+        }
+
+        @if (hasDistribution()) {
+          <td class="table-card__cell table-card__cell--distribution">
+            <div
+              class="distribution-bar"
+              [attr.aria-label]="distributionAriaLabel(totals().name)"
+            >
+              @for (segment of totals().distributionSegments ?? []; track segment.label) {
+                <div
+                  class="distribution-bar__segment"
+                  [class]="segment.colorClass"
+                  [style.width.%]="segment.percentage"
+                  [attr.title]="segment.tooltip"
+                >
+                  @if (segment.percentage >= 12) {
+                    <span class="distribution-bar__label" [attr.title]="segment.tooltip">
+                        {{ valueDisplayMode() === 'raw' ? segment.shortLabel : segment.percentageLabel }}
+                      </span>
+                  }
+                </div>
+              }
+            </div>
+          </td>
+        }
+      </tr>
+
+        @for (row of rows(); track row.name; let isEven = $even) {
+          <tr class="table-card__row" [class.table-card__row--alt]="isEven">
+            <td class="table-card__cell table-card__cell--name">
+              <a href="#" class="table-card__link">{{ row.name }}</a>
+            </td>
+
+            @for (column of columns(); track column.key) {
+              <td
+                class="table-card__cell"
+                [class]="cellAlignClass(column.align)"
+              >
+                {{ row.values[column.key] }}
+              </td>
+            }
+
+            @if (hasDistribution()) {
+              <td class="table-card__cell table-card__cell--distribution">
+                <div
+                  class="distribution-bar"
+                  [attr.aria-label]="distributionAriaLabel(row.name)"
+                >
+                  @for (segment of row.distributionSegments ?? []; track segment.label) {
+                    <div
+                      class="distribution-bar__segment"
+                      [class]="segment.colorClass"
+                      [style.width.%]="segment.percentage"
+                      [attr.title]="segment.tooltip"
+                    >
+                      @if (segment.percentage >= 12) {
+                        <span class="distribution-bar__label" [attr.title]="segment.tooltip">
+                          {{ valueDisplayMode() === 'raw' ? segment.shortLabel : segment.percentageLabel }}
+                        </span>
+                      }
+                    </div>
+                  }
+                </div>
+              </td>
+            }
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</section>

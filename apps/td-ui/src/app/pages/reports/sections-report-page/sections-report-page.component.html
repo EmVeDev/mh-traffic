@@ -1,0 +1,30 @@
+<section class="report-page">
+  <td-report-page-header
+    [title]="'sections report'"
+    [siteLabel]="siteLabel()"
+    [analysisTypeLabel]="analysisTypeLabel()"
+    [selectedDateLabel]="selectedDateLabel()"
+  />
+
+  <div class="report-page__content">
+    <td-report-toolbar
+      [tokens]="toolbarTokens()"
+      [middleLabel]="'performance by'"
+    />
+
+    <td-report-overview
+      [title]="'How articles in <strong>sections</strong> generates <strong>pageviews</strong>'"
+      [leftGroups]="overviewLeftGroups()"
+      [rightGroups]="overviewRightGroups()"
+    />
+
+    <td-report-table
+      [title]="'How do <strong>sections</strong> differ when broken down by <strong>main metrics</strong>'"
+      [firstColumnHeader]="'Top 30 sections'"
+      [columns]="tableColumns()"
+      [rows]="tableRows()"
+      [totals]="tableTotals()"
+      [tableDisplayMode]="'table'"
+    />
+  </div>
+</section>

@@ -1,0 +1,22 @@
+<header class="report-page-header">
+  <div class="report-page-header__title-wrap">
+    <h1 class="report-page-header__title">{{ title() }}</h1>
+  </div>
+
+  <div class="report-page-header__context">
+    <button type="button" class="context-pill">
+      <span class="context-pill__brand">N</span>
+      <span>{{ siteLabel() }}</span>
+      <mhd-icon icon="fa-chevron-down" iconSet="fas" size="text-xs"></mhd-icon>
+    </button>
+
+    <button type="button" class="context-pill context-pill--muted">
+      <span>{{ analysisTypeLabel() }}</span>
+    </button>
+
+    <button type="button" class="context-pill">
+      <span>{{ selectedDateLabel() }}</span>
+      <mhd-icon icon="fa-chevron-down" iconSet="fas" size="text-xs"></mhd-icon>
+    </button>
+  </div>
+</header>

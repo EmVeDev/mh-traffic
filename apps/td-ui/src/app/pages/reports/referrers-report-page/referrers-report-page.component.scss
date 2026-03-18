@@ -1,0 +1,15 @@
+:host {
+  display: block;
+}
+
+.report-page {
+  min-height: 100%;
+  padding: 10px 14px 20px;
+  background: var(--mhd-color-white, #fff);
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+}

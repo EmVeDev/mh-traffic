@@ -2,7 +2,7 @@ import { Component, HostListener, inject, OnInit } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { UiShellStore } from './state/ui-shell.store';
 import {
-  MenuComponent,
+  MhdMenuComponent,
   MhdIconComponent,
   MhdLogoComponent,
 } from '@mh-traffic/mh-design';
@@ -16,7 +16,7 @@ import { TranslocoService } from '@jsverse/transloco';
     RouterLink,
     MhdIconComponent,
     MhdLogoComponent,
-    MenuComponent,
+    MhdMenuComponent,
   ],
   templateUrl: './app.html',
   styleUrl: './app.scss',

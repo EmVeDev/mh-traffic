@@ -1,0 +1,30 @@
+<section class="report-toolbar-card">
+  <div class="report-toolbar-card__top">
+    <div class="report-sentence" aria-label="Report sentence">
+      @for (token of tokens(); track token.label; let index = $index) {
+        @if (index === 2) {
+          <span class="report-sentence__text">{{ middleLabel() }}</span>
+        }
+
+        <button type="button" class="report-sentence__token">
+          <span>{{ token.label }}</span>
+          <mhd-icon icon="fa-chevron-down" iconSet="fas" size="text-xs"></mhd-icon>
+        </button>
+      }
+    </div>
+
+    <div class="report-toolbar-actions">
+      <button type="button" class="action-pill">
+        <mhd-icon icon="fa-filter" iconSet="fas"></mhd-icon>
+        <span>Filter</span>
+        <mhd-icon icon="fa-chevron-down" iconSet="fas" size="text-xs"></mhd-icon>
+      </button>
+
+      <button type="button" class="action-pill">
+        <mhd-icon icon="fa-share-nodes" iconSet="fas"></mhd-icon>
+        <span>Share</span>
+        <mhd-icon icon="fa-chevron-down" iconSet="fas" size="text-xs"></mhd-icon>
+      </button>
+    </div>
+  </div>
+</section>

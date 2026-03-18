@@ -5,33 +5,61 @@ export const appRoutes: Routes = [
     path: '',
     pathMatch: 'full',
     loadComponent: () =>
-      import('../features/home/home.component').then((x) => x.HomeComponent),
+      import('../pages/home/home.component').then((x) => x.HomeComponent),
   },
   {
-    path: 'content/:childRoute',
+    path: 'content/tags',
     loadComponent: () =>
-      import('../features/content/content.component').then(
-        (x) => x.ContentComponent
+      import(
+        '../pages/reports/tags-report-page/tags-report-page.component'
+      ).then((x) => x.TagsReportPageComponent),
+  },
+  {
+    path: 'content/tags/:slug',
+    loadComponent: () =>
+      import('../pages/reports/tag-detail-page/tag-detail-page.component').then(
+        (x) => x.TagDetailPageComponent
       ),
   },
   {
-    path: 'referrers/:referrer',
+    path: 'content/sections',
     loadComponent: () =>
-      import('../features/referrer-report-detail/referrer-report-detail.component').then(
-        (x) => x.ReferrerReportDetailComponent
-      ),
+      import(
+        '../pages/reports/sections-report-page/sections-report-page.component'
+      ).then((x) => x.SectionsReportPageComponent),
+  },
+  {
+    path: 'content/sections/:slug',
+    loadComponent: () =>
+      import(
+        '../pages/reports/section-detail-page/section-detail-page.component'
+      ).then((x) => x.SectionDetailPageComponent),
+  },
+  {
+    path: 'referrers',
+    loadComponent: () =>
+      import(
+        '../pages/reports/referrers-report-page/referrers-report-page.component'
+      ).then((x) => x.ReferrersReportPageComponent),
+  },
+  {
+    path: 'audiences',
+    loadComponent: () =>
+      import(
+        '../pages/reports/audiences-report-page/audiences-report-page.component'
+      ).then((x) => x.AudiencesReportPageComponent),
   },
   {
     path: '_blank',
     loadComponent: () =>
-      import('../features/extension-blank/extension-blank.component').then(
+      import('../pages/extension-blank/extension-blank.component').then(
         (x) => x.BlankPageComponent
       ),
   },
   {
     path: '**',
     loadComponent: () =>
-      import('../features/not-found-page/not-found-page.component').then(
+      import('../pages/not-found-page/not-found-page.component').then(
         (x) => x.NotFoundPageComponent
       ),
   },
