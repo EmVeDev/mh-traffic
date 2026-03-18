@@ -15,6 +15,13 @@ export const appRoutes: Routes = [
       ),
   },
   {
+    path: 'referrers/:referrer',
+    loadComponent: () =>
+      import('../features/referrer-report-detail/referrer-report-detail.component').then(
+        (x) => x.ReferrerReportDetailComponent
+      ),
+  },
+  {
     path: '_blank',
     loadComponent: () =>
       import('../features/extension-blank/extension-blank.component').then(

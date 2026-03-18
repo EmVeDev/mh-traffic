@@ -11,6 +11,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 @Component({
   standalone: true,
   templateUrl: './content.component.html',
+  styleUrls: ['./content.component.scss'],
   imports: [
     MhdToolbarComponent,
     MhdPillSelectComponent,
@@ -73,6 +74,8 @@ export class ContentComponent implements OnInit, OnDestroy {
   ];
 
   public selectedSites = signal<string[]>(['nieuwsblad.be']);
+  siteLabel = (count: number) =>
+    `${count} site${count === 1 ? '' : 's'} selected`;
 
   public ngOnInit() {
     this.childRouteSubscription = this.activatedRoute.params.subscribe(

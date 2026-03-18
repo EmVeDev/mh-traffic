@@ -1,0 +1,42 @@
+.list-card {
+  background: #fff;
+  border: 1px solid #dfe3e8;
+  border-radius: 8px;
+  overflow: hidden;
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 16px;
+    border-bottom: 1px solid #dfe3e8;
+    font-weight: 600;
+  }
+
+  &__link {
+    color: #eb5a46;
+    text-decoration: none;
+  }
+}
+
+.list-row {
+  display: grid;
+  grid-template-columns: 72px 1fr;
+  gap: 12px;
+  align-items: center;
+  padding: 14px 16px;
+  border-top: 1px solid #dfe3e8;
+
+  &__value {
+    color: #4e5a68;
+    font-weight: 600;
+  }
+
+  &__label {
+    color: #eb5a46;
+    text-decoration: none;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}

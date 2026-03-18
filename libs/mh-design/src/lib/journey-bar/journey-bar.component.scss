@@ -1,0 +1,37 @@
+.journey-bar {
+  display: flex;
+  height: 38px;
+  overflow: hidden;
+  border-radius: 6px;
+  margin-bottom: 16px;
+
+  &__segment {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-weight: 700;
+    font-size: 14px;
+    white-space: nowrap;
+  }
+
+  &__segment--green-dark {
+    background: #10905f;
+  }
+
+  &__segment--green {
+    background: #1fc88b;
+  }
+
+  &__segment--green-light {
+    background: #22e0a3;
+  }
+
+  &__segment--grey-light {
+    background: #9eb0b9;
+  }
+
+  &__segment--grey {
+    background: #7f97a3;
+  }
+}

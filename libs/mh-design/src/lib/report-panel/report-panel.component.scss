@@ -1,0 +1,22 @@
+:host {
+  display: block;
+  margin-bottom: 16px;
+}
+
+.report-panel {
+  background: #fff;
+  border: 1px solid #dfe3e8;
+  border-radius: 8px;
+  overflow: hidden;
+
+  &__title {
+    padding: 14px;
+    font-size: 18px;
+    color: #6f7a86;
+    border-bottom: 1px solid #dfe3e8;
+  }
+
+  &__content {
+    padding: 14px;
+  }
+}

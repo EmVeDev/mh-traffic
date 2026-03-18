@@ -1,0 +1,15 @@
+<article class="metric-card" [ngClass]="{ 'metric-card--outlined': outlined() }">
+  @if (title() || linkLabel()) {
+    <div class="metric-card__header" [ngClass]="headerClass()">
+      <div class="metric-card__title">{{ title() }}</div>
+
+      @if (linkLabel()) {
+        <a href="#" class="metric-card__link">{{ linkLabel() }}</a>
+      }
+    </div>
+  }
+
+  <div class="metric-card__body">
+    <ng-content />
+  </div>
+</article>

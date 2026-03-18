@@ -1,0 +1,11 @@
+<div class="journey-bar">
+  @for (segment of segments(); track $index) {
+    <span
+      class="journey-bar__segment"
+      [ngClass]="'journey-bar__segment--' + segment.className"
+      [ngStyle]="{ width: segment.width + '%' }"
+    >
+      {{ segment.label }}
+    </span>
+  }
+</div>

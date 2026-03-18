@@ -49,7 +49,7 @@
 
 .panel {
   position: absolute;
-  top: calc(100% + 10px);
+  top: calc(100% + 0px);
   left: 0;
 
   /* ✅ content-driven width */
@@ -61,7 +61,7 @@
 
   background: #fff;
   border-radius: 14px;
-  padding: 10px 0;
+  padding: 0;
 
   box-shadow:
     0 10px 30px rgba(0,0,0,0.12),
@@ -135,3 +135,61 @@
   font-weight: 700;
 }
 
+.mhd-pill-select-overlay-host {
+  position: fixed;
+  left: 0;
+  top: 0;
+  /* z-index set inline; you can also set it here */
+}
+
+/* host that gets appended to <body> */
+.mhd-pill-select-overlay-host {
+  position: fixed;
+  left: 0;
+  top: 0;
+}
+
+/* option content layout */
+.item-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.item-left {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.item-icon {
+  width: 18px;
+  height: 18px;
+  flex: 0 0 18px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.check {
+  width: 18px;              /* reserve space */
+  flex: 0 0 18px;
+  text-align: center;
+  font-weight: 700;
+
+  visibility: hidden;       /* keeps layout but hides glyph */
+}
+
+.check.check-visible {
+  visibility: visible;
+}
+
+.trigger-icon {
+  width: 18px;
+  height: 18px;
+  flex: 0 0 18px;
+
+  border-radius: 50%;
+  object-fit: cover;
+}

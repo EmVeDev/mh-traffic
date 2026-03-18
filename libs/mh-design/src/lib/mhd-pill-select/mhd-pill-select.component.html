@@ -6,6 +6,14 @@
     [attr.aria-expanded]="open()"
     (click)="toggle()"
   >
+    @if (triggerIconUrl()) {
+      <img
+        class="trigger-icon"
+        [src]="triggerIconUrl()!"
+        alt=""
+        aria-hidden="true"
+      />
+    }
     <span class="pill-label">{{ selectedLabel() }}</span>
 
     <span class="pill-icon" [class.open]="open()" aria-hidden="true">
@@ -17,39 +25,33 @@
       </svg>
     </span>
   </button>
-
-  @if (open()) {
-    <div class="panel" role="listbox" [attr.aria-multiselectable]="multiple()">
-      @for (opt of options(); track opt.value; let i = $index) {
-        <button
-          type="button"
-          class="item"
-          [class.active]="i === activeIndex()"
-          [class.selected]="isSelected(opt)"
-          [disabled]="opt.disabled"
-          (click)="selectOption(opt)"
-        >
-  <span class="item-row">
-    <span class="item-left">
-      @if (opt.iconUrl) {
-        <img
-          class="item-icon"
-          [src]="opt.iconUrl"
-          alt=""
-          aria-hidden="true"
-        />
-      }
-
-      <span class="item-label">{{ opt.label }}</span>
-    </span>
-
-    @if (multiple() && isSelected(opt)) {
-      <span class="check" aria-hidden="true">✓</span>
-    }
-  </span>
-        </button>
-
-      }
-    </div>
-  }
 </div>
+
+<!-- ✅ The panel is rendered into <body> -->
+<ng-template #panelTpl>
+  <div class="panel" role="listbox" [attr.aria-multiselectable]="multiple()">
+    @for (opt of options(); track opt.value; let i = $index) {
+      <button
+        type="button"
+        class="item"
+        [class.active]="i === activeIndex()"
+        [class.selected]="isSelected(opt)"
+        [disabled]="opt.disabled"
+        (click)="selectOption(opt)"
+      >
+        <span class="item-row">
+  <span class="item-left">
+    @if (opt.iconUrl) {
+      <img class="item-icon" [src]="opt.iconUrl" alt="" aria-hidden="true" />
+    }
+    <span class="item-label">{{ opt.label }}</span>
+  </span>
+
+          @if (multiple()) {
+            <span class="check" aria-hidden="true" [class.check-visible]="isSelected(opt)">✓</span>
+          }
+</span>
+      </button>
+    }
+  </div>
+</ng-template>
