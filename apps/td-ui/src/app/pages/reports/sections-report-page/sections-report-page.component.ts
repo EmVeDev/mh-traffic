@@ -33,7 +33,6 @@ interface SectionsTableRowSource {
   selector: 'td-sections-report-page',
   standalone: true,
   imports: [
-    MhdIconComponent,
     ReportPageHeaderComponent,
     ReportToolbarComponent,
     ReportOverviewComponent,
@@ -199,6 +198,7 @@ export class SectionsReportPageComponent {
   readonly tableRows = computed<ReportTableRow[]>(() =>
     this.rows().map((row) => ({
       name: row.name,
+      link: `/content/sections/${this.toSlug(row.name)}`,
       values: {
         pageviews: this.formatNumber(row.pageviews),
         subscriberAttention: `${this.formatNumber(
@@ -234,6 +234,10 @@ export class SectionsReportPageComponent {
       },
     };
   });
+
+  private toSlug(value: string): string {
+    return value.toLowerCase().replace(/\//g, '-').replace(/\s+/g, '-');
+  }
 
   private formatNumber(value: number): string {
     return new Intl.NumberFormat('nl-BE').format(value);

@@ -35,7 +35,6 @@ interface TagArticleRowSource {
   selector: 'td-tag-detail-page',
   standalone: true,
   imports: [
-    MhdIconComponent,
     ReportSubpageHeaderComponent,
     ReportToolbarComponent,
     ReportOverviewComponent,

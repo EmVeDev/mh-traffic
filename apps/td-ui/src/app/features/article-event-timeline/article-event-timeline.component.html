@@ -1,0 +1,211 @@
+<section class="event-card">
+  <header class="event-card__header">
+    <h3 class="event-card__title">How was the story promoted on the homepage?</h3>
+  </header>
+
+  <div class="event-card__body">
+    <div class="event-card__chart-wrap">
+      <div class="event-card__chart-toolbar">
+        <div class="event-card__date-nav">
+          <button type="button" class="date-nav-btn" (click)="previousDay()">
+            <mhd-icon icon="fa-chevron-left" iconSet="fas" size="text-xs"></mhd-icon>
+          </button>
+
+          <span class="event-card__date-label">{{ selectedDateLabel() }}</span>
+
+          <button type="button" class="date-nav-btn" (click)="nextDay()">
+            <mhd-icon icon="fa-chevron-right" iconSet="fas" size="text-xs"></mhd-icon>
+          </button>
+        </div>
+
+        <div class="event-card__legend-wrap">
+          <span class="event-card__legend-label">show</span>
+
+          <div class="event-card__legend">
+            <button
+              type="button"
+              [class]="categoryChipClass(showContentUpdates()) + ' legend-chip--orange'"
+              (click)="toggleContentUpdates()"
+            >
+              Content updates
+            </button>
+
+            <button
+              type="button"
+              [class]="categoryChipClass(showPositionUpdates()) + ' legend-chip--green'"
+              (click)="togglePositionUpdates()"
+            >
+              Position updates
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline-chart">
+        <svg
+          class="timeline-chart__svg"
+          [attr.viewBox]="'0 0 ' + chartWidth + ' ' + chartHeight"
+          preserveAspectRatio="none"
+          aria-hidden="true"
+        >
+          @for (tick of yAxisTicks(); track $index) {
+            <line
+              [attr.x1]="yAxisWidth"
+              [attr.y1]="tick.y"
+              [attr.x2]="chartWidth"
+              [attr.y2]="tick.y"
+              class="timeline-chart__grid-line"
+            />
+
+            <text x="0" [attr.y]="tick.y + 4" class="timeline-chart__y-axis-label">
+              {{ tick.value }}
+            </text>
+          }
+
+          <path [attr.d]="areaPath()" class="timeline-chart__area-path"></path>
+
+          <path [attr.d]="linePath()" class="timeline-chart__line-path"></path>
+
+          <line
+            [attr.x1]="yAxisWidth + plotInsetX"
+            [attr.y1]="plotBottomY"
+            [attr.x2]="yAxisWidth + plotInsetX + plotWidth"
+            [attr.y2]="plotBottomY"
+            class="timeline-chart__baseline-line"
+          />
+
+          @for (point of positionedSeries(); track point.timestamp; let i = $index) {
+            <circle
+              [attr.cx]="yAxisWidth + point.xPx"
+              [attr.cy]="point.yPx"
+              [attr.r]="hoveredPointIndex() === i ? 7 : 5"
+              class="timeline-chart__point"
+              (mouseenter)="setHoveredPoint(i)"
+              (mouseleave)="setHoveredPoint(null)"
+            >
+              <title>{{ pointTooltip(point) }}</title>
+            </circle>
+          }
+
+          @for (event of filteredEvents(); track event.id) {
+            <line
+              [attr.x1]="yAxisWidth + event.xPx"
+              [attr.y1]="stemStartY(event)"
+              [attr.x2]="yAxisWidth + event.xPx"
+              [attr.y2]="stemEndY()"
+              class="timeline-chart__event-stem"
+            />
+
+            <circle
+              [attr.cx]="yAxisWidth + event.xPx"
+              [attr.cy]="stemEndY()"
+              [attr.r]="baseDotRadius"
+              class="timeline-chart__event-dot"
+            />
+          }
+        </svg>
+
+        <div class="timeline-chart__plot-overlay">
+          @for (event of filteredEvents(); track event.id) {
+            <div
+              class="timeline-event"
+              [style.left.%]="eventLeftPercent(event)"
+              [style.top.%]="eventTopPercent(event)"
+              (mouseenter)="setHovered(event.id)"
+              (mouseleave)="setHovered(null)"
+            >
+              <button
+                type="button"
+                class="event-marker"
+                [class.event-marker--hovered]="hoveredId() === event.id"
+                [class]="toneClass(event.tone)"
+              >
+                <span class="event-marker__icon">
+                  <mhd-icon
+                    [icon]="event.icon"
+                    [iconSet]="event.iconSet ?? 'fas'"
+                    size="text-xs"
+                  ></mhd-icon>
+                </span>
+                <span class="event-marker__value">{{ event.position }}</span>
+              </button>
+            </div>
+          }
+        </div>
+
+        <div class="timeline-chart__x-axis">
+          @for (item of xAxisItems(); track $index) {
+            @if (item.isPreviousNav) {
+              <button
+                type="button"
+                class="timeline-chart__x-axis-label timeline-chart__x-axis-label--nav timeline-chart__x-axis-label--nav-prev"
+                (click)="previousDay()"
+              >
+                <mhd-icon
+                  class="timeline-chart__x-axis-nav-icon"
+                  icon="fa-chevron-left"
+                  iconSet="fas"
+                  size="text-xs"
+                ></mhd-icon>
+                <span>{{ item.label }}</span>
+              </button>
+            } @else if (item.isNextNav) {
+              <button
+                type="button"
+                class="timeline-chart__x-axis-label timeline-chart__x-axis-label--nav timeline-chart__x-axis-label--nav-next"
+                (click)="nextDay()"
+              >
+                <span>{{ item.label }}</span>
+                <mhd-icon
+                  class="timeline-chart__x-axis-nav-icon"
+                  icon="fa-chevron-right"
+                  iconSet="fas"
+                  size="text-xs"
+                ></mhd-icon>
+              </button>
+            } @else {
+              <span class="timeline-chart__x-axis-label">{{ item.label }}</span>
+            }
+          }
+        </div>
+      </div>
+    </div>
+
+    <aside class="event-card__sidebar">
+      <div class="event-sidebar-head">
+        <span class="event-sidebar-head__label">Action</span>
+        <span class="event-sidebar-head__label event-sidebar-head__label--position">Position</span>
+      </div>
+
+      <div class="event-card__sidebar-scroll">
+        @for (event of filteredEvents(); track event.id) {
+          <button
+            type="button"
+            class="event-list-item"
+            [class.event-list-item--active]="hoveredId() === event.id"
+            (mouseenter)="setHovered(event.id)"
+            (mouseleave)="setHovered(null)"
+          >
+            <span class="event-list-item__icon" [class]="toneClass(event.tone)">
+              <mhd-icon
+                [icon]="event.icon"
+                [iconSet]="event.iconSet ?? 'fas'"
+                size="text-xs"
+              ></mhd-icon>
+            </span>
+
+            <span class="event-list-item__main">
+              <span class="event-list-item__label">{{ event.label }}</span>
+              <span class="event-list-item__time">
+                <mhd-icon icon="fa-clock" iconSet="fas" size="text-xs"></mhd-icon>
+                {{ event.displayTime }}
+              </span>
+            </span>
+
+            <span class="event-list-item__value">{{ event.position }}</span>
+          </button>
+        }
+      </div>
+    </aside>
+  </div>
+</section>

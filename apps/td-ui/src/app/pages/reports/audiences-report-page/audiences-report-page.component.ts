@@ -33,7 +33,6 @@ interface AudienceTableRowSource {
   selector: 'td-audiences-report-page',
   standalone: true,
   imports: [
-    MhdIconComponent,
     ReportPageHeaderComponent,
     ReportToolbarComponent,
     ReportOverviewComponent,

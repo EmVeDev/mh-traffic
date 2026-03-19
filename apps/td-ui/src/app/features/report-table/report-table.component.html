@@ -108,7 +108,11 @@
         @for (row of rows(); track row.name; let isEven = $even) {
           <tr class="table-card__row" [class.table-card__row--alt]="isEven">
             <td class="table-card__cell table-card__cell--name">
-              <a href="#" class="table-card__link">{{ row.name }}</a>
+              @if (row.link) {
+                <a [routerLink]="row.link" class="table-card__link">{{ row.name }}</a>
+              } @else {
+                <span>{{ row.name }}</span>
+              }
             </td>
 
             @for (column of columns(); track column.key) {

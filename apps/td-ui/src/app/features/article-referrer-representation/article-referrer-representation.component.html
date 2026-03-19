@@ -1,0 +1,109 @@
+<section class="referrer-card">
+  <header class="referrer-card__header">
+    <h3 class="referrer-card__title">Referrer representation</h3>
+  </header>
+
+  <div class="referrer-card__body">
+    <div class="referrer-card__left">
+      @for (row of visibleRows(); track row.id) {
+        <button
+          type="button"
+          class="referrer-row"
+          [class.referrer-row--active]="selectedId() === row.id"
+          [style.--referrer-color]="row.color"
+          [style.--referrer-tint]="row.tint"
+          (click)="selectRow(row.id)"
+        >
+          <div class="referrer-row__brand">
+            <span class="referrer-row__brand-icon">
+              <mhd-icon [icon]="row.icon" [iconSet]="row.iconSet" size="text-sm"></mhd-icon>
+            </span>
+            <span class="referrer-row__brand-name">{{ row.name }}</span>
+          </div>
+
+          <div class="referrer-row__body">
+            <div class="referrer-row__meta">
+              <span class="referrer-row__attention">
+                <mhd-icon icon="fa-clock" iconSet="fas" size="text-xs"></mhd-icon>
+                {{ row.attentionLabel }}
+              </span>
+
+              <span class="referrer-row__value">{{ formatNumber(row.pageviews) }}</span>
+            </div>
+
+            <span class="referrer-row__arrow">
+              <mhd-icon icon="fa-chevron-right" iconSet="fas" size="text-xs"></mhd-icon>
+            </span>
+          </div>
+        </button>
+      }
+
+      <button type="button" class="view-more-btn" (click)="toggleExpanded()">
+        <span>{{ expanded() ? 'view less' : 'view more' }}</span>
+      </button>
+    </div>
+
+    <aside class="referrer-card__right">
+      <div class="detail-card" [style.--detail-accent]="selectedRow().color">
+        <div class="detail-card__header">
+          <div class="detail-card__selected">
+            <span class="detail-card__selected-icon">
+              <mhd-icon [icon]="selectedRow().icon" [iconSet]="selectedRow().iconSet"></mhd-icon>
+            </span>
+            <span class="detail-card__selected-name">{{ selectedRow().name | uppercase }}</span>
+          </div>
+
+          <div class="detail-card__summary">
+            <span class="detail-card__summary-meta">
+              <mhd-icon icon="fa-clock" iconSet="fas" size="text-xs"></mhd-icon>
+              {{ selectedRow().attentionLabel }}
+            </span>
+            <span class="detail-card__summary-value">{{ formatNumber(selectedRow().pageviews) }}</span>
+          </div>
+        </div>
+
+        <div class="detail-card__metrics">
+          <div class="detail-metric">
+            <span class="detail-metric__label">READS*</span>
+            <span class="detail-metric__value">{{ formatNumber(selectedRow().reads) }}</span>
+          </div>
+
+          <div class="detail-metric">
+            <span class="detail-metric__label">ATTENTION TIME</span>
+            <span class="detail-metric__value">{{ selectedRow().subscriberAttention }}</span>
+          </div>
+
+          <div class="detail-metric">
+            <span class="detail-metric__label">TOTAL PAGEVIEWS</span>
+            <span class="detail-metric__value">{{ selectedRow().totalAttention }}</span>
+          </div>
+
+          <div class="detail-metric detail-metric--quality">
+            <span class="detail-metric__label">READING QUALITY</span>
+
+            <div class="quality-row">
+              <span>Bouncers: 9%</span>
+              <div class="quality-row__track">
+                <span class="quality-row__fill quality-row__fill--red" style="width: 9%"></span>
+              </div>
+            </div>
+
+            <div class="quality-row">
+              <span>Scanners: 71%</span>
+              <div class="quality-row__track">
+                <span class="quality-row__fill quality-row__fill--yellow" style="width: 71%"></span>
+              </div>
+            </div>
+
+            <div class="quality-row">
+              <span>Deeply reads: 20%</span>
+              <div class="quality-row__track">
+                <span class="quality-row__fill quality-row__fill--green" style="width: 20%"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </aside>
+  </div>
+</section>

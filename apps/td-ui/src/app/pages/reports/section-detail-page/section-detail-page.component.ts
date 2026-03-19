@@ -35,7 +35,6 @@ interface SectionArticleRowSource {
   selector: 'td-section-detail-page',
   standalone: true,
   imports: [
-    MhdIconComponent,
     ReportSubpageHeaderComponent,
     ReportToolbarComponent,
     ReportOverviewComponent,

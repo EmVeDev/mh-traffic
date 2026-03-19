@@ -1,0 +1,57 @@
+<section class="article-page">
+  <td-report-subpage-header
+    [backLabel]="'Tag detail'"
+    [backRoute]="'/content/tags/politiek'"
+    [title]="'Article detail'"
+    [siteLabel]="siteLabel()"
+    [analysisTypeLabel]="analysisTypeLabel()"
+    [selectedDateLabel]="selectedDateLabel()"
+  />
+
+  <div class="article-page__content">
+    <td-article-detail-header
+      [title]="'Arizona-regering wil snel hervormen: Als het van ons afhangt, komt er tegen zomer al een grote wet'"
+      [author]="'Michael Vervloet'"
+      [section]="'nb/politiek'"
+      [articleType]="'Article'"
+      [channel]="'Web'"
+      [tags]="['politiek', 'federal', 'verkiezingen']"
+      [articleUrl]="'#'"
+    />
+
+    <td-article-summary-cards />
+
+    <td-article-section-placeholder
+      [title]="'Referrer chart'"
+      [height]="260"
+    />
+
+    <td-article-referrer-representation />
+
+    <td-article-related-cards />
+
+    <td-article-event-timeline />
+
+    <div class="article-page__two-col">
+      <td-article-section-placeholder
+        [title]="'Traffic breakdown section'"
+        [height]="260"
+      />
+
+      <td-article-section-placeholder
+        [title]="'Additional metrics section'"
+        [height]="260"
+      />
+    </div>
+
+    <td-article-section-placeholder
+      [title]="'Devices / table section'"
+      [height]="280"
+    />
+
+    <td-article-section-placeholder
+      [title]="'Bottom cards + final table'"
+      [height]="320"
+    />
+  </div>
+</section>

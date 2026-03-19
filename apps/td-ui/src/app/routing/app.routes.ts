@@ -36,6 +36,13 @@ export const appRoutes: Routes = [
       ).then((x) => x.SectionDetailPageComponent),
   },
   {
+    path: 'content/article/:id',
+    loadComponent: () =>
+      import('../pages/article-detail-page/article-detail-page.component').then(
+        (x) => x.ArticleDetailPageComponent
+      ),
+  },
+  {
     path: 'referrers',
     loadComponent: () =>
       import(

@@ -1,0 +1,89 @@
+<section class="related-columns">
+  @for (group of groups(); track group.id) {
+    <article class="related-group" [class]="group.accentClass">
+      <header class="related-group__header">
+        <div class="related-group__header-left">
+          <span class="related-group__header-icon">
+            <mhd-icon
+              [icon]="group.icon"
+              [iconSet]="group.iconSet ?? 'fas'"
+              size="text-sm"
+            ></mhd-icon>
+          </span>
+          <h3 class="related-group__title">{{ group.title }}</h3>
+        </div>
+
+        <div class="related-group__header-right">
+          <mhd-icon icon="fa-file-lines" iconSet="fas" size="text-xs"></mhd-icon>
+          <span>{{ group.total }}</span>
+        </div>
+      </header>
+
+      <div class="related-group__body">
+        @for (item of group.items; track item.title) {
+          <article class="related-item">
+            <div class="related-item__top">
+              <div class="related-item__source">
+                <mhd-icon
+                  [icon]="item.sourceIcon ?? 'fa-file-lines'"
+                  [iconSet]="item.sourceIconSet ?? 'fas'"
+                  size="text-sm"
+                ></mhd-icon>
+                <span>{{ item.source }}</span>
+              </div>
+
+              <div class="related-item__time">
+                <mhd-icon icon="fa-clock" iconSet="fas" size="text-xs"></mhd-icon>
+                <span>{{ item.timeLabel }}</span>
+              </div>
+
+              @if (item.excerpt) {
+                <p class="related-item__excerpt">{{ item.excerpt }}</p>
+              }
+            </div>
+
+            <div class="related-item__content">
+              <div class="related-item__thumb">
+                @if (item.imageUrl) {
+                  <img [src]="item.imageUrl" [alt]="item.title" />
+                } @else {
+                  <div class="related-item__thumb-placeholder">
+                    <mhd-icon icon="fa-image" iconSet="fas"></mhd-icon>
+                  </div>
+                }
+              </div>
+
+              <div class="related-item__title-wrap">
+                <p class="related-item__title">{{ item.title }}</p>
+              </div>
+            </div>
+
+            @if (item.metrics?.length) {
+              <div class="related-item__metrics">
+                @for (metric of item.metrics; track metric.icon + metric.value) {
+                  <div class="related-stat">
+                    <mhd-icon
+                      [icon]="metric.icon"
+                      [iconSet]="metric.iconSet ?? 'fas'"
+                      size="text-xs"
+                    ></mhd-icon>
+                    <span>{{ metric.value }}</span>
+                  </div>
+                }
+              </div>
+            }
+
+            @if (item.footerValue && !item.metrics?.length) {
+              <div class="related-item__footer">
+                <div class="related-item__footer-value">
+                  <mhd-icon icon="fa-file-lines" iconSet="fas" size="text-xs"></mhd-icon>
+                  <span>{{ item.footerValue }}</span>
+                </div>
+              </div>
+            }
+          </article>
+        }
+      </div>
+    </article>
+  }
+</section>

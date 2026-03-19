@@ -222,6 +222,7 @@ export class TagsReportPageComponent {
 
       return {
         name: row.name,
+        link: `/content/tags/${this.toSlug(row.name)}`,
         values: {
           articles: this.formatNumber(row.articles),
           pageviews: this.formatNumber(row.pageviews),
@@ -324,6 +325,10 @@ export class TagsReportPageComponent {
         tooltip: this.buildTooltip('digipaper-app', digiPaperApp, digiPaperPct),
       },
     ];
+  }
+
+  private toSlug(value: string): string {
+    return value.toLowerCase().replace(/\//g, '-').replace(/\s+/g, '-');
   }
 
   private formatNumber(value: number): string {

@@ -1,0 +1,56 @@
+<section class="article-detail-header">
+  <div class="article-detail-header__image">
+    @if (imageUrl()) {
+      <img [src]="imageUrl()" [alt]="title()" />
+    } @else {
+      <div class="article-detail-header__image-placeholder">
+        <mhd-icon icon="fa-image" iconSet="fas"></mhd-icon>
+      </div>
+    }
+  </div>
+
+  <div class="article-detail-header__content">
+    <div class="article-detail-header__title-row">
+      @if (articleUrl()) {
+        <a
+          class="article-detail-header__title-link"
+          [href]="articleUrl()"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <h2 class="article-detail-header__title">{{ title() }}</h2>
+        </a>
+      } @else {
+        <h2 class="article-detail-header__title">{{ title() }}</h2>
+      }
+    </div>
+
+    <div class="article-detail-header__meta-grid">
+      <div class="meta-item">
+        <span class="meta-item__label">Author</span>
+        <span class="meta-item__value">{{ author() }}</span>
+      </div>
+
+      <div class="meta-item">
+        <span class="meta-item__label">Section</span>
+        <span class="meta-item__value">{{ section() }}</span>
+      </div>
+
+      <div class="meta-item">
+        <span class="meta-item__label">Type</span>
+        <span class="meta-item__value">{{ articleType() }}</span>
+      </div>
+
+      <div class="meta-item">
+        <span class="meta-item__label">Channel</span>
+        <span class="meta-item__value">{{ channel() }}</span>
+      </div>
+    </div>
+
+    <div class="article-detail-header__tags">
+      @for (tag of tags(); track tag) {
+        <a href="#" class="tag-chip">{{ tag }}</a>
+      }
+    </div>
+  </div>
+</section>

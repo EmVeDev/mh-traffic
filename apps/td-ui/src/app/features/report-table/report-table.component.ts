@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { MhdIconComponent } from '@mh-traffic/mh-design';
 
 export interface ReportTableDistributionSegment {
@@ -22,6 +23,7 @@ export interface ReportTableRow {
   name: string;
   values: Record<string, string>;
   distributionSegments?: ReportTableDistributionSegment[];
+  link?: string;
 }
 
 export interface ReportTableTotalsRow {
@@ -33,7 +35,7 @@ export interface ReportTableTotalsRow {
 @Component({
   selector: 'td-report-table',
   standalone: true,
-  imports: [MhdIconComponent],
+  imports: [MhdIconComponent, RouterLink],
   templateUrl: './report-table.component.html',
   styleUrl: './report-table.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

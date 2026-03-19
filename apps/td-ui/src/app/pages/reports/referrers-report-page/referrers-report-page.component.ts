@@ -33,7 +33,6 @@ interface ReferrerTableRowSource {
   selector: 'td-referrers-report-page',
   standalone: true,
   imports: [
-    MhdIconComponent,
     ReportPageHeaderComponent,
     ReportToolbarComponent,
     ReportOverviewComponent,

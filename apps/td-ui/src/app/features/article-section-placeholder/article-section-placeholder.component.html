@@ -1,0 +1,11 @@
+<section class="placeholder-card">
+  <header class="placeholder-card__header">
+    <h3 class="placeholder-card__title">{{ title() }}</h3>
+  </header>
+
+  <div class="placeholder-card__body" [style.min-height.px]="height()">
+    <div class="placeholder-card__ghost">
+      <span>{{ title() }} placeholder</span>
+    </div>
+  </div>
+</section>
