@@ -1,0 +1,60 @@
+<section class="video-audio-card">
+  <header class="video-audio-card__header">
+    <div class="section-title">
+      <mhd-icon icon="fa-chevron-down" iconSet="fas" size="text-xs" />
+      <span>How did the audience engage with <strong>video/audio</strong>?</span>
+    </div>
+  </header>
+
+  <div class="video-audio-card__body">
+    <table class="media-table">
+      <thead>
+      <tr>
+        <th class="media-table__head media-table__head--title">Title</th>
+        <th class="media-table__head">Source</th>
+        <th class="media-table__head">Duration</th>
+        <th class="media-table__head media-table__head--icon">
+          <mhd-icon icon="fa-play" iconSet="fas" size="text-xs" />
+        </th>
+        <th class="media-table__head media-table__head--icon">
+          <mhd-icon icon="fa-download" iconSet="fas" size="text-xs" />
+        </th>
+        <th class="media-table__head media-table__head--icon">
+          <mhd-icon icon="fa-film" iconSet="fas" size="text-xs" />
+          +
+          <mhd-icon icon="fa-download" iconSet="fas" size="text-xs" />
+        </th>
+      </tr>
+      </thead>
+
+      <tbody>
+        @for (row of rows(); track trackRow($index, row)) {
+          <tr>
+            <td class="media-table__cell media-table__cell--title">
+              <div class="media-title-cell">
+                <img class="media-title-cell__image" [src]="row.imageUrl" [alt]="row.title" />
+
+                <div class="media-title-cell__content">
+                  <div class="media-title-cell__site">
+                    <span class="site-pill">{{ row.siteLabel }}</span>
+                    <mhd-icon icon="fa-film" iconSet="fas" size="text-xs" />
+                  </div>
+
+                  <div class="media-title-cell__text">
+                    {{ row.title }}
+                  </div>
+                </div>
+              </div>
+            </td>
+
+            <td class="media-table__cell">{{ row.source }}</td>
+            <td class="media-table__cell">{{ row.duration }}</td>
+            <td class="media-table__cell">{{ formatNumber(row.plays) }}</td>
+            <td class="media-table__cell">{{ formatNumber(row.downloads) }}</td>
+            <td class="media-table__cell">{{ formatNumber(row.totalInteractions) }}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</section>

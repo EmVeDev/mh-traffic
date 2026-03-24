@@ -1,0 +1,164 @@
+<section class="traffic-breakdown-card">
+  <header class="traffic-breakdown-card__header">
+    <h3 class="traffic-breakdown-card__title">Traffic breakdown</h3>
+  </header>
+
+  <div class="traffic-breakdown-card__body">
+    <section class="traffic-panel">
+      <header class="traffic-panel__header">
+        <h4 class="traffic-panel__heading">What was read before this story?</h4>
+      </header>
+
+      <div class="traffic-bar">
+        @for (source of beforeSources(); track trackSource($index, source)) {
+          <div
+            class="traffic-bar__segment"
+            [style.width.%]="source.percentage"
+            [style.background]="source.color"
+            [attr.title]="source.label + ': ' + source.shortLabel"
+          >
+            <mhd-icon [icon]="source.icon" [iconSet]="source.iconSet" size="text-xs" />
+            <span>{{ source.shortLabel }}</span>
+          </div>
+        }
+      </div>
+
+      <div class="traffic-panel__content traffic-panel__content--two-col">
+        <div class="metric-grid">
+          @for (source of beforeSources(); track trackSource($index, source)) {
+            <article class="metric-grid__item">
+              <div class="metric-grid__label">
+                {{ source.label }}
+              </div>
+              <div class="metric-grid__value" [style.color]="'#ef5a45'">
+                <mhd-icon [icon]="source.icon" [iconSet]="source.iconSet" size="text-xs" />
+                <span>{{ source.shortLabel }}</span>
+              </div>
+            </article>
+          }
+        </div>
+
+        <section class="traffic-list-card">
+          <header class="traffic-list-card__header">
+            <div class="traffic-list-card__title-wrap">
+              <mhd-icon icon="fa-file-lines" iconSet="fas" size="text-xs" />
+              <h5 class="traffic-list-card__title">Internal article read before</h5>
+            </div>
+
+            <button type="button" class="view-more-link">view more</button>
+          </header>
+
+          <div class="traffic-list-card__rows">
+            @for (item of readBeforeItems(); track trackBeforeItem($index, item)) {
+              <div class="traffic-row">
+                <div class="traffic-row__value traffic-row__value--rank">
+                  {{ item.rank }}
+                </div>
+
+                <div class="traffic-row__title">
+                  <span class="site-pill">{{ item.siteLabel }}</span>
+                  <span class="traffic-row__text">{{ item.title }} ({{ item.value }})</span>
+                </div>
+
+                <button type="button" class="row-action-btn" aria-label="Open article">
+                  <mhd-icon icon="fa-arrow-up-right-from-square" iconSet="fas" size="text-xs" />
+                </button>
+              </div>
+            }
+          </div>
+        </section>
+      </div>
+    </section>
+
+    <section class="traffic-panel">
+      <header class="traffic-panel__header">
+        <h4 class="traffic-panel__heading">What is read after this story?</h4>
+      </header>
+
+      <div class="traffic-bar">
+        @for (source of afterSources(); track trackSource($index, source)) {
+          <div
+            class="traffic-bar__segment"
+            [style.width.%]="source.percentage"
+            [style.background]="source.color"
+            [attr.title]="source.label + ': ' + source.shortLabel"
+          >
+            <mhd-icon [icon]="source.icon" [iconSet]="source.iconSet" size="text-xs" />
+            <span>{{ source.shortLabel }}</span>
+          </div>
+        }
+      </div>
+
+      <div class="traffic-panel__content traffic-panel__content--two-col">
+        <div class="metric-grid">
+          <article class="metric-grid__hero">
+            <div class="metric-grid__hero-label">Read on</div>
+            <div class="metric-grid__hero-value">9%</div>
+          </article>
+
+          <article class="metric-grid__item">
+            <div class="metric-grid__label">Read homepage</div>
+            <div class="metric-grid__value" [style.color]="'#ef5a45'">
+              <mhd-icon icon="fa-house" iconSet="fas" size="text-xs" />
+              <span>0%</span>
+            </div>
+          </article>
+
+          <article class="metric-grid__item">
+            <div class="metric-grid__label">Read other page</div>
+            <div class="metric-grid__value" [style.color]="'#ef5a45'">
+              <mhd-icon icon="fa-list" iconSet="fas" size="text-xs" />
+              <span>0%</span>
+            </div>
+          </article>
+
+          <article class="metric-grid__item">
+            <div class="metric-grid__label">Passing through</div>
+            <div class="metric-grid__value" [style.color]="'#ef5a45'">
+              <mhd-icon icon="fa-shuffle" iconSet="fas" size="text-xs" />
+              <span>2%</span>
+            </div>
+          </article>
+
+          <article class="metric-grid__item">
+            <div class="metric-grid__label">Exits</div>
+            <div class="metric-grid__value" [style.color]="'#ef5a45'">
+              <mhd-icon icon="fa-right-from-bracket" iconSet="fas" size="text-xs" />
+              <span>89%</span>
+            </div>
+          </article>
+        </div>
+
+        <section class="traffic-list-card">
+          <header class="traffic-list-card__header">
+            <div class="traffic-list-card__title-wrap">
+              <mhd-icon icon="fa-file-lines" iconSet="fas" size="text-xs" />
+              <h5 class="traffic-list-card__title">Read on</h5>
+            </div>
+
+            <button type="button" class="view-more-link">view more</button>
+          </header>
+
+          <div class="traffic-list-card__rows">
+            @for (item of readAfterItems(); track trackAfterItem($index, item)) {
+              <div class="traffic-row">
+                <div class="traffic-row__value">
+                  {{ formatNumber(item.value) }}
+                </div>
+
+                <div class="traffic-row__title">
+                  <span class="site-pill">{{ item.siteLabel }}</span>
+                  <span class="traffic-row__text">{{ item.title }}</span>
+                </div>
+
+                <button type="button" class="row-action-btn" aria-label="Open article">
+                  <mhd-icon icon="fa-arrow-up-right-from-square" iconSet="fas" size="text-xs" />
+                </button>
+              </div>
+            }
+          </div>
+        </section>
+      </div>
+    </section>
+  </div>
+</section>

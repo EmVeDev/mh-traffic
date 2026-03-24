@@ -1,0 +1,69 @@
+<section class="devices-card">
+  <header class="devices-card__header">
+    <h3 class="devices-card__title">What platforms/devices were used to read the article?</h3>
+  </header>
+
+  <div class="devices-card__body">
+    <div class="devices-table-shell">
+      <div class="devices-table-shell__search">
+        <label class="search-box" aria-label="Search device rows">
+          <input
+            #searchInput
+            type="text"
+            class="search-box__input"
+            placeholder=""
+            [ngModel]="searchTerm()"
+            (ngModelChange)="updateSearch($event)"
+          />
+          <span class="search-box__icon">
+            <mhd-icon icon="fa-magnifying-glass" iconSet="fas" size="text-sm" />
+          </span>
+        </label>
+      </div>
+
+      <div class="devices-table-shell__table">
+        <table class="devices-table">
+          <thead>
+          <tr>
+            <th class="devices-table__head devices-table__head--label"></th>
+            <th class="devices-table__head">Reads*</th>
+            <th class="devices-table__head">Total Pageviews</th>
+            <th class="devices-table__head">Subscriber* Attention Time (Min)</th>
+            <th class="devices-table__head">Subscriber* Median Att. Time</th>
+          </tr>
+          </thead>
+
+          <tbody>
+            @for (row of filteredRows(); track trackRow($index, row)) {
+              <tr>
+                <td class="devices-table__cell devices-table__cell--label">
+                  {{ row.label }}
+                </td>
+                <td class="devices-table__cell">
+                  {{ formatNumber(row.reads) }}
+                </td>
+                <td class="devices-table__cell">
+                  {{ formatNumber(row.totalPageviews) }}
+                </td>
+                <td class="devices-table__cell">
+                  {{ formatNumber(row.subscriberAttentionTime) }}
+                </td>
+                <td class="devices-table__cell">
+                  {{ row.subscriberMedianAttention }}
+                </td>
+              </tr>
+            }
+
+            @if (!filteredRows().length) {
+              <tr>
+                <td class="devices-table__empty" colspan="5">
+                  No matching platforms or devices found.
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>

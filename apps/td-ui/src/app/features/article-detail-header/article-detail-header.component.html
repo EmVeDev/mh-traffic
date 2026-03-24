@@ -1,16 +1,18 @@
 <section class="article-detail-header">
-  <div class="article-detail-header__image">
+  <div class="article-detail-header__image-wrap">
     @if (imageUrl()) {
-      <img [src]="imageUrl()" [alt]="title()" />
+      <img class="article-detail-header__image" [src]="imageUrl()" [alt]="title()" />
     } @else {
       <div class="article-detail-header__image-placeholder">
-        <mhd-icon icon="fa-image" iconSet="fas"></mhd-icon>
+        <mhd-icon icon="fa-image" iconSet="fas" />
       </div>
     }
   </div>
 
   <div class="article-detail-header__content">
     <div class="article-detail-header__title-row">
+      <span class="site-badge">{{ siteBadge() }}</span>
+
       @if (articleUrl()) {
         <a
           class="article-detail-header__title-link"
@@ -25,32 +27,24 @@
       }
     </div>
 
-    <div class="article-detail-header__meta-grid">
-      <div class="meta-item">
-        <span class="meta-item__label">Author</span>
-        <span class="meta-item__value">{{ author() }}</span>
-      </div>
-
-      <div class="meta-item">
-        <span class="meta-item__label">Section</span>
-        <span class="meta-item__value">{{ section() }}</span>
-      </div>
-
-      <div class="meta-item">
-        <span class="meta-item__label">Type</span>
-        <span class="meta-item__value">{{ articleType() }}</span>
-      </div>
-
-      <div class="meta-item">
-        <span class="meta-item__label">Channel</span>
-        <span class="meta-item__value">{{ channel() }}</span>
-      </div>
+    <div class="article-detail-header__author-row">
+      <mhd-icon icon="fa-user" iconSet="fas" size="text-sm" />
+      <span>{{ author() }}</span>
     </div>
 
-    <div class="article-detail-header__tags">
-      @for (tag of tags(); track tag) {
-        <a href="#" class="tag-chip">{{ tag }}</a>
+    <div class="article-detail-header__meta-chips">
+      @for (chip of metaChips(); track trackChip($index, chip)) {
+        <span class="meta-chip" [class]="'meta-chip--' + chip.tone">
+          {{ chip.label }}
+        </span>
       }
     </div>
+
+    @if (tags().length) {
+      <div class="article-detail-header__taxonomy">
+        <mhd-icon icon="fa-tag" iconSet="fas" size="text-sm" />
+        <span class="article-detail-header__taxonomy-text">{{ tagsLabel() }}</span>
+      </div>
+    }
   </div>
 </section>

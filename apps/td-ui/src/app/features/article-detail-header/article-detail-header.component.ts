@@ -1,5 +1,15 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  input,
+} from '@angular/core';
 import { MhdIconComponent } from '@mh-traffic/mh-design';
+
+interface MetaChip {
+  label: string;
+  tone: 'section' | 'type' | 'channel';
+}
 
 @Component({
   selector: 'td-article-detail-header',
@@ -18,4 +28,21 @@ export class ArticleDetailHeaderComponent {
   readonly articleType = input.required<string>();
   readonly channel = input.required<string>();
   readonly tags = input<string[]>([]);
+  readonly siteBadge = input<string>('N+');
+
+  readonly metaChips = computed<MetaChip[]>(() => [
+    { label: this.section(), tone: 'section' },
+    { label: this.articleType(), tone: 'type' },
+    { label: this.channel(), tone: 'channel' },
+  ]);
+
+  readonly tagsLabel = computed(() => this.tags().join(', '));
+
+  trackChip(_index: number, chip: MetaChip): string {
+    return `${chip.tone}-${chip.label}`;
+  }
+
+  trackTag(_index: number, tag: string): string {
+    return tag;
+  }
 }

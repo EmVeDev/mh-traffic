@@ -1,52 +1,150 @@
 <section class="article-summary-grid">
-  <article class="summary-card">
+  <article class="summary-card summary-card--reach">
     <header class="summary-card__header">
-      <div class="summary-card__title">
-        <mhd-icon icon="fa-rocket" iconSet="fas"></mhd-icon>
-        <span>Reach</span>
+      <div class="summary-card__title-group">
+        <div class="summary-card__title">
+          <mhd-icon icon="fa-rocket" iconSet="fas" />
+          <span>Reach</span>
+        </div>
+
+        <div class="summary-card__icon-strip">
+          <mhd-icon icon="fa-house" iconSet="fas" size="text-sm" />
+          <mhd-icon icon="fa-envelope" iconSet="fas" size="text-sm" />
+          <mhd-icon icon="fa-square-facebook" iconSet="fab" size="text-sm" />
+          <mhd-icon icon="fa-person-circle-plus" iconSet="fas" size="text-sm" />
+        </div>
       </div>
 
-      <div class="summary-card__actions">
-        <button type="button" class="icon-toggle icon-toggle--active">
-          <mhd-icon icon="fa-house" iconSet="fas" size="text-xs"></mhd-icon>
-        </button>
-        <button type="button" class="icon-toggle">
-          <mhd-icon icon="fa-newspaper" iconSet="fas" size="text-xs"></mhd-icon>
-        </button>
-        <button type="button" class="icon-toggle">
-          <mhd-icon icon="fa-bell" iconSet="fas" size="text-xs"></mhd-icon>
-        </button>
-      </div>
+      <button type="button" class="summary-card__link">view more</button>
     </header>
 
-    <div class="summary-card__body">
-      <div class="metric-row">
-        <span class="metric-row__label">READS*</span>
-        <span class="metric-row__value">29 353</span>
+    <div class="summary-card__body summary-card__body--stack">
+      <div class="reach-stat">
+        <div class="reach-stat__label-row">
+          <span class="reach-stat__label">READS*</span>
+          <mhd-icon icon="fa-circle-info" iconSet="fas" size="text-xs" />
+        </div>
+
+        <div class="reach-stat__value-row">
+          <div class="reach-stat__value-wrap">
+            <mhd-icon icon="fa-file-lines" iconSet="fas" size="text-sm" />
+            <span class="reach-stat__value">29 353</span>
+            <span class="reach-stat__delta">31%</span>
+          </div>
+        </div>
       </div>
-      <div class="metric-row">
-        <span class="metric-row__label">PAGEVIEWS</span>
-        <span class="metric-row__value">93 911</span>
+
+      <div class="reach-stat">
+        <div class="reach-stat__label-row">
+          <span class="reach-stat__label">PAGEVIEWS</span>
+          <mhd-icon icon="fa-circle-info" iconSet="fas" size="text-xs" />
+        </div>
+
+        <div class="reach-stat__value-row">
+          <div class="reach-stat__value-wrap">
+            <mhd-icon icon="fa-file-lines" iconSet="fas" size="text-sm" />
+            <span class="reach-stat__value">93 911</span>
+          </div>
+        </div>
       </div>
     </div>
   </article>
 
-  <article class="summary-card">
+  <article class="summary-card summary-card--engagement">
     <header class="summary-card__header">
       <div class="summary-card__title">
-        <mhd-icon icon="fa-users" iconSet="fas"></mhd-icon>
+        <mhd-icon icon="fa-user-group" iconSet="fas" />
         <span>Engagement</span>
       </div>
+
+      <button type="button" class="summary-card__link">view more</button>
     </header>
 
-    <div class="summary-card__body">
-      <div class="metric-row">
-        <span class="metric-row__label">SUBSCRIBER ATTENTION</span>
-        <span class="metric-row__value">28 667 min</span>
+    <div class="summary-card__body summary-card__body--split">
+      <section class="engagement-pane">
+        <div class="engagement-pane__label-row">
+          <span class="engagement-pane__label">SUBSCRIBER ATTENTION</span>
+          <mhd-icon icon="fa-circle-info" iconSet="fas" size="text-xs" />
+        </div>
+
+        <div class="engagement-pane__value-row">
+          <mhd-icon icon="fa-clock" iconSet="far" size="text-sm" />
+          <span class="engagement-pane__value">28 667</span>
+          <span class="engagement-pane__unit">min</span>
+        </div>
+
+        <div class="engagement-pane__subsection">
+          <div class="engagement-pane__label-row">
+            <span class="engagement-pane__label">READ ON</span>
+            <mhd-icon icon="fa-circle-info" iconSet="fas" size="text-xs" />
+          </div>
+
+          <div class="engagement-pane__read-on">
+            <mhd-icon icon="fa-rotate-right" iconSet="fas" size="text-sm" />
+            <span>9%</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="engagement-pane engagement-pane--quality">
+        <div class="engagement-pane__label-row">
+          <span class="engagement-pane__label">READING QUALITY</span>
+          <mhd-icon icon="fa-circle-info" iconSet="fas" size="text-xs" />
+        </div>
+
+        <div class="quality-list">
+          <div class="quality-item">
+            <span class="quality-item__text">Bouncers: 15%</span>
+            <div class="quality-item__bar quality-item__bar--red"></div>
+          </div>
+
+          <div class="quality-item">
+            <span class="quality-item__text">Scanners: 64%</span>
+            <div class="quality-item__bar quality-item__bar--yellow"></div>
+          </div>
+
+          <div class="quality-item">
+            <span class="quality-item__text">Deeply reads: 21%</span>
+            <div class="quality-item__bar quality-item__bar--green"></div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </article>
+
+  <article class="summary-card summary-card--conversions">
+    <header class="summary-card__header">
+      <div class="summary-card__title">
+        <mhd-icon icon="fa-cart-shopping" iconSet="fas" />
+        <span>Conversions</span>
       </div>
-      <div class="metric-row">
-        <span class="metric-row__label">READING QUALITY</span>
-        <span class="metric-row__value">Mixed</span>
+
+      <button type="button" class="summary-card__link">view more</button>
+    </header>
+
+    <div class="summary-card__body summary-card__body--stack">
+      <div class="conversion-stat">
+        <div class="conversion-stat__label-row">
+          <span class="conversion-stat__label">REGISTERED</span>
+          <mhd-icon icon="fa-circle-info" iconSet="fas" size="text-xs" />
+        </div>
+
+        <div class="conversion-stat__value-row">
+          <mhd-icon icon="fa-user-plus" iconSet="fas" size="text-sm" />
+          <span class="conversion-stat__value">10</span>
+        </div>
+      </div>
+
+      <div class="conversion-stat">
+        <div class="conversion-stat__label-row">
+          <span class="conversion-stat__label">CONVERSIONS</span>
+          <mhd-icon icon="fa-circle-info" iconSet="fas" size="text-xs" />
+        </div>
+
+        <div class="conversion-stat__value-row">
+          <mhd-icon icon="fa-cart-shopping" iconSet="fas" size="text-sm" />
+          <span class="conversion-stat__value">0</span>
+        </div>
       </div>
     </div>
   </article>

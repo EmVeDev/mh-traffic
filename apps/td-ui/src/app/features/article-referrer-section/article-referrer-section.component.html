@@ -1,0 +1,74 @@
+<section class="referrer-section">
+  <header class="referrer-section__header">
+    <div class="referrer-section__title-wrap">
+      <h3 class="referrer-section__title">Where did our visitors come from?</h3>
+    </div>
+
+  </header>
+
+  <div class="referrer-section__chart">
+    <svg
+      class="referrer-chart"
+      [attr.viewBox]="'0 0 ' + chartWidth + ' ' + chartHeight"
+      preserveAspectRatio="none"
+      role="img"
+      aria-label="Referrer stacked area chart"
+    >
+      @for (tick of yTicks(); track trackTick($index, tick)) {
+        <line
+          class="referrer-chart__grid-line"
+          [attr.x1]="paddingLeft"
+          [attr.x2]="chartWidth - paddingRight"
+          [attr.y1]="tick.y"
+          [attr.y2]="tick.y"
+        />
+        <text
+          class="referrer-chart__y-label"
+          [attr.x]="paddingLeft - 12"
+          [attr.y]="tick.y + 4"
+        >
+          {{ tick.label }}
+        </text>
+      }
+
+      @for (seriesItem of preparedSeries(); track trackPreparedSeries($index, seriesItem)) {
+        <path
+          class="referrer-chart__area"
+          [attr.d]="seriesItem.areaPath"
+          [attr.fill]="seriesItem.color"
+        />
+        <path
+          class="referrer-chart__line"
+          [attr.d]="seriesItem.linePath"
+          [attr.stroke]="seriesItem.color"
+        />
+      }
+
+      @for (label of labels(); track trackLabel($index, label)) {
+        <text
+          class="referrer-chart__x-label"
+          [attr.x]="paddingLeft + (plotWidth / Math.max(labels().length - 1, 1)) * $index"
+          [attr.y]="chartHeight - 28"
+        >
+          {{ label }}
+        </text>
+      }
+    </svg>
+
+    <div class="referrer-legend">
+      @for (item of legendItems(); track trackLegend($index, item)) {
+        <div class="referrer-legend__item">
+          <span
+            class="referrer-legend__dot"
+            [style.background]="item.color"
+          ></span>
+          <span class="referrer-legend__label">{{ item.name }}</span>
+        </div>
+      }
+    </div>
+  </div>
+
+  <div class="referrer-section__representation">
+    <td-article-referrer-representation />
+  </div>
+</section>

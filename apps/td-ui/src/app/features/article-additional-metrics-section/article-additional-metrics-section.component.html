@@ -1,0 +1,177 @@
+<section class="additional-metrics-card">
+  <header class="additional-metrics-card__header">
+    <h3 class="additional-metrics-card__title">Additional metrics</h3>
+  </header>
+
+  <div class="additional-metrics-card__body">
+    <section class="audience-section">
+      <header class="audience-section__header">
+        <h4 class="audience-section__title">How did our audiences engage with the story?</h4>
+      </header>
+
+      <div class="stacked-summary">
+        @for (segment of totalSegments(); track trackSegment($index, segment)) {
+          <div
+            class="stacked-summary__segment"
+            [style.width.%]="segment.width"
+            [style.background]="segment.color"
+          >
+            {{ segment.label }}
+          </div>
+        }
+      </div>
+
+      <div class="audience-grid audience-grid--three">
+        @for (card of audienceCards(); track trackCard($index, card)) {
+          <article class="audience-card">
+            <header class="audience-card__header" [style.background]="card.headerColor">
+              {{ card.title }}
+            </header>
+
+            <div class="audience-card__content">
+              <section class="audience-card__column">
+                <div class="audience-card__section-title">
+                  <mhd-icon icon="fa-rocket" iconSet="fas" size="text-xs" />
+                  <span>Reach</span>
+                </div>
+
+                <div class="audience-stat">
+                  <span class="audience-stat__label">Reads*</span>
+                  <strong class="audience-stat__value">{{ card.reach.reads }}</strong>
+                </div>
+
+                <div class="audience-stat">
+                  <span class="audience-stat__label">Wall hits</span>
+                  <strong class="audience-stat__subvalue">{{ card.reach.wallHits }}</strong>
+                </div>
+
+                <div class="audience-stat">
+                  <span class="audience-stat__label">Bouncers</span>
+                  <strong class="audience-stat__subvalue">{{ card.reach.bouncers }}</strong>
+                </div>
+
+                <div class="audience-stat">
+                  <span class="audience-stat__label">Total pageviews</span>
+                  <strong class="audience-stat__subvalue">{{ card.reach.totalPageviews }}</strong>
+                </div>
+              </section>
+
+              <section class="audience-card__column">
+                <div class="audience-card__section-title">
+                  <mhd-icon icon="fa-user-group" iconSet="fas" size="text-xs" />
+                  <span>Engagement</span>
+                </div>
+
+                <div class="audience-stat">
+                  <span class="audience-stat__label">Attention time</span>
+                  <strong class="audience-stat__value">{{ card.engagement.attentionTime }}</strong>
+                </div>
+
+                <div class="audience-stat">
+                  <span class="audience-stat__label">Median att. time</span>
+                  <strong class="audience-stat__subvalue">{{ card.engagement.medianAttention }}</strong>
+                </div>
+
+                <div class="quality-block">
+                  <div class="quality-row">
+                    <span>Bouncers: {{ card.engagement.bouncers }}</span>
+                    <div class="quality-bar quality-bar--red"></div>
+                  </div>
+
+                  <div class="quality-row">
+                    <span>Scanners: {{ card.engagement.scanners }}</span>
+                    <div class="quality-bar quality-bar--yellow"></div>
+                  </div>
+
+                  <div class="quality-row">
+                    <span>Deeply reads: {{ card.engagement.deeplyReads }}</span>
+                    <div class="quality-bar quality-bar--green"></div>
+                  </div>
+                </div>
+              </section>
+            </div>
+          </article>
+        }
+      </div>
+    </section>
+
+    <section class="audience-section">
+      <header class="audience-section__header">
+        <h4 class="audience-section__title">How did the non-subscribers engage with the story?</h4>
+      </header>
+
+      <div class="audience-grid audience-grid--two">
+        @for (card of lowerCards(); track trackCard($index, card)) {
+          <article class="audience-card">
+            <header class="audience-card__header" [style.background]="card.headerColor">
+              {{ card.title }}
+            </header>
+
+            <div class="audience-card__content">
+              <section class="audience-card__column">
+                <div class="audience-card__section-title">
+                  <mhd-icon icon="fa-rocket" iconSet="fas" size="text-xs" />
+                  <span>Reach</span>
+                </div>
+
+                <div class="audience-stat">
+                  <span class="audience-stat__label">Reads*</span>
+                  <strong class="audience-stat__value">{{ card.reach.reads }}</strong>
+                </div>
+
+                <div class="audience-stat">
+                  <span class="audience-stat__label">Wall hits</span>
+                  <strong class="audience-stat__subvalue">{{ card.reach.wallHits }}</strong>
+                </div>
+
+                <div class="audience-stat">
+                  <span class="audience-stat__label">Bouncers</span>
+                  <strong class="audience-stat__subvalue">{{ card.reach.bouncers }}</strong>
+                </div>
+
+                <div class="audience-stat">
+                  <span class="audience-stat__label">Total pageviews</span>
+                  <strong class="audience-stat__subvalue">{{ card.reach.totalPageviews }}</strong>
+                </div>
+              </section>
+
+              <section class="audience-card__column">
+                <div class="audience-card__section-title">
+                  <mhd-icon icon="fa-user-group" iconSet="fas" size="text-xs" />
+                  <span>Engagement</span>
+                </div>
+
+                <div class="audience-stat">
+                  <span class="audience-stat__label">Attention time</span>
+                  <strong class="audience-stat__value">{{ card.engagement.attentionTime }}</strong>
+                </div>
+
+                <div class="audience-stat">
+                  <span class="audience-stat__label">Median att. time</span>
+                  <strong class="audience-stat__subvalue">{{ card.engagement.medianAttention }}</strong>
+                </div>
+
+                <div class="quality-block">
+                  <div class="quality-row">
+                    <span>Bouncers: {{ card.engagement.bouncers }}</span>
+                    <div class="quality-bar quality-bar--red"></div>
+                  </div>
+
+                  <div class="quality-row">
+                    <span>Scanners: {{ card.engagement.scanners }}</span>
+                    <div class="quality-bar quality-bar--yellow"></div>
+                  </div>
+
+                  <div class="quality-row">
+                    <span>Deeply reads: {{ card.engagement.deeplyReads }}</span>
+                    <div class="quality-bar quality-bar--green"></div>
+                  </div>
+                </div>
+              </section>
+            </div>
+          </article>
+        }
+      </div>
+    </section>
+  </div>
+</section>

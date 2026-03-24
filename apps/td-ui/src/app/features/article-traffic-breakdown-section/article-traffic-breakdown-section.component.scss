@@ -1,0 +1,301 @@
+:host {
+  display: block;
+}
+
+/* =========================
+   MAIN CARD
+========================= */
+
+.traffic-breakdown-card {
+  background: #fff;
+  border: 1px solid #e6e9ee;
+  border-radius: 12px;
+  overflow: hidden;
+
+  &__header {
+    padding: 12px 16px;
+    border-bottom: 1px solid #e6e9ee;
+    background: #f7f8fa;
+  }
+
+  &__title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #3f4854;
+  }
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 16px;
+  }
+}
+
+/* =========================
+   PANELS
+========================= */
+
+.traffic-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+
+  &__header {
+    display: flex;
+    align-items: center;
+  }
+
+  &__heading {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #3f4854;
+  }
+
+  &__content {
+    display: grid;
+    gap: 14px;
+
+    &--two-col {
+      grid-template-columns: 0.5fr 1fr;
+    }
+  }
+}
+
+/* =========================
+   STACKED BAR
+========================= */
+
+.traffic-bar {
+  display: flex;
+  height: 42px;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #eef1f4;
+
+  &__segment {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    color: #fff;
+    font-size: 0.8rem;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+}
+
+/* =========================
+   METRIC GRID (LEFT SIDE)
+========================= */
+
+.metric-grid {
+  border: 1px solid #d8dde5;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #fff;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+
+  /* === HERO (READ ON) === */
+  &__hero {
+    grid-column: 1 / -1;
+    min-height: 164px;
+    padding: 26px 20px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;      /* 🔥 CENTER FIX */
+    justify-content: center;
+    text-align: center;       /* 🔥 CENTER FIX */
+
+    gap: 10px;
+    border-bottom: 1px solid #e9edf2;
+
+    &-label {
+      color: #7a8695;
+      font-size: 0.95rem;
+      font-weight: 500;
+    }
+
+    &-value {
+      color: #ef5a45;
+      font-size: 4.2rem;
+      line-height: 1;
+      font-weight: 700;
+    }
+  }
+
+  /* === NORMAL ITEMS === */
+  &__item {
+    min-height: 84px;
+    padding: 12px 14px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 6px;
+    border-top: 1px solid #e9edf2;
+
+    &:nth-child(even) {
+      border-left: 1px solid #e9edf2;
+    }
+  }
+
+  &__label {
+    font-size: 0.8rem;
+    color: #7a8695;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+
+  &__value {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #ef5a45;
+  }
+}
+
+/* =========================
+   LIST CARD (RIGHT SIDE)
+========================= */
+
+.traffic-list-card {
+  border: 1px solid #d8dde5;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #fff;
+
+  &__header {
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #e9edf2;
+  }
+
+  &__title-wrap {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  &__title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #3f4854;
+  }
+
+  &__rows {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+/* =========================
+   ROW
+========================= */
+
+.traffic-row {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 10px;
+
+  padding: 10px 14px;
+  border-bottom: 1px solid #f0f2f5;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  &__value {
+    font-weight: 700;
+    color: #2f3742;
+    font-size: 0.9rem;
+
+    &--rank {
+      width: 32px;
+      text-align: center;
+      color: #7a8695;
+    }
+  }
+
+  &__title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+  }
+
+  &__text {
+    font-size: 0.9rem;
+    color: #2f3742;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+/* =========================
+   SMALL ELEMENTS
+========================= */
+
+.site-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  height: 18px;
+  padding: 0 6px;
+  border-radius: 4px;
+
+  background: #2f6fde;
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+
+.row-action-btn {
+  appearance: none;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: #7a8695;
+
+  &:hover {
+    color: #ef5a45;
+  }
+}
+
+.view-more-link {
+  background: none;
+  border: none;
+  color: #ef5a45;
+  font-size: 0.85rem;
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 900px) {
+  .traffic-panel__content--two-col {
+    grid-template-columns: 1fr;
+  }
+
+  .metric-grid {
+    grid-template-columns: 1fr;
+
+    &__item {
+      border-left: none !important;
+    }
+  }
+}
