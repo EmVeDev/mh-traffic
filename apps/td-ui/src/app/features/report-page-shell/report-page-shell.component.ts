@@ -1,6 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  computed,
   input,
   output,
 } from '@angular/core';
@@ -54,15 +55,18 @@ export class ReportPageShellComponent {
   readonly analysisTypeLabel = input.required<string>();
   readonly selectedDateLabel = input.required<string>();
 
-  // NEW: dedicated toolbar leading label (Single-day / Multi-day)
-  readonly toolbarLeadingLabel = input.required<string>();
-
   readonly metricOptions = input.required<ReportToolbarOption[]>();
   readonly selectedMetricValue = input.required<string>();
   readonly breakdownOptions = input.required<ReportToolbarOption[]>();
   readonly selectedBreakdownValue = input.required<string>();
 
   readonly advancedFiltersOpen = input.required<boolean>();
+
+  /**
+   * Optional override for the toolbar sentence.
+   * When omitted, the shell derives it from dateRangeValue.mode.
+   */
+  readonly toolbarLeadingLabel = input<string>('');
 
   readonly overviewLeftGroups = input.required<ReportOverviewGroup[]>();
   readonly overviewRightGroups = input.required<ReportOverviewGroup[]>();
@@ -84,6 +88,15 @@ export class ReportPageShellComponent {
   readonly filterToggle = output<void>();
   readonly tableModeChange = output<'chart' | 'table'>();
   readonly valueModeChange = output<'raw' | 'percentage'>();
+
+  protected readonly resolvedToolbarLeadingLabel = computed(() => {
+    const explicit = this.toolbarLeadingLabel();
+    if (explicit) {
+      return explicit;
+    }
+
+    return this.dateRangeValue().mode === 'range' ? 'Multi-day' : 'Single-day';
+  });
 
   protected onSiteSelected(value: string): void {
     this.siteSelected.emit(value);

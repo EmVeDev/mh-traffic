@@ -10,7 +10,8 @@
 />
 
 <td-report-toolbar
-  [leadingLabel]="toolbarLeadingLabel()"
+  [leadingLabel]="resolvedToolbarLeadingLabel()"
+  [analysisTypeLabel]="analysisTypeLabel()"
   [metricOptions]="metricOptions()"
   [selectedMetricValue]="selectedMetricValue()"
   [breakdownOptions]="breakdownOptions()"
