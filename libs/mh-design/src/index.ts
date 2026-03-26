@@ -19,3 +19,4 @@ export * from './lib/components/filter-field/mhd-filter-field.component';
 export * from './lib/components/filter-actions/mhd-filter-actions.component';
 export * from './lib/components/report-table/mhd-report-table.component';
 export * from './lib/components/report-overview/mhd-report-overview.component';
+export * from './lib/components/inline-select/mhd-inline-select.component';

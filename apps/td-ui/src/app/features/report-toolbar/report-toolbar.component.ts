@@ -1,20 +1,6 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  input,
-  output,
-  signal,
-} from '@angular/core';
-import {
-  MhdButtonComponent,
-  MhdDropdownComponent,
-  MhdIconComponent,
-} from '@mh-traffic/mh-design';
-import {
-  ReportToolbarOption,
-  ReportToolbarToken,
-} from './report-toolbar.types';
+import { ChangeDetectionStrategy, Component, computed, input, output, signal } from '@angular/core';
+import { MhdButtonComponent, MhdDropdownComponent, MhdInlineSelectComponent } from '@mh-traffic/mh-design';
+import { ReportToolbarOption, ReportToolbarToken } from './report-toolbar.types';
 
 export type {
   ReportToolbarOption,
@@ -38,7 +24,7 @@ interface ReportToolbarShareOption {
 @Component({
   selector: 'td-report-toolbar',
   standalone: true,
-  imports: [MhdButtonComponent, MhdDropdownComponent, MhdIconComponent],
+  imports: [MhdButtonComponent, MhdDropdownComponent, MhdInlineSelectComponent],
   templateUrl: './report-toolbar.component.html',
   styleUrl: './report-toolbar.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -59,8 +45,6 @@ export class ReportToolbarComponent {
   readonly filterToggle = output<void>();
   readonly shareActionSelected = output<ReportToolbarShareAction>();
 
-  protected readonly metricDropdownOpen = signal(false);
-  protected readonly breakdownDropdownOpen = signal(false);
   protected readonly shareDropdownOpen = signal(false);
 
   protected readonly shareOptions = computed<ReportToolbarShareOption[]>(() => [
@@ -127,30 +111,12 @@ export class ReportToolbarComponent {
     return '';
   });
 
-  protected selectedMetricLabel(): string {
-    return (
-      this.metricOptions().find(
-        (option) => option.value === this.selectedMetricValue()
-      )?.label ?? ''
-    );
-  }
-
-  protected selectedBreakdownLabel(): string {
-    return (
-      this.breakdownOptions().find(
-        (option) => option.value === this.selectedBreakdownValue()
-      )?.label ?? ''
-    );
-  }
-
   protected selectMetric(value: string): void {
     this.metricSelected.emit(value);
-    this.metricDropdownOpen.set(false);
   }
 
   protected selectBreakdown(value: string): void {
     this.breakdownSelected.emit(value);
-    this.breakdownDropdownOpen.set(false);
   }
 
   protected selectShareAction(value: ReportToolbarShareAction): void {

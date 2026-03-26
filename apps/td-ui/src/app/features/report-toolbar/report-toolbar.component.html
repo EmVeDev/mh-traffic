@@ -18,67 +18,21 @@
       <div class="report-sentence">
         <span class="report-sentence__static">{{ analysisTypeLabel() }}</span>
 
-        <mhd-dropdown
-          [(open)]="metricDropdownOpen"
-          position="bottom-start"
+        <mhd-inline-select
+          [options]="metricOptions()"
+          [value]="selectedMetricValue()"
           [minWidth]="280"
-        >
-          <button
-            mhdDropdownTrigger
-            type="button"
-            class="report-sentence__token"
-          >
-            <span>{{ selectedMetricLabel() }}</span>
-            <mhd-icon icon="fa-chevron-down" iconSet="fas" size="text-xs" />
-          </button>
-
-          <div mhdDropdownPanel class="inline-menu">
-            <div class="inline-menu__list" role="menu" aria-label="Metric options">
-              @for (option of metricOptions(); track option.value) {
-                <button
-                  type="button"
-                  class="inline-menu__option"
-                  [class.inline-menu__option--selected]="option.value === selectedMetricValue()"
-                  (click)="selectMetric(option.value)"
-                >
-                  {{ option.label }}
-                </button>
-              }
-            </div>
-          </div>
-        </mhd-dropdown>
+          (valueChange)="selectMetric($event)"
+        />
 
         <span class="report-sentence__text">performance by</span>
 
-        <mhd-dropdown
-          [(open)]="breakdownDropdownOpen"
-          position="bottom-start"
+        <mhd-inline-select
+          [options]="breakdownOptions()"
+          [value]="selectedBreakdownValue()"
           [minWidth]="280"
-        >
-          <button
-            mhdDropdownTrigger
-            type="button"
-            class="report-sentence__token"
-          >
-            <span>{{ selectedBreakdownLabel() }}</span>
-            <mhd-icon icon="fa-chevron-down" iconSet="fas" size="text-xs" />
-          </button>
-
-          <div mhdDropdownPanel class="inline-menu">
-            <div class="inline-menu__list" role="menu" aria-label="Breakdown options">
-              @for (option of breakdownOptions(); track option.value) {
-                <button
-                  type="button"
-                  class="inline-menu__option"
-                  [class.inline-menu__option--selected]="option.value === selectedBreakdownValue()"
-                  (click)="selectBreakdown(option.value)"
-                >
-                  {{ option.label }}
-                </button>
-              }
-            </div>
-          </div>
-        </mhd-dropdown>
+          (valueChange)="selectBreakdown($event)"
+        />
       </div>
     }
 
