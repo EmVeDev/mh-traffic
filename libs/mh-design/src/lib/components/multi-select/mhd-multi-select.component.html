@@ -4,7 +4,7 @@
   [minWidth]="minPanelWidth()"
   [fullWidth]="fullWidth()"
 >
-  <div mhdDropdownTrigger>
+  <div mhdDropdownTrigger class="mhd-multi-select__trigger">
     <mhd-chip-field
       [label]="label()"
       [placeholder]="placeholder()"
@@ -44,7 +44,7 @@
       </div>
     }
 
-    <div class="mhd-multi-select-panel__options" role="listbox" aria-multiselectable="true">
+    <div class="mhd-multi-select-panel__options" role="listbox" aria-label="Select options">
       @for (option of filteredOptions(); track option.value) {
         <button
           type="button"
@@ -73,16 +73,12 @@
           </span>
         </button>
       } @empty {
-        <div class="mhd-multi-select-panel__empty">
-          No matching options
-        </div>
+        <div class="mhd-multi-select-panel__empty">No matching options</div>
       }
     </div>
 
     <div class="mhd-multi-select-panel__footer">
-      <mhd-button variant="ghost" size="sm" (click)="close()">
-        Done
-      </mhd-button>
+      <mhd-button variant="primary" size="sm" (click)="close()">Done</mhd-button>
     </div>
   </div>
 </mhd-dropdown>

@@ -1,9 +1,16 @@
 :host {
   display: block;
+  min-width: 0;
 }
+
 :host(.mhd-multi-select-host--full-width) {
   display: block;
   width: 100%;
+}
+
+.mhd-multi-select__trigger {
+  width: 100%;
+  min-width: 0;
 }
 
 .mhd-multi-select-panel {
@@ -83,6 +90,7 @@
   flex-direction: column;
   gap: 3px;
   min-width: 0;
+  flex: 1 1 auto;
 }
 
 .mhd-multi-select-option__label {

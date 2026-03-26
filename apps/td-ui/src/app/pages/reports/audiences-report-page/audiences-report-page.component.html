@@ -38,9 +38,9 @@
               panelTitle="Select platform"
               placeholder="Select platform"
               searchPlaceholder="Search platform"
-              [fullWidth]="true"
               [options]="store.base.platformOptions()"
               [selectedValues]="store.base.selectedPlatforms()"
+              [fullWidth]="true"
               (selectedValuesChange)="store.base.setSelectedPlatforms($event)"
             />
           </mhd-filter-field>
@@ -91,7 +91,6 @@
             />
           </div>
         </div>
-
       </div>
     </mhd-filter-panel>
   </div>

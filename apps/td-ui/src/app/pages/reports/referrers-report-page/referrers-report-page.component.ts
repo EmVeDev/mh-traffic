@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
-  MhdCheckboxComponent,
   MhdFilterActionsComponent,
   MhdFilterFieldComponent,
   MhdFilterPanelComponent,
@@ -16,7 +15,6 @@ import { ReferrersReportPageStore } from './referrers-report-page.store';
   standalone: true,
   imports: [
     ReportPageShellComponent,
-    MhdCheckboxComponent,
     MhdFilterActionsComponent,
     MhdFilterFieldComponent,
     MhdFilterPanelComponent,
