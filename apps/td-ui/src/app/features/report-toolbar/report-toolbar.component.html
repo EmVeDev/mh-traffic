@@ -1,40 +1,29 @@
 <section class="report-toolbar">
   <div class="report-toolbar__top">
-    @if (usesLegacyMode()) {
-      <div class="report-sentence">
-        <span class="report-sentence__context">{{ legacyAnalysisLabel() }}</span>
+    <div class="report-sentence">
+      <!-- 🔴 leading label -->
+      <span class="report-sentence__static">{{ leadingLabel() }}</span>
 
-        @if (middleLabel()) {
-          <span class="report-sentence__text">{{ middleLabel() }}</span>
-        }
+      <!-- metric -->
+      <mhd-inline-select
+        class="report-sentence__select"
+        [options]="metricOptions()"
+        [value]="selectedMetricValue()"
+        label="Metric"
+        (valueChange)="selectMetric($event)"
+      />
 
-        @if (legacyBreakdownLabel()) {
-          <span class="report-sentence__token report-sentence__token--static">
-            <span>{{ legacyBreakdownLabel() }}</span>
-          </span>
-        }
-      </div>
-    } @else {
-      <div class="report-sentence">
-        <span class="report-sentence__static">{{ analysisTypeLabel() }}</span>
+      <span class="report-sentence__text">performance by</span>
 
-        <mhd-inline-select
-          [options]="metricOptions()"
-          [value]="selectedMetricValue()"
-          [minWidth]="280"
-          (valueChange)="selectMetric($event)"
-        />
-
-        <span class="report-sentence__text">performance by</span>
-
-        <mhd-inline-select
-          [options]="breakdownOptions()"
-          [value]="selectedBreakdownValue()"
-          [minWidth]="280"
-          (valueChange)="selectBreakdown($event)"
-        />
-      </div>
-    }
+      <!-- breakdown -->
+      <mhd-inline-select
+        class="report-sentence__select"
+        [options]="breakdownOptions()"
+        [value]="selectedBreakdownValue()"
+        label="Breakdown"
+        (valueChange)="selectBreakdown($event)"
+      />
+    </div>
 
     <div class="report-toolbar__actions">
       <mhd-button
@@ -64,7 +53,7 @@
         </mhd-button>
 
         <div mhdDropdownPanel class="inline-menu share-menu">
-          <div class="inline-menu__list" role="menu" aria-label="Share report actions">
+          <div class="inline-menu__list">
             @for (option of shareGroups().share; track option.value) {
               <button
                 type="button"
@@ -75,7 +64,7 @@
               </button>
             }
 
-            <div class="share-menu__divider" aria-hidden="true"></div>
+            <div class="share-menu__divider"></div>
 
             @for (option of shareGroups().download; track option.value) {
               <button

@@ -30,7 +30,10 @@ interface ReportToolbarShareOption {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ReportToolbarComponent {
-  readonly analysisTypeLabel = input('');
+  // 🔴 NEW: dedicated leading label (Single-day / Multi-day)
+  readonly leadingLabel = input<string>('');
+
+  // existing
   readonly metricOptions = input<ReportToolbarOption[]>([]);
   readonly selectedMetricValue = input('');
   readonly breakdownOptions = input<ReportToolbarOption[]>([]);
@@ -48,16 +51,8 @@ export class ReportToolbarComponent {
   protected readonly shareDropdownOpen = signal(false);
 
   protected readonly shareOptions = computed<ReportToolbarShareOption[]>(() => [
-    {
-      value: 'share-report',
-      label: 'Share this report',
-      group: 'share',
-    },
-    {
-      value: 'share-chart-image',
-      label: 'Share chart image',
-      group: 'share',
-    },
+    { value: 'share-report', label: 'Share this report', group: 'share' },
+    { value: 'share-chart-image', label: 'Share chart image', group: 'share' },
     {
       value: 'share-metric-table',
       label: 'Share metric table (xls)',
@@ -81,35 +76,13 @@ export class ReportToolbarComponent {
   ]);
 
   protected readonly shareGroups = computed(() => ({
-    share: this.shareOptions().filter((option) => option.group === 'share'),
-    download: this.shareOptions().filter(
-      (option) => option.group === 'download'
-    ),
+    share: this.shareOptions().filter((o) => o.group === 'share'),
+    download: this.shareOptions().filter((o) => o.group === 'download'),
   }));
 
   protected readonly usesLegacyMode = computed(
     () => this.tokens().length > 0 || !!this.middleLabel()
   );
-
-  protected readonly legacyAnalysisLabel = computed(() => {
-    const activeToken = this.tokens().find((token) => token.active);
-
-    return (
-      activeToken?.label ??
-      this.tokens()[0]?.label ??
-      this.analysisTypeLabel() ??
-      ''
-    );
-  });
-
-  protected readonly legacyBreakdownLabel = computed(() => {
-    if (this.middleLabel()) {
-      const nonActiveToken = this.tokens().find((token) => !token.active);
-      return nonActiveToken?.label ?? '';
-    }
-
-    return '';
-  });
 
   protected selectMetric(value: string): void {
     this.metricSelected.emit(value);

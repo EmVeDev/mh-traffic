@@ -54,6 +54,9 @@ export class ReportPageShellComponent {
   readonly analysisTypeLabel = input.required<string>();
   readonly selectedDateLabel = input.required<string>();
 
+  // NEW: dedicated toolbar leading label (Single-day / Multi-day)
+  readonly toolbarLeadingLabel = input.required<string>();
+
   readonly metricOptions = input.required<ReportToolbarOption[]>();
   readonly selectedMetricValue = input.required<string>();
   readonly breakdownOptions = input.required<ReportToolbarOption[]>();
