@@ -79,14 +79,42 @@
 
             @if (showDistributionColumn()) {
               <td class="report-table__td report-table__td--distribution">
-                <div class="distribution-bar">
-                  @for (segment of item.row.distributionSegments ?? []; track segment.label) {
-                    <div
-                      class="distribution-segment"
-                      [class]="segment.colorClass"
-                      [style.width.%]="segment.percentage"
-                      [title]="segment.tooltip"
-                    ></div>
+                <div class="distribution-cell">
+                  <div class="distribution-bar">
+                    @for (segment of item.row.distributionSegments ?? []; track segment.label; let segmentIndex = $index) {
+                      <div
+                        class="distribution-segment"
+                        [style.width.%]="segment.percentage"
+                        [style.background]="getSegmentColor(segment, segmentIndex)"
+                        [title]="segment.tooltip"
+                      ></div>
+                    }
+                  </div>
+
+                  @if ((item.row.distributionSegments ?? []).length) {
+                    <div class="distribution-legend">
+                      @for (segment of item.row.distributionSegments ?? []; track segment.label; let segmentIndex = $index) {
+                        <div class="distribution-legend__item" [title]="segment.tooltip">
+                          <span
+                            class="distribution-legend__dot"
+                            [style.background]="getSegmentColor(segment, segmentIndex)"
+                            aria-hidden="true"
+                          ></span>
+
+                          <span class="distribution-legend__label">
+                            {{ segment.label }}
+                          </span>
+
+                          <span class="distribution-legend__value">
+                            {{
+                              valueDisplayMode() === 'percentage'
+                                ? segment.percentageLabel
+                                : segment.valueLabel
+                            }}
+                          </span>
+                        </div>
+                      }
+                    </div>
                   }
                 </div>
               </td>
@@ -99,7 +127,7 @@
         <tfoot>
         <tr class="report-table__totals">
           <td class="report-table__td report-table__td--first">
-            <strong>{{ totals().name }}</strong>
+            <strong>{{ totals()!.name }}</strong>
           </td>
 
           @for (column of displayColumns(); track column.key) {
@@ -107,7 +135,7 @@
               class="report-table__td"
               [class.report-table__td--right]="isRightAligned(column)"
             >
-              <strong>{{ formatValue(column, totals().values[column.key]) }}</strong>
+              <strong>{{ formatValue(column, totals()!.values[column.key]) }}</strong>
             </td>
           }
 

@@ -1,6 +1,8 @@
 <td-report-page-shell
   [title]="store.title"
-  [overviewTitle]="'How articles in tags generates pageviews'"
+  [overviewTitle]="store.overviewTitle"
+  [tableTitle]="store.tableTitle"
+  [firstColumnHeader]="store.firstColumnHeader"
   [siteOptions]="store.base.siteOptions()"
   [selectedSiteValue]="store.base.selectedSiteValue()"
   [dateRangeValue]="store.base.dateRangeValue()"
@@ -18,6 +20,8 @@
   [totals]="store.tableTotals()"
   [tableDisplayMode]="store.base.tableDisplayMode()"
   [valueDisplayMode]="store.base.valueDisplayMode()"
+  [enableTableModeToggle]="true"
+  [enableValueModeToggle]="true"
   (siteSelected)="store.base.setSelectedSite($event)"
   (dateRangeValueChange)="store.base.setDateRangeValue($event)"
   (metricSelected)="store.base.setSelectedMetric($event)"

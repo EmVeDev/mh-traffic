@@ -23,6 +23,8 @@ export class SectionDetailPageStore {
   readonly base = createReportBaseStore();
   readonly title = 'Section detail';
   readonly overviewTitle = 'How articles in this section generate pageviews';
+  readonly tableTitle = 'Top articles in this section';
+  readonly firstColumnHeader = 'Article';
 
   readonly tableColumns = computed(() =>
     this.base.tableDisplayMode() === 'chart'

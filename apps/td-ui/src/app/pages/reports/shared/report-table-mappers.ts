@@ -29,7 +29,7 @@ export function mapTagsRowToReportRow(
         valueDisplayMode === 'raw'
           ? row.newsApp
           : distribution[1].percentageLabel,
-      digiPaperApp:
+      digipaperApp:
         valueDisplayMode === 'raw'
           ? row.digiPaperApp
           : distribution[2].percentageLabel,
@@ -74,8 +74,8 @@ export function buildDistribution(
       valueLabel: formatNumber(www),
       percentageLabel: formatPercent(wwwPct),
       percentage: wwwPct,
-      colorClass: 'distribution-segment--www',
       tooltip: buildTooltip('www', www, wwwPct),
+      color: '#43b2ff',
     },
     {
       label: 'news-app',
@@ -83,8 +83,8 @@ export function buildDistribution(
       valueLabel: formatNumber(newsApp),
       percentageLabel: formatPercent(newsAppPct),
       percentage: newsAppPct,
-      colorClass: 'distribution-segment--news-app',
       tooltip: buildTooltip('news-app', newsApp, newsAppPct),
+      color: '#ef6a59',
     },
     {
       label: 'digipaper-app',
@@ -92,8 +92,8 @@ export function buildDistribution(
       valueLabel: formatNumber(digiPaperApp),
       percentageLabel: formatPercent(digiPaperPct),
       percentage: digiPaperPct,
-      colorClass: 'distribution-segment--digi-paper',
       tooltip: buildTooltip('digipaper-app', digiPaperApp, digiPaperPct),
+      color: '#f2c94c',
     },
   ];
 }

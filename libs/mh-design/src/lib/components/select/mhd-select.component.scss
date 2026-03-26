@@ -89,16 +89,17 @@
 }
 
 .mhd-select__leading-badge {
-  width: 34px;
-  height: 34px;
+  width: 24px;
+  height: 24px;
   border-radius: 999px;
   display: inline-grid;
   place-items: center;
   color: #ffffff;
-  font-size: 1rem;
+  font-size: 0.78rem;
   font-weight: 700;
   line-height: 1;
   flex: 0 0 auto;
+  overflow: hidden;
 
   &.site-trigger-brand--nb {
     background: #172983;
@@ -116,4 +117,18 @@
     background: #e5cf00;
     color: #1e293b;
   }
+}
+
+/* compact header trigger */
+.mhd-select-trigger--compact .mhd-select__leading-badge {
+  width: 18px;
+  height: 18px;
+  font-size: 0.62rem;
+}
+
+/* dropdown options can stay a little larger than the compact trigger */
+.mhd-select-option .mhd-select__leading-badge {
+  width: 28px;
+  height: 28px;
+  font-size: 0.78rem;
 }

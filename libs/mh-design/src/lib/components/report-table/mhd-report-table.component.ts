@@ -29,8 +29,8 @@ export interface ReportTableDistributionSegment {
   valueLabel: string;
   percentageLabel: string;
   percentage: number;
-  colorClass: string;
   tooltip: string;
+  color?: string;
 }
 
 export interface ReportTableRow {
@@ -67,6 +67,19 @@ export class MhdReportTableComponent {
   readonly locale = input('nl-BE');
 
   protected readonly expandedRowIds = signal<Set<string>>(new Set());
+
+  private readonly fallbackSegmentColors = [
+    '#43b2ff',
+    '#ef6a59',
+    '#f2c94c',
+    '#6fcf97',
+    '#9b51e0',
+    '#2d9cdb',
+    '#f2994a',
+    '#27ae60',
+    '#56ccf2',
+    '#bb6bd9',
+  ] as const;
 
   protected readonly displayColumns = computed(() => this.columns());
 
@@ -182,6 +195,16 @@ export class MhdReportTableComponent {
 
   protected rowIndent(level: number): string {
     return `${level * 24}px`;
+  }
+
+  protected getSegmentColor(
+    segment: ReportTableDistributionSegment,
+    index: number
+  ): string {
+    return (
+      segment.color ??
+      this.fallbackSegmentColors[index % this.fallbackSegmentColors.length]
+    );
   }
 
   protected trackByVisibleRow = (

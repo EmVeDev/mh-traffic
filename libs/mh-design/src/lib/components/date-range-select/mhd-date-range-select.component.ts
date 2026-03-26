@@ -44,6 +44,7 @@ interface MhdDatePresetDefinition {
 export class MhdDateRangeSelectComponent {
   readonly placeholder = input('Select date');
   readonly disabled = input(false);
+  readonly compact = input(false);
   readonly zone = input('Europe/Brussels');
   readonly minPanelWidth = input(760);
 

@@ -23,6 +23,8 @@ export class TagDetailPageStore {
   readonly base = createReportBaseStore();
   readonly title = 'Tag detail';
   readonly overviewTitle = 'How articles in this tag generate pageviews';
+  readonly tableTitle = 'Top articles in this tag';
+  readonly firstColumnHeader = 'Article';
 
   readonly tableColumns = computed(() =>
     this.base.tableDisplayMode() === 'chart'

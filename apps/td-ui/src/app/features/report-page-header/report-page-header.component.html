@@ -1,52 +1,33 @@
 <header class="report-page-header">
-  <div class="report-page-header__title-wrap">
+  <div class="report-page-header__top">
     <h1 class="report-page-header__title">{{ title() }}</h1>
-  </div>
 
-  <div class="report-page-header__context">
-    @if (usesLegacySiteLabel()) {
-      @if (resolvedSiteLabel()) {
-        <mhd-select-trigger
-          [label]="resolvedSiteLabel()"
-          [compact]="false"
-          [chevron]="false"
-          [disabled]="true"
-          tone="accent"
-        />
-      }
-    } @else {
+    <div class="report-page-header__controls">
       <mhd-select
         placeholder="Select site"
+        [compact]="true"
         tone="accent"
-        [options]="siteSelectOptions()"
+        [minPanelWidth]="320"
+        [options]="sites()"
         [value]="selectedSiteValue()"
-        (valueChange)="handleSiteValueChange($event)"
+        (valueChange)="onSiteSelected($event)"
       />
-    }
 
-    @if (showAnalysisLabel()) {
-      <mhd-select-trigger
-        [label]="resolvedAnalysisLabel()"
-        [compact]="false"
-        [chevron]="false"
-        [disabled]="true"
-      />
-    }
+      <div class="report-page-header__date-group">
+        <span class="report-page-header__analysis-pill">
+          {{ analysisTypeLabel() }}
+        </span>
 
-    @if (showDateLabel()) {
-      @if (dateRangeValue()) {
         <mhd-date-range-select
-          [value]="dateRangeValue()!"
-          (valueChange)="handleDateRangeValueChange($event)"
+          placeholder="Select date"
+          [compact]="true"
+          [minPanelWidth]="760"
+          [value]="dateRangeValue()"
+          (valueChange)="onDateRangeChanged($event)"
         />
-      } @else {
-        <mhd-select-trigger
-          [label]="resolvedDateLabel()"
-          [compact]="false"
-          [chevron]="true"
-          [disabled]="true"
-        />
-      }
-    }
+      </div>
+    </div>
   </div>
+
+  <div class="report-page-header__divider"></div>
 </header>

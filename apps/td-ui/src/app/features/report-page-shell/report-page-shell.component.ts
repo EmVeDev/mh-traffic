@@ -1,8 +1,32 @@
-import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
-import type { ReportOverviewGroup, ReportTableColumn, ReportTableRow } from '@mh-traffic/mh-design';
-import { MhdDateRangeValue, MhdReportOverviewComponent, MhdReportTableComponent } from '@mh-traffic/mh-design';
-import { ReportPageHeaderComponent, ReportSiteOption } from '../report-page-header/report-page-header.component';
-import { ReportToolbarComponent, ReportToolbarOption } from '../report-toolbar/report-toolbar.component';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  input,
+  output,
+} from '@angular/core';
+import {
+  MhdDateRangeValue,
+  MhdReportOverviewComponent,
+  MhdReportTableComponent,
+} from '@mh-traffic/mh-design';
+import {
+  ReportPageHeaderComponent,
+  ReportSiteOption,
+} from '../report-page-header/report-page-header.component';
+import {
+  ReportToolbarComponent,
+  ReportToolbarOption,
+} from '../report-toolbar/report-toolbar.component';
+import type {
+  ReportOverviewGroup,
+  ReportTableColumn,
+  ReportTableRow,
+} from '@mh-traffic/mh-design';
+
+export interface ReportTableTotals {
+  name: string;
+  values: Record<string, string | number>;
+}
 
 @Component({
   selector: 'td-report-page-shell',
@@ -20,6 +44,8 @@ import { ReportToolbarComponent, ReportToolbarOption } from '../report-toolbar/r
 export class ReportPageShellComponent {
   readonly title = input.required<string>();
   readonly overviewTitle = input.required<string>();
+  readonly tableTitle = input.required<string>();
+  readonly firstColumnHeader = input.required<string>();
 
   readonly siteOptions = input.required<ReportSiteOption[]>();
   readonly selectedSiteValue = input.required<string>();
@@ -40,13 +66,13 @@ export class ReportPageShellComponent {
 
   readonly columns = input.required<ReportTableColumn[]>();
   readonly rows = input.required<ReportTableRow[]>();
-  readonly totals = input.required<{
-    name: string;
-    values: Record<string, string | number>;
-  }>();
+  readonly totals = input<ReportTableTotals | null>(null);
 
   readonly tableDisplayMode = input.required<'chart' | 'table'>();
   readonly valueDisplayMode = input.required<'raw' | 'percentage'>();
+
+  readonly enableTableModeToggle = input(false);
+  readonly enableValueModeToggle = input(false);
 
   readonly siteSelected = output<string>();
   readonly dateRangeValueChange = output<MhdDateRangeValue>();

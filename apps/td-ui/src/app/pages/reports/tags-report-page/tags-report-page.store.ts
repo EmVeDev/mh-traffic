@@ -1,33 +1,85 @@
-import { computed, inject, Injectable } from '@angular/core';
-import { ReportTableRow } from '@mh-traffic/mh-design';
+import { computed, Injectable } from '@angular/core';
+import type {
+  ReportTableColumn,
+  ReportTableDistributionSegment,
+  ReportTableRow,
+} from '@mh-traffic/mh-design';
+import { createReportBaseStore } from '../shared/create-report-base-store';
 import {
   createTagReportOverviewLeftGroups,
   createTagReportOverviewRightGroups,
 } from '../shared/report-overview-factories';
 import {
-  TAG_REPORT_CHART_COLUMNS,
-  TAG_REPORT_TABLE_COLUMNS,
-} from '../shared/report-table-columns';
-import {
-  buildDistribution,
-  flattenTagsRows,
-  mapTagsRowToReportRow,
-} from '../shared/report-table-mappers';
-import { createReportBaseStore } from '../shared/create-report-base-store';
-import { TagsReportPageDataStore } from './tags-report-page.data-store';
+  createApplicationsBreakdownOptions,
+  createPrimaryReportMetricOptions,
+} from '../shared/report-filter-options';
+
+interface TagRowSource {
+  id: string;
+  name: string;
+  articles: number;
+  pageviews: number;
+  www: number;
+  newsApp: number;
+  digipaperApp: number;
+}
 
 @Injectable()
 export class TagsReportPageStore {
-  private readonly data = inject(TagsReportPageDataStore);
   readonly base = createReportBaseStore();
 
   readonly title = 'Tags report';
+  readonly overviewTitle = 'How articles in tags generates pageviews';
+  readonly tableTitle = 'How do tags differ when broken down by applications';
+  readonly firstColumnHeader = 'Top 30 tags';
 
-  readonly tableColumns = computed(() =>
-    this.base.tableDisplayMode() === 'chart'
-      ? [...TAG_REPORT_CHART_COLUMNS]
-      : [...TAG_REPORT_TABLE_COLUMNS]
-  );
+  private readonly sourceRows: TagRowSource[] = [
+    {
+      id: 'politiek',
+      name: 'politiek',
+      articles: 676,
+      pageviews: 218579,
+      www: 97581,
+      newsApp: 119587,
+      digipaperApp: 1411,
+    },
+    {
+      id: 'lokale-fd',
+      name: 'lokale fd',
+      articles: 884,
+      pageviews: 211161,
+      www: 115843,
+      newsApp: 94687,
+      digipaperApp: 631,
+    },
+    {
+      id: 'werkloosheid',
+      name: 'werkloosheid',
+      articles: 800,
+      pageviews: 136581,
+      www: 98967,
+      newsApp: 37614,
+      digipaperApp: 0,
+    },
+    {
+      id: 'weer',
+      name: 'weer',
+      articles: 1767,
+      pageviews: 111822,
+      www: 53442,
+      newsApp: 58380,
+      digipaperApp: 0,
+    },
+    {
+      id: 'play',
+      name: 'play',
+      articles: 1244,
+      pageviews: 102705,
+      www: 54501,
+      newsApp: 48204,
+      digipaperApp: 0,
+    },
+  ];
 
   readonly overviewLeftGroups = computed(() =>
     createTagReportOverviewLeftGroups()
@@ -36,45 +88,150 @@ export class TagsReportPageStore {
     createTagReportOverviewRightGroups()
   );
 
+  readonly tableColumns = computed<ReportTableColumn[]>(() => {
+    if (this.base.tableDisplayMode() === 'chart') {
+      return [
+        {
+          key: 'articles',
+          label: 'articles',
+          align: 'right',
+          type: 'number',
+        },
+        {
+          key: 'pageviews',
+          label: 'pageviews',
+          align: 'right',
+          type: 'number',
+        },
+      ];
+    }
+
+    return [
+      {
+        key: 'articles',
+        label: 'articles',
+        align: 'right',
+        type: 'number',
+      },
+      {
+        key: 'pageviews',
+        label: 'pageviews',
+        align: 'right',
+        type: 'number',
+      },
+      {
+        key: 'www',
+        label: 'www',
+        align: 'right',
+      },
+      {
+        key: 'newsApp',
+        label: 'news-app',
+        align: 'right',
+      },
+      {
+        key: 'digipaperApp',
+        label: 'digipaper-app',
+        align: 'right',
+      },
+    ];
+  });
+
   readonly tableRows = computed<ReportTableRow[]>(() =>
-    this.data
-      .rows()
-      .map((row) => mapTagsRowToReportRow(row, this.base.valueDisplayMode()))
+    this.sourceRows.map((row) => this.mapRow(row))
   );
 
-  readonly tableTotals = computed(() => {
-    const flattened = flattenTagsRows(this.data.rows());
+  readonly tableTotals = computed(() => null);
 
-    const articles = flattened.reduce((sum, row) => sum + row.articles, 0);
-    const pageviews = flattened.reduce((sum, row) => sum + row.pageviews, 0);
-    const www = flattened.reduce((sum, row) => sum + row.www, 0);
-    const newsApp = flattened.reduce((sum, row) => sum + row.newsApp, 0);
-    const digiPaperApp = flattened.reduce(
-      (sum, row) => sum + row.digiPaperApp,
-      0
-    );
+  constructor() {
+    this.base.metricOptions.set(createPrimaryReportMetricOptions());
+    this.base.selectedMetricValue.set('pageviews');
 
-    const distribution = buildDistribution(www, newsApp, digiPaperApp);
+    this.base.breakdownOptions.set(createApplicationsBreakdownOptions());
+    this.base.selectedBreakdownValue.set('applications');
+
+    this.base.tableDisplayMode.set('table');
+    this.base.valueDisplayMode.set('raw');
+  }
+
+  private mapRow(row: TagRowSource): ReportTableRow {
+    return {
+      id: row.id,
+      name: row.name,
+      link: `/content/tags/${row.id}`,
+      values: {
+        articles: row.articles,
+        pageviews: row.pageviews,
+        www: this.displayAppValue(row.www, row.pageviews),
+        newsApp: this.displayAppValue(row.newsApp, row.pageviews),
+        digipaperApp: this.displayAppValue(row.digipaperApp, row.pageviews),
+      },
+      distributionSegments: this.buildDistributionSegments(row),
+    };
+  }
+
+  private displayAppValue(value: number, total: number): number | string {
+    if (this.base.valueDisplayMode() === 'raw') {
+      return value;
+    }
+
+    return this.formatPercent(value, total);
+  }
+
+  private buildDistributionSegments(
+    row: TagRowSource
+  ): ReportTableDistributionSegment[] {
+    return [
+      this.createSegment('www', 'www', row.www, row.pageviews, '#43b2ff'),
+      this.createSegment(
+        'news-app',
+        'news-app',
+        row.newsApp,
+        row.pageviews,
+        '#ef6a59'
+      ),
+      this.createSegment(
+        'digipaper-app',
+        'digipaper',
+        row.digipaperApp,
+        row.pageviews,
+        '#f2c94c'
+      ),
+    ];
+  }
+
+  private createSegment(
+    label: string,
+    shortLabel: string,
+    value: number,
+    total: number,
+    color: string
+  ): ReportTableDistributionSegment {
+    const percentage = total > 0 ? (value / total) * 100 : 0;
 
     return {
-      name: 'Totals',
-      values: {
-        articles,
-        pageviews,
-        www:
-          this.base.valueDisplayMode() === 'raw'
-            ? www
-            : distribution[0].percentageLabel,
-        newsApp:
-          this.base.valueDisplayMode() === 'raw'
-            ? newsApp
-            : distribution[1].percentageLabel,
-        digiPaperApp:
-          this.base.valueDisplayMode() === 'raw'
-            ? digiPaperApp
-            : distribution[2].percentageLabel,
-      },
-      distributionSegments: distribution,
+      label,
+      shortLabel,
+      valueLabel: this.formatNumber(value),
+      percentageLabel: this.formatPercent(value, total),
+      percentage,
+      tooltip: `${label} ${this.formatNumber(value)} (${this.formatPercent(
+        value,
+        total
+      )})`,
+      color,
     };
-  });
+  }
+
+  private formatNumber(value: number): string {
+    return new Intl.NumberFormat('nl-BE').format(value);
+  }
+
+  private formatPercent(value: number, total: number): string {
+    if (total <= 0) {
+      return '0%';
+    }
+
+    return `${Math.round((value / total) * 100)}%`;
+  }
 }
