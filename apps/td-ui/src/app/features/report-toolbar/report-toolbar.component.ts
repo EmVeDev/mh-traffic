@@ -44,16 +44,16 @@ interface ReportToolbarShareOption {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ReportToolbarComponent {
+  readonly analysisTypeLabel = input<string>('');
   readonly leadingLabel = input<string>('');
-  readonly analysisTypeLabel = input('');
   readonly metricOptions = input<ReportToolbarOption[]>([]);
-  readonly selectedMetricValue = input('');
+  readonly selectedMetricValue = input<string>('');
   readonly breakdownOptions = input<ReportToolbarOption[]>([]);
-  readonly selectedBreakdownValue = input('');
-  readonly advancedFiltersOpen = input(false);
+  readonly selectedBreakdownValue = input<string>('');
+  readonly advancedFiltersOpen = input<boolean>(false);
 
   readonly tokens = input<ReportToolbarToken[]>([]);
-  readonly middleLabel = input('');
+  readonly middleLabel = input<string>('');
 
   readonly metricSelected = output<string>();
   readonly breakdownSelected = output<string>();

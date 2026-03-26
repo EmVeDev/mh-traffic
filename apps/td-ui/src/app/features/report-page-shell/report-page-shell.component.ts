@@ -62,10 +62,6 @@ export class ReportPageShellComponent {
 
   readonly advancedFiltersOpen = input.required<boolean>();
 
-  /**
-   * Optional override for the toolbar sentence.
-   * When omitted, the shell derives it from dateRangeValue.mode.
-   */
   readonly toolbarLeadingLabel = input<string>('');
 
   readonly overviewLeftGroups = input.required<ReportOverviewGroup[]>();
