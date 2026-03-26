@@ -1,6 +1,8 @@
 import { Injectable, computed, signal } from '@angular/core';
 import { MhdDateRangeValue } from '@mh-traffic/mh-design';
 
+import { createDefaultSingleDayValue } from '../shared/report-date';
+
 export interface BaseReportFilter {
   site: string;
   dateRange: MhdDateRangeValue;
@@ -12,13 +14,9 @@ export interface BaseReportFilter {
 @Injectable({ providedIn: 'root' })
 export class ReportBaseStore {
   readonly selectedSiteValue = signal<string>('');
-  readonly dateRangeValue = signal<MhdDateRangeValue>({
-    mode: 'single',
-    start: '',
-    end: '',
-    preset: '',
-    label: '',
-  });
+  readonly dateRangeValue = signal<MhdDateRangeValue>(
+    createDefaultSingleDayValue()
+  );
 
   readonly selectedMetricValue = signal<string>('');
   readonly selectedBreakdownValue = signal<string>('');

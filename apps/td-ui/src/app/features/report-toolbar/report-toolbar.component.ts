@@ -63,16 +63,8 @@ export class ReportToolbarComponent {
   protected readonly shareDropdownOpen = signal(false);
 
   protected readonly shareOptions = computed<ReportToolbarShareOption[]>(() => [
-    {
-      value: 'share-report',
-      label: 'Share this report',
-      group: 'share',
-    },
-    {
-      value: 'share-chart-image',
-      label: 'Share chart image',
-      group: 'share',
-    },
+    { value: 'share-report', label: 'Share this report', group: 'share' },
+    { value: 'share-chart-image', label: 'Share chart image', group: 'share' },
     {
       value: 'share-metric-table',
       label: 'Share metric table (xls)',

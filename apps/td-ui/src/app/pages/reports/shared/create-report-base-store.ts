@@ -4,15 +4,16 @@ import {
   MhdMultiSelectOption,
   MhdSelectOption,
 } from '@mh-traffic/mh-design';
+
 import {
   createDefaultSingleDayValue,
   getAnalysisTypeLabelFromDateRange,
   getDateLabelFromDateRange,
 } from './report-date';
 import {
-  createApplicationsBreakdownOptions,
   createDefaultReportSiteOptions,
   createPrimaryReportMetricOptions,
+  createSharedReportBreakdownOptions,
 } from './report-filter-options';
 import {
   createAudienceTypeOptions,
@@ -21,14 +22,20 @@ import {
   createReferrerOptions,
 } from './report-advanced-filter-options';
 
+export interface ReportBaseFilterState {
+  site: string;
+  dateRange: MhdDateRangeValue;
+  dateMode: 'single-day' | 'multi-day';
+  metric: string;
+  breakdown: string;
+}
+
 export function createReportBaseStore() {
-  // 🔹 core filters
+  // core filters
   const siteOptions = signal(createDefaultReportSiteOptions());
   const selectedSiteValue = signal(siteOptions()[0]?.value ?? '');
 
-  const dateRangeValue = signal<MhdDateRangeValue>(
-    createDefaultSingleDayValue()
-  );
+  const dateRangeValue = signal(createDefaultSingleDayValue());
 
   const analysisTypeLabel = computed(() =>
     getAnalysisTypeLabelFromDateRange(dateRangeValue())
@@ -38,13 +45,25 @@ export function createReportBaseStore() {
     getDateLabelFromDateRange(dateRangeValue())
   );
 
+  const toolbarLeadingLabel = computed(() =>
+    dateRangeValue().mode === 'range' ? 'Multi-day' : 'Single-day'
+  );
+
   const metricOptions = signal(createPrimaryReportMetricOptions());
-  const breakdownOptions = signal(createApplicationsBreakdownOptions());
+  const breakdownOptions = signal(createSharedReportBreakdownOptions());
 
   const selectedMetricValue = signal(metricOptions()[0]?.value ?? '');
   const selectedBreakdownValue = signal(breakdownOptions()[0]?.value ?? '');
 
-  // 🔹 advanced filters
+  const baseFilter = computed<ReportBaseFilterState>(() => ({
+    site: selectedSiteValue(),
+    dateRange: dateRangeValue(),
+    dateMode: dateRangeValue().mode === 'range' ? 'multi-day' : 'single-day',
+    metric: selectedMetricValue(),
+    breakdown: selectedBreakdownValue(),
+  }));
+
+  // advanced filters
   const advancedFiltersOpen = signal(false);
 
   const platformOptions = signal<MhdMultiSelectOption[]>(
@@ -62,11 +81,24 @@ export function createReportBaseStore() {
   const audienceTypeValue = signal('all');
   const includeSubscriberOnly = signal(false);
 
-  // 🔹 table modes
+  const advancedFilter = computed(() => ({
+    platforms: selectedPlatforms(),
+    product: productValue(),
+    referrer: referrerValue(),
+    audienceType: audienceTypeValue(),
+    subscriberOnly: includeSubscriberOnly(),
+  }));
+
+  const filterState = computed(() => ({
+    ...baseFilter(),
+    ...advancedFilter(),
+  }));
+
+  // table modes
   const valueDisplayMode = signal<'raw' | 'percentage'>('raw');
   const tableDisplayMode = signal<'chart' | 'table'>('table');
 
-  // 🔹 actions
+  // actions
   function setSelectedSite(value: string) {
     selectedSiteValue.set(value);
   }
@@ -84,7 +116,7 @@ export function createReportBaseStore() {
   }
 
   function toggleAdvancedFilters() {
-    advancedFiltersOpen.update((v) => !v);
+    advancedFiltersOpen.update((value) => !value);
   }
 
   function setSelectedPlatforms(values: string[]) {
@@ -128,28 +160,38 @@ export function createReportBaseStore() {
   }
 
   return {
-    // state
+    // shared state
     siteOptions,
     selectedSiteValue,
     dateRangeValue,
     analysisTypeLabel,
     selectedDateLabel,
+    toolbarLeadingLabel,
+
     metricOptions,
     breakdownOptions,
     selectedMetricValue,
     selectedBreakdownValue,
+
     advancedFiltersOpen,
+
     platformOptions,
     productOptions,
     referrerOptions,
     audienceTypeOptions,
+
     selectedPlatforms,
     productValue,
     referrerValue,
     audienceTypeValue,
     includeSubscriberOnly,
+
     valueDisplayMode,
     tableDisplayMode,
+
+    baseFilter,
+    advancedFilter,
+    filterState,
 
     // actions
     setSelectedSite,
