@@ -1,5 +1,48 @@
 :host {
   display: inline-flex;
+  min-width: 0;
+}
+
+:host(.mhd-select-host--full-width) {
+  display: block;
+  width: 100%;
+}
+
+.mhd-select-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+  width: 100%;
+}
+
+.mhd-select-field__label {
+  margin: 0;
+  color: #4b5563;
+  font-size: 0.95rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.mhd-select-trigger-button {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+
+  &:disabled {
+    cursor: default;
+  }
+}
+
+.mhd-select-trigger-button > * {
+  display: block;
+  width: 100%;
+  min-width: 0;
 }
 
 .mhd-select-panel {
@@ -53,6 +96,7 @@
   align-items: center;
   gap: 14px;
   min-width: 0;
+  flex: 1 1 auto;
 }
 
 .mhd-select-option__content {
@@ -60,6 +104,7 @@
   flex-direction: column;
   gap: 3px;
   min-width: 0;
+  flex: 1 1 auto;
 }
 
 .mhd-select-option__label {
@@ -119,14 +164,12 @@
   }
 }
 
-/* compact header trigger */
 .mhd-select-trigger--compact .mhd-select__leading-badge {
   width: 18px;
   height: 18px;
   font-size: 0.62rem;
 }
 
-/* dropdown options can stay a little larger than the compact trigger */
 .mhd-select-option .mhd-select__leading-badge {
   width: 28px;
   height: 28px;

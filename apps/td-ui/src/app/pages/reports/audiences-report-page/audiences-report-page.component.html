@@ -30,69 +30,68 @@
 >
   <div filters>
     <mhd-filter-panel title="Filters">
-      <div class="advanced-filters-grid">
-        <mhd-filter-field>
-          <mhd-multi-select
-            label="Platform:"
-            panelTitle="Select platform"
-            placeholder="Select platform"
-            searchPlaceholder="Search platform"
-            [options]="store.base.platformOptions()"
-            [selectedValues]="store.base.selectedPlatforms()"
-            (selectedValuesChange)="store.base.setSelectedPlatforms($event)"
-          />
-        </mhd-filter-field>
+      <div class="advanced-filters">
+        <div class="advanced-filters__main">
+          <mhd-filter-field>
+            <mhd-multi-select
+              label="Platform:"
+              panelTitle="Select platform"
+              placeholder="Select platform"
+              searchPlaceholder="Search platform"
+              [fullWidth]="true"
+              [options]="store.base.platformOptions()"
+              [selectedValues]="store.base.selectedPlatforms()"
+              (selectedValuesChange)="store.base.setSelectedPlatforms($event)"
+            />
+          </mhd-filter-field>
 
-        <mhd-filter-field>
-          <mhd-select
-            label="Product:"
-            placeholder="Select product"
-            [searchable]="true"
-            searchPlaceholder="Search product"
-            [options]="store.base.productOptions()"
-            [value]="store.base.productValue()"
-            (valueChange)="store.base.setProductValue($event)"
-          />
-        </mhd-filter-field>
+          <mhd-filter-field>
+            <mhd-select
+              label="Product:"
+              placeholder="Select product"
+              [searchable]="true"
+              searchPlaceholder="Search product"
+              [options]="store.base.productOptions()"
+              [value]="store.base.productValue()"
+              [fullWidth]="true"
+              (valueChange)="store.base.setProductValue($event)"
+            />
+          </mhd-filter-field>
 
-        <mhd-filter-field>
-          <mhd-select
-            label="Referrer:"
-            placeholder="Select referrer"
-            [searchable]="true"
-            searchPlaceholder="Search referrer"
-            [options]="store.base.referrerOptions()"
-            [value]="store.base.referrerValue()"
-            (valueChange)="store.base.setReferrerValue($event)"
-          />
-        </mhd-filter-field>
+          <mhd-filter-field>
+            <mhd-select
+              label="Referrer:"
+              placeholder="Select referrer"
+              [searchable]="true"
+              searchPlaceholder="Search referrer"
+              [options]="store.base.referrerOptions()"
+              [value]="store.base.referrerValue()"
+              [fullWidth]="true"
+              (valueChange)="store.base.setReferrerValue($event)"
+            />
+          </mhd-filter-field>
 
-        <mhd-filter-field>
-          <mhd-select
-            label="Audience type:"
-            placeholder="Select audience type"
-            [searchable]="true"
-            searchPlaceholder="Search audience type"
-            [options]="store.base.audienceTypeOptions()"
-            [value]="store.base.audienceTypeValue()"
-            (valueChange)="store.base.setAudienceTypeValue($event)"
-          />
-        </mhd-filter-field>
+          <mhd-filter-field>
+            <mhd-select
+              label="Audience type:"
+              placeholder="Select audience type"
+              [searchable]="true"
+              searchPlaceholder="Search audience type"
+              [options]="store.base.audienceTypeOptions()"
+              [value]="store.base.audienceTypeValue()"
+              [fullWidth]="true"
+              (valueChange)="store.base.setAudienceTypeValue($event)"
+            />
+          </mhd-filter-field>
 
-        <mhd-filter-field align="center">
-          <mhd-checkbox
-            label="Subscriber only"
-            [checked]="store.base.includeSubscriberOnly()"
-            (checkedChange)="store.base.setIncludeSubscriberOnly($event)"
-          />
-        </mhd-filter-field>
+          <div class="advanced-filters__actions">
+            <mhd-filter-actions
+              (clear)="store.base.clearAdvancedFilters()"
+              (apply)="store.base.applyAdvancedFilters()"
+            />
+          </div>
+        </div>
 
-        <mhd-filter-field [span]="2">
-          <mhd-filter-actions
-            (clear)="store.base.clearAdvancedFilters()"
-            (apply)="store.base.applyAdvancedFilters()"
-          />
-        </mhd-filter-field>
       </div>
     </mhd-filter-panel>
   </div>

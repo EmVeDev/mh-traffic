@@ -36,6 +36,9 @@ export interface MhdMultiSelectOption {
   templateUrl: './mhd-multi-select.component.html',
   styleUrl: './mhd-multi-select.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    '[class.mhd-multi-select-host--full-width]': 'fullWidth()',
+  },
 })
 export class MhdMultiSelectComponent {
   readonly label = input('');
@@ -46,6 +49,7 @@ export class MhdMultiSelectComponent {
   readonly searchPlaceholder = input('Search');
   readonly minPanelWidth = input(360);
   readonly options = input.required<MhdMultiSelectOption[]>();
+  readonly fullWidth = input(false);
 
   readonly selectedValues = model<string[]>([]);
 

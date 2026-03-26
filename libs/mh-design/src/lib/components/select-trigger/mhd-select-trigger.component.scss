@@ -1,9 +1,11 @@
 :host {
-  display: inline-flex;
+  display: block;
+  width: 100%;
   min-width: 0;
 }
 
 .mhd-select-trigger {
+  width: 100%;
   min-width: 0;
   height: 42px;
   padding: 0 14px;
@@ -11,7 +13,7 @@
   border: 1px solid #d9dee5;
   background: #ffffff;
   color: #364152;
-  display: inline-flex;
+  display: flex;
   align-items: center;
   gap: 10px;
   cursor: pointer;
@@ -88,7 +90,7 @@
 
 .mhd-select-trigger__content {
   min-width: 0;
-  display: inline-flex;
+  display: flex;
   align-items: center;
   gap: 8px;
   flex: 1 1 auto;
@@ -102,6 +104,8 @@
   white-space: nowrap;
   font-size: 0.98rem;
   line-height: 1;
+  flex: 1 1 auto;
+  text-align: left;
 }
 
 .mhd-select-trigger__placeholder {

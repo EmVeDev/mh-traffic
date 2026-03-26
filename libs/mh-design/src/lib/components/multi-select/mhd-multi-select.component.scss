@@ -1,6 +1,10 @@
 :host {
   display: block;
 }
+:host(.mhd-multi-select-host--full-width) {
+  display: block;
+  width: 100%;
+}
 
 .mhd-multi-select-panel {
   width: min(440px, calc(100vw - 32px));

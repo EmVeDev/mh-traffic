@@ -17,6 +17,9 @@ export type MhdDropdownPosition = 'bottom-start' | 'bottom-end';
   templateUrl: './mhd-dropdown.component.html',
   styleUrl: './mhd-dropdown.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    '[class.mhd-dropdown-host--full-width]': 'fullWidth()',
+  },
 })
 export class MhdDropdownComponent {
   readonly open = model(false);
@@ -24,6 +27,7 @@ export class MhdDropdownComponent {
   readonly minWidth = input<number | null>(null);
   readonly offsetY = input(8);
   readonly closeOnBackdrop = input(true);
+  readonly fullWidth = input(false);
 
   readonly opened = output<void>();
   readonly closed = output<void>();
@@ -45,6 +49,20 @@ export class MhdDropdownComponent {
           overlayY: 'bottom',
           offsetY: -this.offsetY(),
         },
+        {
+          originX: 'start',
+          originY: 'bottom',
+          overlayX: 'start',
+          overlayY: 'top',
+          offsetY: this.offsetY(),
+        },
+        {
+          originX: 'start',
+          originY: 'top',
+          overlayX: 'start',
+          overlayY: 'bottom',
+          offsetY: -this.offsetY(),
+        },
       ];
     }
 
@@ -60,6 +78,20 @@ export class MhdDropdownComponent {
         originX: 'start',
         originY: 'top',
         overlayX: 'start',
+        overlayY: 'bottom',
+        offsetY: -this.offsetY(),
+      },
+      {
+        originX: 'end',
+        originY: 'bottom',
+        overlayX: 'end',
+        overlayY: 'top',
+        offsetY: this.offsetY(),
+      },
+      {
+        originX: 'end',
+        originY: 'top',
+        overlayX: 'end',
         overlayY: 'bottom',
         offsetY: -this.offsetY(),
       },

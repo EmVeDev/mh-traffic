@@ -7,6 +7,7 @@ import {
   signal,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
+
 import { MhdDropdownComponent } from '../dropdown/mhd-dropdown.component';
 import { MhdInputComponent } from '../input/mhd-input.component';
 import { MhdSelectTriggerComponent } from '../select-trigger/mhd-select-trigger.component';
@@ -31,6 +32,9 @@ export interface MhdSelectOption {
   templateUrl: './mhd-select.component.html',
   styleUrl: './mhd-select.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    '[class.mhd-select-host--full-width]': 'fullWidth()',
+  },
 })
 export class MhdSelectComponent {
   readonly label = input('');
@@ -41,8 +45,9 @@ export class MhdSelectComponent {
   readonly minPanelWidth = input(260);
   readonly searchable = input(false);
   readonly searchPlaceholder = input('Search');
-  readonly options = input.required<MhdSelectOption[]>();
+  readonly fullWidth = input(false);
 
+  readonly options = input.required<MhdSelectOption[]>();
   readonly value = model<string>('');
 
   protected readonly open = signal(false);

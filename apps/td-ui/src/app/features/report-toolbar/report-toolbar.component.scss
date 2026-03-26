@@ -30,11 +30,16 @@
   flex-wrap: wrap;
   min-width: 0;
 
+  &__static,
   &__context,
   &__text {
     color: #3f4854;
     font-size: 1rem;
     line-height: 1.3;
+  }
+
+  &__static {
+    font-weight: 700;
   }
 
   &__context {
@@ -63,6 +68,14 @@
 
     &:hover {
       opacity: 0.85;
+    }
+
+    &--static {
+      cursor: default;
+
+      &:hover {
+        opacity: 1;
+      }
     }
   }
 }
@@ -97,6 +110,16 @@
       color: #e5533d;
       font-weight: 600;
     }
+  }
+}
+
+.share-menu {
+  min-width: 320px;
+
+  &__divider {
+    height: 1px;
+    margin: 8px 0;
+    background: #eceff3;
   }
 }
 

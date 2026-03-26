@@ -16,7 +16,7 @@
       </div>
     } @else {
       <div class="report-sentence">
-        <span class="report-sentence__context">{{ analysisTypeLabel() }}</span>
+        <span class="report-sentence__static">{{ analysisTypeLabel() }}</span>
 
         <mhd-dropdown
           [(open)]="metricDropdownOpen"
@@ -94,14 +94,47 @@
         Filter
       </mhd-button>
 
-      <mhd-button
-        variant="secondary"
-        size="sm"
-        leadingIcon="fa-share-nodes"
-        trailingIcon="fa-chevron-down"
+      <mhd-dropdown
+        [(open)]="shareDropdownOpen"
+        position="bottom-end"
+        [minWidth]="320"
       >
-        Share
-      </mhd-button>
+        <mhd-button
+          mhdDropdownTrigger
+          variant="secondary"
+          size="sm"
+          leadingIcon="fa-share-nodes"
+          trailingIcon="fa-chevron-down"
+        >
+          Share
+        </mhd-button>
+
+        <div mhdDropdownPanel class="inline-menu share-menu">
+          <div class="inline-menu__list" role="menu" aria-label="Share report actions">
+            @for (option of shareGroups().share; track option.value) {
+              <button
+                type="button"
+                class="inline-menu__option"
+                (click)="selectShareAction(option.value)"
+              >
+                {{ option.label }}
+              </button>
+            }
+
+            <div class="share-menu__divider" aria-hidden="true"></div>
+
+            @for (option of shareGroups().download; track option.value) {
+              <button
+                type="button"
+                class="inline-menu__option"
+                (click)="selectShareAction(option.value)"
+              >
+                {{ option.label }}
+              </button>
+            }
+          </div>
+        </div>
+      </mhd-dropdown>
     </div>
   </div>
 </section>
