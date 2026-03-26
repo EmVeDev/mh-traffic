@@ -1,0 +1,26 @@
+:host {
+  display: block;
+}
+
+.mhd-filter-panel {
+  border: 1px solid #e6e6e6;
+  border-radius: 14px;
+  background: #ffffff;
+  overflow: hidden;
+}
+
+.mhd-filter-panel__header {
+  padding: 16px 20px 10px;
+}
+
+.mhd-filter-panel__title {
+  margin: 0;
+  color: #3f4854;
+  font-size: 1.05rem;
+  line-height: 1.2;
+  font-weight: 700;
+}
+
+.mhd-filter-panel__body {
+  padding: 0 20px 20px;
+}

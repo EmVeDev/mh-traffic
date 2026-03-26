@@ -1,0 +1,16 @@
+:host {
+  display: block;
+}
+
+.mhd-filter-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 1200px) {
+  .mhd-filter-actions {
+    justify-content: flex-start;
+  }
+}

@@ -1,0 +1,27 @@
+<button
+  [type]="type()"
+  [disabled]="disabled()"
+  [class]="buttonClasses"
+>
+  @if (leadingIcon()) {
+    <mhd-icon
+      class="mhd-button__icon"
+      [icon]="leadingIcon()"
+      [iconSet]="iconSet()"
+      size="text-sm"
+    />
+  }
+
+  <span class="mhd-button__label">
+    <ng-content />
+  </span>
+
+  @if (trailingIcon()) {
+    <mhd-icon
+      class="mhd-button__icon"
+      [icon]="trailingIcon()"
+      [iconSet]="iconSet()"
+      size="text-sm"
+    />
+  }
+</button>

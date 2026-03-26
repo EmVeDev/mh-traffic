@@ -1,0 +1,87 @@
+<mhd-dropdown
+  [(open)]="open"
+  position="bottom-start"
+  [minWidth]="minPanelWidth()"
+>
+  <div mhdDropdownTrigger>
+    <mhd-chip-field
+      [label]="label()"
+      [placeholder]="placeholder()"
+      [disabled]="disabled()"
+      [chips]="selectedChips()"
+      (fieldClick)="toggleOpen()"
+      (chipRemove)="removeValue($event)"
+    />
+  </div>
+
+  <div mhdDropdownPanel class="mhd-multi-select-panel">
+    <div class="mhd-multi-select-panel__header">
+      <div class="mhd-multi-select-panel__title-wrap">
+        <h3 class="mhd-multi-select-panel__title">{{ panelTitle() }}</h3>
+        <span class="mhd-multi-select-panel__count">
+          {{ selectedValues().length }} selected
+        </span>
+      </div>
+
+      @if (selectedValues().length) {
+        <mhd-button variant="ghost" size="sm" (click)="clearAll()">
+          Clear
+        </mhd-button>
+      }
+    </div>
+
+    @if (searchable()) {
+      <div class="mhd-multi-select-panel__search">
+        <mhd-input
+          label=""
+          type="search"
+          [placeholder]="searchPlaceholder()"
+          [value]="searchValue()"
+          leadingIcon="fa-magnifying-glass"
+          (valueChange)="handleSearchChange($event)"
+        />
+      </div>
+    }
+
+    <div class="mhd-multi-select-panel__options" role="listbox" aria-multiselectable="true">
+      @for (option of filteredOptions(); track option.value) {
+        <button
+          type="button"
+          class="mhd-multi-select-option"
+          [class.mhd-multi-select-option--selected]="isSelected(option.value)"
+          (click)="toggleValue(option.value)"
+        >
+          <span class="mhd-multi-select-option__content">
+            <span class="mhd-multi-select-option__label">{{ option.label }}</span>
+
+            @if (option.description) {
+              <span class="mhd-multi-select-option__description">
+                {{ option.description }}
+              </span>
+            }
+          </span>
+
+          <span
+            class="mhd-multi-select-option__checkbox"
+            [class.mhd-multi-select-option__checkbox--selected]="isSelected(option.value)"
+            aria-hidden="true"
+          >
+            @if (isSelected(option.value)) {
+              <mhd-icon icon="fa-check" iconSet="fas" size="text-xs" />
+            }
+          </span>
+        </button>
+      } @empty {
+        <div class="mhd-multi-select-panel__empty">
+          No matching options
+        </div>
+      }
+    </div>
+
+    <div class="mhd-multi-select-panel__footer">
+      <mhd-button variant="ghost" size="sm" (click)="close()">
+        Done
+      </mhd-button>
+    </div>
+  </div>
+</mhd-dropdown>

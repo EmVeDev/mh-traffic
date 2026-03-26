@@ -1,32 +1,97 @@
-<section class="report-page">
-  <td-report-subpage-header
-    [backLabel]="'Tags report'"
-    [backRoute]="'/content/tags'"
-    [title]="pageTitle()"
-    [siteLabel]="siteLabel()"
-    [analysisTypeLabel]="analysisTypeLabel()"
-    [selectedDateLabel]="selectedDateLabel()"
-  />
+<td-report-page-shell
+  [title]="store.title"
+  [overviewTitle]="store.overviewTitle"
+  [siteOptions]="store.base.siteOptions()"
+  [selectedSiteValue]="store.base.selectedSiteValue()"
+  [dateRangeValue]="store.base.dateRangeValue()"
+  [analysisTypeLabel]="store.base.analysisTypeLabel()"
+  [selectedDateLabel]="store.base.selectedDateLabel()"
+  [metricOptions]="store.base.metricOptions()"
+  [selectedMetricValue]="store.base.selectedMetricValue()"
+  [breakdownOptions]="store.base.breakdownOptions()"
+  [selectedBreakdownValue]="store.base.selectedBreakdownValue()"
+  [advancedFiltersOpen]="store.base.advancedFiltersOpen()"
+  [overviewLeftGroups]="store.overviewLeftGroups()"
+  [overviewRightGroups]="store.overviewRightGroups()"
+  [columns]="store.tableColumns()"
+  [rows]="store.tableRows()"
+  [totals]="store.tableTotals()"
+  [tableDisplayMode]="store.base.tableDisplayMode()"
+  [valueDisplayMode]="store.base.valueDisplayMode()"
+  (siteSelected)="store.base.setSelectedSite($event)"
+  (dateRangeValueChange)="store.base.setDateRangeValue($event)"
+  (metricSelected)="store.base.setSelectedMetric($event)"
+  (breakdownSelected)="store.base.setSelectedBreakdown($event)"
+  (filterToggle)="store.base.toggleAdvancedFilters()"
+  (tableModeChange)="store.base.setTableDisplayMode($event)"
+  (valueModeChange)="store.base.setValueDisplayMode($event)"
+>
+  <div filters>
+    <mhd-filter-panel title="Filters">
+      <div class="advanced-filters-grid">
+        <mhd-filter-field>
+          <mhd-multi-select
+            label="Platform:"
+            panelTitle="Select platform"
+            placeholder="Select platform"
+            searchPlaceholder="Search platform"
+            [options]="store.base.platformOptions()"
+            [selectedValues]="store.base.selectedPlatforms()"
+            (selectedValuesChange)="store.base.setSelectedPlatforms($event)"
+          />
+        </mhd-filter-field>
 
-  <div class="report-page__content">
-    <td-report-toolbar
-      [tokens]="toolbarTokens()"
-      [middleLabel]="'performance by'"
-    />
+        <mhd-filter-field>
+          <mhd-select
+            label="Product:"
+            placeholder="Select product"
+            [searchable]="true"
+            searchPlaceholder="Search product"
+            [options]="store.base.productOptions()"
+            [value]="store.base.productValue()"
+            (valueChange)="store.base.setProductValue($event)"
+          />
+        </mhd-filter-field>
 
-    <td-report-overview
-      [title]="'How articles in <strong>' + pageTitle() + '</strong> generates <strong>pageviews</strong>'"
-      [leftGroups]="overviewLeftGroups()"
-      [rightGroups]="overviewRightGroups()"
-    />
+        <mhd-filter-field>
+          <mhd-select
+            label="Referrer:"
+            placeholder="Select referrer"
+            [searchable]="true"
+            searchPlaceholder="Search referrer"
+            [options]="store.base.referrerOptions()"
+            [value]="store.base.referrerValue()"
+            (valueChange)="store.base.setReferrerValue($event)"
+          />
+        </mhd-filter-field>
 
-    <td-report-table
-      [title]="'How do <strong>articles</strong> in <strong>' + pageTitle() + '</strong> differ when broken down by <strong>main metrics</strong>'"
-      [firstColumnHeader]="'Top articles'"
-      [columns]="tableColumns()"
-      [rows]="tableRows()"
-      [totals]="tableTotals()"
-      [tableDisplayMode]="'table'"
-    />
+        <mhd-filter-field>
+          <mhd-select
+            label="Audience type:"
+            placeholder="Select audience type"
+            [searchable]="true"
+            searchPlaceholder="Search audience type"
+            [options]="store.base.audienceTypeOptions()"
+            [value]="store.base.audienceTypeValue()"
+            (valueChange)="store.base.setAudienceTypeValue($event)"
+          />
+        </mhd-filter-field>
+
+        <mhd-filter-field align="center">
+          <mhd-checkbox
+            label="Subscriber only"
+            [checked]="store.base.includeSubscriberOnly()"
+            (checkedChange)="store.base.setIncludeSubscriberOnly($event)"
+          />
+        </mhd-filter-field>
+
+        <mhd-filter-field [span]="2">
+          <mhd-filter-actions
+            (clear)="store.base.clearAdvancedFilters()"
+            (apply)="store.base.applyAdvancedFilters()"
+          />
+        </mhd-filter-field>
+      </div>
+    </mhd-filter-panel>
   </div>
-</section>
+</td-report-page-shell>

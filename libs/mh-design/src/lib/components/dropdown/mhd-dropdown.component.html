@@ -1,0 +1,21 @@
+<div class="mhd-dropdown" cdkOverlayOrigin #origin="cdkOverlayOrigin">
+  <div class="mhd-dropdown__trigger">
+    <ng-content select="[mhdDropdownTrigger]" />
+  </div>
+</div>
+
+<ng-template
+  cdkConnectedOverlay
+  [cdkConnectedOverlayOrigin]="origin"
+  [cdkConnectedOverlayOpen]="open()"
+  [cdkConnectedOverlayPositions]="positions"
+  [cdkConnectedOverlayHasBackdrop]="true"
+  cdkConnectedOverlayBackdropClass="mhd-dropdown-backdrop"
+  (attach)="handleOpen()"
+  (detach)="handleDetach()"
+  (backdropClick)="handleBackdropClick()"
+>
+  <div class="mhd-dropdown__panel" [style.min-width.px]="minWidth()">
+    <ng-content select="[mhdDropdownPanel]" />
+  </div>
+</ng-template>

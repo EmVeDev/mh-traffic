@@ -1,0 +1,16 @@
+:host {
+  display: inline-flex;
+}
+
+.mhd-dropdown,
+.mhd-dropdown__trigger {
+  display: inline-flex;
+}
+
+.mhd-dropdown__panel {
+  border: 1px solid #e2e7ec;
+  border-radius: 18px;
+  background: #ffffff;
+  box-shadow: 0 14px 40px rgb(15 23 42 / 0.12);
+  overflow: hidden;
+}

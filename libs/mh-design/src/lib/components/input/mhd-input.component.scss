@@ -1,0 +1,79 @@
+:host {
+  display: block;
+}
+
+.mhd-input {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  &--disabled {
+    opacity: 0.6;
+  }
+}
+
+.mhd-input__label {
+  color: #4d5662;
+  font-size: 0.95rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.mhd-input__field-wrap {
+  min-height: 60px;
+  border: 1px solid #d8dde3;
+  border-radius: 10px;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 16px;
+  transition:
+    border-color 140ms ease,
+    box-shadow 140ms ease;
+
+  &:focus-within {
+    border-color: #e5533d;
+    box-shadow: 0 0 0 3px rgb(229 83 61 / 0.12);
+  }
+
+  &--error {
+    border-color: #d9533d;
+  }
+}
+
+.mhd-input__field {
+  flex: 1 1 auto;
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: #4c5561;
+  font: inherit;
+  font-size: 1rem;
+  line-height: 1.2;
+
+  &::placeholder {
+    color: #aab2bd;
+  }
+}
+
+.mhd-input__icon {
+  display: inline-flex;
+  align-items: center;
+  color: #6b7380;
+}
+
+.mhd-input__hint,
+.mhd-input__error {
+  font-size: 0.85rem;
+  line-height: 1.2;
+}
+
+.mhd-input__hint {
+  color: #7b8592;
+}
+
+.mhd-input__error {
+  color: #d9533d;
+}

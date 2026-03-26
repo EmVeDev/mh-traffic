@@ -4,19 +4,49 @@
   </div>
 
   <div class="report-page-header__context">
-    <button type="button" class="context-pill">
-      <span class="context-pill__brand">N</span>
-      <span>{{ siteLabel() }}</span>
-      <mhd-icon icon="fa-chevron-down" iconSet="fas" size="text-xs"></mhd-icon>
-    </button>
+    @if (usesLegacySiteLabel()) {
+      @if (resolvedSiteLabel()) {
+        <mhd-select-trigger
+          [label]="resolvedSiteLabel()"
+          [compact]="false"
+          [chevron]="false"
+          [disabled]="true"
+          tone="accent"
+        />
+      }
+    } @else {
+      <mhd-select
+        placeholder="Select site"
+        tone="accent"
+        [options]="siteSelectOptions()"
+        [value]="selectedSiteValue()"
+        (valueChange)="handleSiteValueChange($event)"
+      />
+    }
 
-    <button type="button" class="context-pill context-pill--muted">
-      <span>{{ analysisTypeLabel() }}</span>
-    </button>
+    @if (showAnalysisLabel()) {
+      <mhd-select-trigger
+        [label]="resolvedAnalysisLabel()"
+        [compact]="false"
+        [chevron]="false"
+        [disabled]="true"
+      />
+    }
 
-    <button type="button" class="context-pill">
-      <span>{{ selectedDateLabel() }}</span>
-      <mhd-icon icon="fa-chevron-down" iconSet="fas" size="text-xs"></mhd-icon>
-    </button>
+    @if (showDateLabel()) {
+      @if (dateRangeValue()) {
+        <mhd-date-range-select
+          [value]="dateRangeValue()!"
+          (valueChange)="handleDateRangeValueChange($event)"
+        />
+      } @else {
+        <mhd-select-trigger
+          [label]="resolvedDateLabel()"
+          [compact]="false"
+          [chevron]="true"
+          [disabled]="true"
+        />
+      }
+    }
   </div>
 </header>

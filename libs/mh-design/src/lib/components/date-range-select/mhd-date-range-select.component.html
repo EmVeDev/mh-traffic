@@ -1,0 +1,106 @@
+<mhd-dropdown
+  [(open)]="open"
+  position="bottom-start"
+  [minWidth]="minPanelWidth()"
+>
+  <div mhdDropdownTrigger>
+    <span (click)="openPanel()">
+      <mhd-select-trigger
+        [label]="displayLabel()"
+        [placeholder]="placeholder()"
+        [open]="open()"
+        [active]="open()"
+        [disabled]="disabled()"
+      />
+    </span>
+  </div>
+
+  <div mhdDropdownPanel class="mhd-date-range-panel">
+    <div class="mhd-date-range-panel__sidebar">
+      @for (preset of presets(); track preset.id) {
+        <button
+          type="button"
+          class="mhd-date-range-panel__preset"
+          [class.mhd-date-range-panel__preset--active]="draftPreset() === preset.id"
+          (click)="applyPreset(preset.id)"
+        >
+          {{ preset.label }}
+        </button>
+      }
+    </div>
+
+    <div class="mhd-date-range-panel__content">
+      <div class="mhd-date-range-panel__mode-toggle">
+        <button
+          type="button"
+          class="mhd-date-range-panel__mode-btn"
+          [class.mhd-date-range-panel__mode-btn--active]="draftMode() === 'single'"
+          (click)="setDraftMode('single')"
+        >
+          Single day
+        </button>
+
+        <button
+          type="button"
+          class="mhd-date-range-panel__mode-btn"
+          [class.mhd-date-range-panel__mode-btn--active]="draftMode() === 'range'"
+          (click)="setDraftMode('range')"
+        >
+          Multiple days
+        </button>
+      </div>
+
+      <div class="mhd-date-range-panel__fields">
+        <div class="mhd-date-range-panel__field">
+          <label class="mhd-date-range-panel__label" for="mhd-date-range-start">Start date</label>
+          <input
+            id="mhd-date-range-start"
+            class="mhd-date-range-panel__native-date"
+            type="date"
+            [value]="draftStart()"
+            (input)="handleStartInput($event)"
+          />
+        </div>
+
+        @if (draftMode() === 'range') {
+          <div class="mhd-date-range-panel__field">
+            <label class="mhd-date-range-panel__label" for="mhd-date-range-end">End date</label>
+            <input
+              id="mhd-date-range-end"
+              class="mhd-date-range-panel__native-date"
+              type="date"
+              [value]="draftEnd()"
+              (input)="handleEndInput($event)"
+            />
+          </div>
+        }
+      </div>
+
+      <div class="mhd-date-range-panel__preview">
+        <span class="mhd-date-range-panel__preview-label">Selection</span>
+        <span class="mhd-date-range-panel__preview-value">
+          {{
+            draftMode() === 'single'
+              ? (draftStart() || placeholder())
+              : ((draftStart() && draftEnd()) ? (draftStart() + ' → ' + draftEnd()) : placeholder())
+          }}
+        </span>
+      </div>
+
+      <div class="mhd-date-range-panel__actions">
+        <mhd-button variant="secondary" size="sm" (click)="closePanel()">
+          Cancel
+        </mhd-button>
+
+        <mhd-button
+          variant="primary"
+          size="sm"
+          [disabled]="!canApply()"
+          (click)="applyDraft()"
+        >
+          Apply
+        </mhd-button>
+      </div>
+    </div>
+  </div>
+</mhd-dropdown>

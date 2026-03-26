@@ -1,0 +1,37 @@
+
+:host {
+  display: block;
+  min-width: 0;
+}
+
+:host(.mhd-filter-field-host--span-1) {
+  grid-column: span 1;
+}
+
+:host(.mhd-filter-field-host--span-2) {
+  grid-column: span 2;
+}
+
+:host(.mhd-filter-field-host--span-3) {
+  grid-column: span 3;
+}
+
+:host(.mhd-filter-field-host--span-4) {
+  grid-column: span 4;
+}
+
+:host(.mhd-filter-field-host--align-start) {
+  align-self: start;
+}
+
+:host(.mhd-filter-field-host--align-center) {
+  align-self: center;
+}
+
+:host(.mhd-filter-field-host--align-end) {
+  align-self: end;
+}
+
+.mhd-filter-field {
+  min-width: 0;
+}

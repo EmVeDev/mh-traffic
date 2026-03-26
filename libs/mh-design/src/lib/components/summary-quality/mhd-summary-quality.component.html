@@ -1,0 +1,24 @@
+<article class="mhd-summary-quality">
+  <div class="mhd-summary-quality__label">
+    <span>{{ label() }}</span>
+    <mhd-icon icon="fa-circle-info" iconSet="fas" size="text-xs"></mhd-icon>
+  </div>
+
+  <div class="mhd-summary-quality__rows">
+    @for (item of items(); track item.label) {
+      <div class="mhd-summary-quality__row">
+        <div class="mhd-summary-quality__top">
+          <span>{{ item.label }}</span>
+          <span>{{ item.value }}</span>
+        </div>
+
+        <div class="mhd-summary-quality__bar">
+          <span
+            [class]="fillClass(item.tone)"
+            [style.width.%]="item.fillPercent"
+          ></span>
+        </div>
+      </div>
+    }
+  </div>
+</article>

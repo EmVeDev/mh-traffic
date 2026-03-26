@@ -1,0 +1,31 @@
+<label class="mhd-chip-field" [class.mhd-chip-field--disabled]="disabled()">
+  @if (label()) {
+    <span class="mhd-chip-field__label">{{ label() }}</span>
+  }
+
+  <button
+    type="button"
+    class="mhd-chip-field__surface"
+    [disabled]="disabled()"
+    (click)="handleFieldClick()"
+  >
+    @if (chips().length) {
+      <span class="mhd-chip-field__chips">
+        @for (chip of chips(); track chip.value) {
+          <span class="mhd-chip-field__chip">
+            <span class="mhd-chip-field__chip-label">{{ chip.label }}</span>
+
+            <span
+              class="mhd-chip-field__chip-remove"
+              (click)="removeChip(chip.value, $event)"
+            >
+              <mhd-icon icon="fa-xmark" iconSet="fas" size="text-xs" />
+            </span>
+          </span>
+        }
+      </span>
+    } @else {
+      <span class="mhd-chip-field__placeholder">{{ placeholder() }}</span>
+    }
+  </button>
+</label>

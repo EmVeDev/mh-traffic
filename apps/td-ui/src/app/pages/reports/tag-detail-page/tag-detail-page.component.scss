@@ -2,14 +2,21 @@
   display: block;
 }
 
-.report-page {
-  min-height: 100%;
-  padding: 10px 14px 20px;
-  background: var(--mhd-color-white, #fff);
+.advanced-filters-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px 20px;
+  align-items: end;
+}
 
-  &__content {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
+@media (max-width: 1200px) {
+  .advanced-filters-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 720px) {
+  .advanced-filters-grid {
+    grid-template-columns: 1fr;
   }
 }

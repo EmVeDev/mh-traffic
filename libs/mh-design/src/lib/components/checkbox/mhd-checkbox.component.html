@@ -1,0 +1,25 @@
+<label class="mhd-checkbox" [class.mhd-checkbox--disabled]="disabled()">
+  <input
+    class="mhd-checkbox__native"
+    type="checkbox"
+    [checked]="checked()"
+    [disabled]="disabled()"
+    (change)="toggle()"
+  />
+
+  <span class="mhd-checkbox__box" [class.mhd-checkbox__box--checked]="checked()">
+    @if (checked()) {
+      <mhd-icon icon="fa-check" iconSet="fas" size="text-xs" />
+    }
+  </span>
+
+  <span class="mhd-checkbox__content">
+    @if (label()) {
+      <span class="mhd-checkbox__label">{{ label() }}</span>
+    }
+
+    @if (description()) {
+      <span class="mhd-checkbox__description">{{ description() }}</span>
+    }
+  </span>
+</label>

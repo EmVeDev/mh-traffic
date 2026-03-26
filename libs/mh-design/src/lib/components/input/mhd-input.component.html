@@ -1,0 +1,40 @@
+<label class="mhd-input" [class.mhd-input--disabled]="disabled()">
+  @if (label()) {
+    <span class="mhd-input__label">{{ label() }}</span>
+  }
+
+  <span class="mhd-input__field-wrap" [class.mhd-input__field-wrap--error]="!!error()">
+    @if (leadingIcon()) {
+      <span class="mhd-input__icon">
+        <mhd-icon [icon]="leadingIcon()" iconSet="fas" size="text-sm" />
+      </span>
+    }
+
+    <input
+      class="mhd-input__field"
+      [id]="effectiveId()"
+      [type]="type()"
+      [value]="value()"
+      [placeholder]="placeholder()"
+      [disabled]="disabled()"
+      [readOnly]="readonly()"
+      [attr.aria-describedby]="describedBy() || null"
+      [attr.aria-invalid]="!!error()"
+      (input)="handleInput($event)"
+    />
+
+    @if (trailingIcon()) {
+      <span class="mhd-input__icon">
+        <mhd-icon [icon]="trailingIcon()" iconSet="fas" size="text-sm" />
+      </span>
+    }
+  </span>
+
+  @if (hint()) {
+    <span class="mhd-input__hint" [id]="effectiveId() + '-hint'">{{ hint() }}</span>
+  }
+
+  @if (error()) {
+    <span class="mhd-input__error" [id]="effectiveId() + '-error'">{{ error() }}</span>
+  }
+</label>

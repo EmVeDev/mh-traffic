@@ -1,0 +1,122 @@
+<section class="report-table">
+  <header class="report-table__header">
+    <h3 class="report-table__title">{{ title() }}</h3>
+  </header>
+
+  <div class="report-table__wrapper">
+    <table class="report-table__table">
+      <thead>
+      <tr>
+        <th class="report-table__th report-table__th--first">
+          {{ resolvedFirstColumn().label }}
+        </th>
+
+        @for (column of displayColumns(); track column.key) {
+          <th
+            class="report-table__th"
+            [class.report-table__th--right]="isRightAligned(column)"
+          >
+              <span class="report-table__th-content">
+                <span>{{ column.label }}</span>
+
+                @if (column.tooltip) {
+                  <span class="report-table__th-tooltip" [attr.title]="column.tooltip">
+                    <mhd-icon icon="fa-circle-info" iconSet="fas" size="text-xs" />
+                  </span>
+                }
+              </span>
+          </th>
+        }
+
+        @if (showDistributionColumn()) {
+          <th class="report-table__th report-table__th--right">
+            {{ distributionColumnLabel() }}
+          </th>
+        }
+      </tr>
+      </thead>
+
+      <tbody>
+        @for (item of visibleRows(); track trackByVisibleRow($index, item)) {
+          <tr class="report-table__row" [class.report-table__row--child]="item.level > 0">
+            <td class="report-table__td report-table__td--first">
+              <div
+                class="report-table__name-wrap"
+                [style.padding-left]="rowIndent(item.level)"
+              >
+                @if (hasChildren(item.row)) {
+                  <button
+                    type="button"
+                    class="report-table__expander"
+                    [class.report-table__expander--expanded]="isExpanded(item.row)"
+                    [attr.aria-expanded]="isExpanded(item.row)"
+                    (click)="toggleRow(item.row)"
+                  >
+                    <mhd-icon icon="fa-chevron-right" iconSet="fas" size="text-xs" />
+                  </button>
+                } @else {
+                  <span class="report-table__expander-spacer"></span>
+                }
+
+                @if (item.row.link) {
+                  <a [routerLink]="item.row.link" class="report-table__name-link">
+                    {{ item.row.name }}
+                  </a>
+                } @else {
+                  <span>{{ item.row.name }}</span>
+                }
+              </div>
+            </td>
+
+            @for (column of displayColumns(); track column.key) {
+              <td
+                class="report-table__td"
+                [class.report-table__td--right]="isRightAligned(column)"
+              >
+                {{ formatValue(column, item.row.values[column.key]) }}
+              </td>
+            }
+
+            @if (showDistributionColumn()) {
+              <td class="report-table__td report-table__td--distribution">
+                <div class="distribution-bar">
+                  @for (segment of item.row.distributionSegments ?? []; track segment.label) {
+                    <div
+                      class="distribution-segment"
+                      [class]="segment.colorClass"
+                      [style.width.%]="segment.percentage"
+                      [title]="segment.tooltip"
+                    ></div>
+                  }
+                </div>
+              </td>
+            }
+          </tr>
+        }
+      </tbody>
+
+      @if (totals()) {
+        <tfoot>
+        <tr class="report-table__totals">
+          <td class="report-table__td report-table__td--first">
+            <strong>{{ totals().name }}</strong>
+          </td>
+
+          @for (column of displayColumns(); track column.key) {
+            <td
+              class="report-table__td"
+              [class.report-table__td--right]="isRightAligned(column)"
+            >
+              <strong>{{ formatValue(column, totals().values[column.key]) }}</strong>
+            </td>
+          }
+
+          @if (showDistributionColumn()) {
+            <td class="report-table__td"></td>
+          }
+        </tr>
+        </tfoot>
+      }
+    </table>
+  </div>
+</section>

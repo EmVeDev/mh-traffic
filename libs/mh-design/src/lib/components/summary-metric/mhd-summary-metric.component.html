@@ -1,0 +1,17 @@
+<article class="mhd-summary-metric">
+  <div class="mhd-summary-metric__label">
+    <span>{{ label() }}</span>
+
+    @if (info()) {
+      <mhd-icon icon="fa-circle-info" iconSet="fas" size="text-xs"></mhd-icon>
+    }
+  </div>
+
+  <div class="mhd-summary-metric__value-row">
+    <span class="mhd-summary-metric__value">{{ displayValue() }}</span>
+
+    @if (delta()) {
+      <span [class]="deltaClass()">{{ delta() }}</span>
+    }
+  </div>
+</article>

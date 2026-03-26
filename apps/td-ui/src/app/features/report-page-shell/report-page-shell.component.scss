@@ -1,0 +1,46 @@
+:host {
+  display: block;
+}
+
+.report-page-shell__table-controls {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.segmented-toggle {
+  display: inline-flex;
+  align-items: stretch;
+  padding: 2px;
+  gap: 0;
+  background: #ededed;
+  border-radius: 8px;
+
+  &__option {
+    appearance: none;
+    min-width: 54px;
+    height: 32px;
+    padding: 0 12px;
+    border: 0;
+    background: transparent;
+    color: #2f3742;
+    font: inherit;
+    font-size: 0.92rem;
+    display: inline-grid;
+    place-items: center;
+    border-radius: 6px;
+    cursor: pointer;
+
+    &:hover {
+      background: rgb(255 255 255 / 0.5);
+    }
+
+    &--active {
+      background: #ffffff;
+      color: #e94f37;
+      box-shadow: 0 1px 2px rgb(0 0 0 / 0.08);
+    }
+  }
+}

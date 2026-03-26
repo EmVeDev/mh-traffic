@@ -1,0 +1,81 @@
+:host {
+  display: block;
+}
+
+.mhd-chip-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  &--disabled {
+    opacity: 0.55;
+  }
+}
+
+.mhd-chip-field__label {
+  color: #4d5662;
+  font-size: 0.95rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.mhd-chip-field__surface {
+  width: 100%;
+  min-height: 60px;
+  padding: 8px;
+  border: 1px solid #d8dde3;
+  border-radius: 10px;
+  background: #ffffff;
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition:
+    border-color 140ms ease,
+    box-shadow 140ms ease;
+
+  &:hover {
+    background: #fafafa;
+  }
+
+  &:focus-visible {
+    outline: 0;
+    border-color: #e5533d;
+    box-shadow: 0 0 0 3px rgb(229 83 61 / 0.12);
+  }
+}
+
+.mhd-chip-field__chips {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.mhd-chip-field__chip {
+  min-height: 36px;
+  padding: 0 10px;
+  border-radius: 8px;
+  background: #eef1f4;
+  color: #4c5561;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.mhd-chip-field__chip-label {
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.mhd-chip-field__chip-remove {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #8c95a1;
+}
+
+.mhd-chip-field__placeholder {
+  color: #aab2bd;
+  font-size: 1rem;
+}

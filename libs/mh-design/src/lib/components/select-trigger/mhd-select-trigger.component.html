@@ -1,0 +1,30 @@
+<button
+  type="button"
+  class="mhd-select-trigger__button"
+  [class]="triggerClasses"
+  [disabled]="disabled()"
+>
+  <span class="mhd-select-trigger__start">
+    <ng-content select="[mhdSelectTriggerStart]" />
+  </span>
+
+  <span
+    class="mhd-select-trigger__label"
+    [class.mhd-select-trigger__label--placeholder]="isPlaceholder"
+  >
+    {{ displayText }}
+  </span>
+
+  <span class="mhd-select-trigger__end">
+    <ng-content select="[mhdSelectTriggerEnd]" />
+
+    @if (chevron()) {
+      <mhd-icon
+        class="mhd-select-trigger__chevron"
+        icon="fa-chevron-down"
+        iconSet="fas"
+        size="text-xs"
+      />
+    }
+  </span>
+</button>

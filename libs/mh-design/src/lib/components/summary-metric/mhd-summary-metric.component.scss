@@ -1,0 +1,51 @@
+:host {
+  display: block;
+}
+
+.mhd-summary-metric {
+  padding: 16px 18px;
+  border-bottom: 1px solid #e6e6e6;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.mhd-summary-metric__label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #5f6975;
+  font-size: 0.78rem;
+  font-weight: 700;
+  line-height: 1.2;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.mhd-summary-metric__value-row {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.mhd-summary-metric__value {
+  color: #e5533d;
+  font-size: 1.05rem;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.mhd-summary-metric__delta {
+  font-size: 0.9rem;
+  font-weight: 700;
+  line-height: 1.1;
+
+  &--positive {
+    color: #179454;
+  }
+
+  &--negative {
+    color: #e5533d;
+  }
+}

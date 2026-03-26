@@ -1,0 +1,83 @@
+<td-report-page-header
+  [title]="title()"
+  [sites]="siteOptions()"
+  [selectedSiteValue]="selectedSiteValue()"
+  [analysisTypeLabel]="analysisTypeLabel()"
+  [selectedDateLabel]="selectedDateLabel()"
+  [dateRangeValue]="dateRangeValue()"
+  (siteSelected)="onSiteSelected($event)"
+  (dateRangeValueChange)="onDateRangeValueChange($event)"
+/>
+
+<td-report-toolbar
+  [analysisTypeLabel]="analysisTypeLabel()"
+  [metricOptions]="metricOptions()"
+  [selectedMetricValue]="selectedMetricValue()"
+  [breakdownOptions]="breakdownOptions()"
+  [selectedBreakdownValue]="selectedBreakdownValue()"
+  [advancedFiltersOpen]="advancedFiltersOpen()"
+  (metricSelected)="onMetricSelected($event)"
+  (breakdownSelected)="onBreakdownSelected($event)"
+  (filterToggle)="onFilterToggle()"
+/>
+
+@if (advancedFiltersOpen()) {
+  <ng-content select="[filters]" />
+}
+
+<mhd-report-overview
+  [title]="overviewTitle()"
+  [leftGroups]="overviewLeftGroups()"
+  [rightGroups]="overviewRightGroups()"
+/>
+
+<section class="report-page-shell__table-controls">
+  <div class="segmented-toggle" aria-label="Table display mode">
+    <button
+      type="button"
+      class="segmented-toggle__option"
+      [class.segmented-toggle__option--active]="tableDisplayMode() === 'table'"
+      (click)="setTableMode('table')"
+    >
+      Table
+    </button>
+
+    <button
+      type="button"
+      class="segmented-toggle__option"
+      [class.segmented-toggle__option--active]="tableDisplayMode() === 'chart'"
+      (click)="setTableMode('chart')"
+    >
+      Chart
+    </button>
+  </div>
+
+  <div class="segmented-toggle" aria-label="Value display mode">
+    <button
+      type="button"
+      class="segmented-toggle__option"
+      [class.segmented-toggle__option--active]="valueDisplayMode() === 'raw'"
+      (click)="setValueMode('raw')"
+    >
+      Raw
+    </button>
+
+    <button
+      type="button"
+      class="segmented-toggle__option"
+      [class.segmented-toggle__option--active]="valueDisplayMode() === 'percentage'"
+      (click)="setValueMode('percentage')"
+    >
+      %
+    </button>
+  </div>
+</section>
+
+<mhd-report-table
+  [title]="overviewTitle()"
+  [columns]="columns()"
+  [rows]="rows()"
+  [totals]="totals()"
+  [tableDisplayMode]="tableDisplayMode()"
+  [valueDisplayMode]="valueDisplayMode()"
+/>

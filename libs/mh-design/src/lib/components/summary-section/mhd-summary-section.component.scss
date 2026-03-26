@@ -1,0 +1,32 @@
+:host {
+  display: block;
+}
+
+.mhd-summary-section {
+  display: block;
+}
+
+.mhd-summary-section__header {
+  min-height: 58px;
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #e6e6e6;
+  background: #f8f8f8;
+}
+
+.mhd-summary-section__title {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  color: #303843;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.mhd-summary-section__body {
+  display: flex;
+  flex-direction: column;
+}

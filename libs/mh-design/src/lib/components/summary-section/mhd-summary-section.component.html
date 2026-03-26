@@ -1,0 +1,12 @@
+<section class="mhd-summary-section">
+  <header class="mhd-summary-section__header">
+    <h3 class="mhd-summary-section__title">
+      <mhd-icon [icon]="icon()" iconSet="fas" size="text-lg"></mhd-icon>
+      <span>{{ title() }}</span>
+    </h3>
+  </header>
+
+  <div class="mhd-summary-section__body">
+    <ng-content />
+  </div>
+</section>
