@@ -23,6 +23,7 @@ import { TagsReportPageStore } from './tags-report-page.store';
   ],
   providers: [TagsReportPageDataStore, TagsReportPageStore],
   templateUrl: './tags-report-page.component.html',
+  styleUrl: './tags-report-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TagsReportPageComponent {

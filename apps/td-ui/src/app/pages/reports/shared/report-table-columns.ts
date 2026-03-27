@@ -59,3 +59,13 @@ export const TAG_REPORT_TABLE_COLUMNS: readonly ReportTableColumn[] = [
   PAGEVIEWS_COLUMN,
   ...APPLICATION_COLUMNS,
 ];
+
+export const TAG_DETAIL_TABLE_COLUMNS: readonly ReportTableColumn[] = [
+  PAGEVIEWS_COLUMN,
+  ...APPLICATION_COLUMNS,
+];
+
+export const SECTION_DETAIL_TABLE_COLUMNS: readonly ReportTableColumn[] = [
+  PAGEVIEWS_COLUMN,
+  ...APPLICATION_COLUMNS,
+];

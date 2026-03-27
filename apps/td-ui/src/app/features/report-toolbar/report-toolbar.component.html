@@ -53,15 +53,16 @@
         position="bottom-end"
         [minWidth]="320"
       >
-        <mhd-button
-          mhdDropdownTrigger
-          variant="secondary"
-          size="sm"
-          leadingIcon="fa-share-nodes"
-          trailingIcon="fa-chevron-down"
-        >
-          Share
-        </mhd-button>
+        <div mhdDropdownTrigger>
+          <mhd-button
+            variant="secondary"
+            size="sm"
+            leadingIcon="fa-share-nodes"
+            trailingIcon="fa-chevron-down"
+          >
+            Share
+          </mhd-button>
+        </div>
 
         <div mhdDropdownPanel class="inline-menu share-menu">
           <div

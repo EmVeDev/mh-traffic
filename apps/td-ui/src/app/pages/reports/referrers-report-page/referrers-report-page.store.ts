@@ -15,9 +15,10 @@ export class ReferrersReportPageStore {
   readonly base = createReportBaseStore();
 
   readonly title = 'Referrers report';
-  readonly overviewTitle = 'How referrers generate pageviews';
+  readonly overviewTitle =
+    'How articles in <strong>referrers</strong> generate <strong>pageviews</strong>';
   readonly tableTitle =
-    'How do referrers differ when broken down by main metrics';
+    'How do <strong>referrers</strong> differ when broken down by <strong>main metrics</strong>';
   readonly firstColumnHeader = 'Referrers';
 
   readonly overviewLeftGroups = computed(() =>

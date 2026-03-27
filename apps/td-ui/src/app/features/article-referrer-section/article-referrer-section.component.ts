@@ -56,9 +56,9 @@ export class ArticleReferrerSectionComponent {
   readonly metric = signal<Metric>('pageviews');
 
   readonly metrics: { key: Metric; label: string }[] = [
-    { key: 'pageviews', label: 'Pageviews' },
-    { key: 'reads', label: 'Reads' },
-    { key: 'attention', label: 'Attention time' },
+    { key: 'pageviews', label: 'pageviews' },
+    { key: 'reads', label: 'reads' },
+    { key: 'attention', label: 'attention time' },
   ];
 
   readonly chartWidth = 1120;

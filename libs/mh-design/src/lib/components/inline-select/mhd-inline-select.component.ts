@@ -1,4 +1,11 @@
-import { ChangeDetectionStrategy, Component, computed, input, model, output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  input,
+  model,
+  output,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { MhdDropdownComponent } from '../dropdown/mhd-dropdown.component';

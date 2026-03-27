@@ -1,4 +1,12 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  SecurityContext,
+  computed,
+  inject,
+  input,
+} from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 import {
   MhdIconComponent,
   MhdSummaryCardComponent,
@@ -44,9 +52,15 @@ export interface ReportOverviewGroup {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MhdReportOverviewComponent {
+  private readonly sanitizer = inject(DomSanitizer);
+
   readonly title = input.required<string>();
   readonly leftGroups = input.required<ReportOverviewGroup[]>();
   readonly rightGroups = input.required<ReportOverviewGroup[]>();
+
+  protected readonly sanitizedTitle = computed(
+    () => this.sanitizer.sanitize(SecurityContext.HTML, this.title()) ?? ''
+  );
 
   protected metricsFor(
     section: ReportOverviewGroupSection

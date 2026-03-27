@@ -1,6 +1,6 @@
 <section class="report-table">
   <header class="report-table__header">
-    <h3 class="report-table__title">{{ title() }}</h3>
+    <h3 class="report-table__title" [innerHTML]="sanitizedTitle()"></h3>
   </header>
 
   <div class="report-table__wrapper">

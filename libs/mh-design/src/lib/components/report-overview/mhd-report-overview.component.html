@@ -57,7 +57,7 @@
 
   <section class="chart-card" aria-label="Report overview chart">
     <header class="chart-card__header">
-      <h2 class="chart-card__title">{{ title() }}</h2>
+      <h2 class="chart-card__title" [innerHTML]="sanitizedTitle()"></h2>
 
       <div class="chart-card__actions">
         <button class="chart-action-btn" type="button" aria-label="Line chart view">

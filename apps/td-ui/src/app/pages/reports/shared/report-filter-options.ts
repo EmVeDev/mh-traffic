@@ -32,9 +32,9 @@ export function createDefaultReportSiteOptions(): ReportSiteOption[] {
 
 export function createPrimaryReportMetricOptions(): ReportToolbarOption[] {
   return [
-    { value: 'pageviews', label: 'Pageviews' },
-    { value: 'reads', label: 'Reads' },
-    { value: 'attention-time', label: 'Attention Time' },
+    { value: 'pageviews', label: 'pageviews' },
+    { value: 'reads', label: 'reads' },
+    { value: 'attention-time', label: 'attention time' },
   ];
 }
 

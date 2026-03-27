@@ -7,6 +7,7 @@ import {
   mapSimpleRowToReportRow,
 } from '../shared/simple-report-page-helpers';
 import {
+  TAG_DETAIL_TABLE_COLUMNS,
   TAG_REPORT_CHART_COLUMNS,
   TAG_REPORT_TABLE_COLUMNS,
 } from '../shared/report-table-columns';
@@ -30,7 +31,7 @@ export class TagDetailPageStore {
   readonly tableColumns = computed(() =>
     this.base.tableDisplayMode() === 'chart'
       ? [...TAG_REPORT_CHART_COLUMNS]
-      : [...TAG_REPORT_TABLE_COLUMNS]
+      : [...TAG_DETAIL_TABLE_COLUMNS]
   );
 
   readonly overviewLeftGroups = computed(() =>

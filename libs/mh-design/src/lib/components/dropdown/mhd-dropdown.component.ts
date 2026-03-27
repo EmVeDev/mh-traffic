@@ -98,6 +98,16 @@ export class MhdDropdownComponent {
     ];
   }
 
+  protected handleTriggerClick(event: MouseEvent): void {
+    const target = event.target as HTMLElement | null;
+
+    if (target?.closest('[disabled], [aria-disabled="true"]')) {
+      return;
+    }
+
+    this.open.set(!this.open());
+  }
+
   protected handleOpen(): void {
     this.opened.emit();
   }

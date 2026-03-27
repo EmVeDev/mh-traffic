@@ -1,10 +1,13 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  SecurityContext,
   computed,
+  inject,
   input,
   signal,
 } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 import { RouterLink } from '@angular/router';
 import { MhdIconComponent } from '../icon/mhd-icon.component';
 
@@ -53,6 +56,8 @@ export interface ReportTableRow {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MhdReportTableComponent {
+  private readonly sanitizer = inject(DomSanitizer);
+
   readonly title = input('');
   readonly firstColumnHeader = input('Name');
   readonly firstColumn = input<ReportTableFirstColumnConfig | null>(null);
@@ -80,6 +85,10 @@ export class MhdReportTableComponent {
     '#56ccf2',
     '#bb6bd9',
   ] as const;
+
+  protected readonly sanitizedTitle = computed(
+    () => this.sanitizer.sanitize(SecurityContext.HTML, this.title()) ?? ''
+  );
 
   protected readonly displayColumns = computed(() => this.columns());
 

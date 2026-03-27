@@ -1,5 +1,8 @@
 <div class="mhd-dropdown" cdkOverlayOrigin #origin="cdkOverlayOrigin">
-  <div class="mhd-dropdown__trigger">
+  <div
+    class="mhd-dropdown__trigger"
+    (click)="handleTriggerClick($event)"
+  >
     <ng-content select="[mhdDropdownTrigger]" />
   </div>
 </div>
