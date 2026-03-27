@@ -64,7 +64,11 @@
         </mhd-button>
 
         <div mhdDropdownPanel class="inline-menu share-menu">
-          <div class="inline-menu__list" role="menu" aria-label="Share report actions">
+          <div
+            class="inline-menu__list"
+            role="menu"
+            aria-label="Share report actions"
+          >
             @for (option of shareGroups().share; track option.value) {
               <button
                 type="button"
