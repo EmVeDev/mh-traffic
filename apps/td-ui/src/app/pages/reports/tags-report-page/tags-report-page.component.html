@@ -1,7 +1,9 @@
 <td-report-page-shell
   [title]="store.title"
-  [overviewTitle]="store.overviewTitle"
-  [tableTitle]="store.tableTitle"
+  [overviewTitle]="store.overviewTitle()"
+  [tableTitle]="store.tableTitle()"
+  [enableTableModeToggle]="true"
+  [enableValueModeToggle]="true"
   [firstColumnHeader]="store.firstColumnHeader"
   [siteOptions]="store.base.siteOptions()"
   [selectedSiteValue]="store.base.selectedSiteValue()"

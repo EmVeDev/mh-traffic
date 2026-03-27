@@ -32,54 +32,6 @@
   [rightGroups]="overviewRightGroups()"
 />
 
-@if (enableTableModeToggle() || enableValueModeToggle()) {
-  <section class="report-page-shell__table-controls">
-    @if (enableTableModeToggle()) {
-      <div class="segmented-toggle" aria-label="Table display mode">
-        <button
-          type="button"
-          class="segmented-toggle__option"
-          [class.segmented-toggle__option--active]="tableDisplayMode() === 'table'"
-          (click)="setTableMode('table')"
-        >
-          Table
-        </button>
-
-        <button
-          type="button"
-          class="segmented-toggle__option"
-          [class.segmented-toggle__option--active]="tableDisplayMode() === 'chart'"
-          (click)="setTableMode('chart')"
-        >
-          Chart
-        </button>
-      </div>
-    }
-
-    @if (enableValueModeToggle()) {
-      <div class="segmented-toggle" aria-label="Value display mode">
-        <button
-          type="button"
-          class="segmented-toggle__option"
-          [class.segmented-toggle__option--active]="valueDisplayMode() === 'raw'"
-          (click)="setValueMode('raw')"
-        >
-          Raw
-        </button>
-
-        <button
-          type="button"
-          class="segmented-toggle__option"
-          [class.segmented-toggle__option--active]="valueDisplayMode() === 'percentage'"
-          (click)="setValueMode('percentage')"
-        >
-          %
-        </button>
-      </div>
-    }
-  </section>
-}
-
 <mhd-report-table
   [title]="tableTitle()"
   [firstColumnHeader]="firstColumnHeader()"
@@ -87,5 +39,56 @@
   [rows]="rows()"
   [totals]="totals()"
   [tableDisplayMode]="tableDisplayMode()"
-  [valueDisplayMode]="valueDisplayMode()"
-/>
+  [valueDisplayMode]="valueDisplayMode()">
+  <div tableControls>
+    @if (enableTableModeToggle() || enableValueModeToggle()) {
+      <section class="report-page-shell__table-controls">
+        @if (enableTableModeToggle()) {
+          <div class="segmented-toggle" aria-label="Table display mode">
+            <button
+              type="button"
+              class="segmented-toggle__option"
+              title="Table"
+              [class.segmented-toggle__option--active]="tableDisplayMode() === 'table'"
+              (click)="setTableMode('table')"
+            >
+              <mhd-icon [icon]="'fa-table'"></mhd-icon>
+            </button>
+
+            <button
+              type="button"
+              class="segmented-toggle__option"
+              title="Chart"
+              [class.segmented-toggle__option--active]="tableDisplayMode() === 'chart'"
+              (click)="setTableMode('chart')"
+            >
+              <mhd-icon [icon]="'fa-bar-chart'"></mhd-icon>
+            </button>
+          </div>
+        }
+
+        @if (enableValueModeToggle()) {
+          <div class="segmented-toggle" aria-label="Value display mode">
+            <button
+              type="button"
+              class="segmented-toggle__option"
+              [class.segmented-toggle__option--active]="valueDisplayMode() === 'raw'"
+              (click)="setValueMode('raw')"
+            >
+              <mhd-icon [icon]="'fa-hashtag'"></mhd-icon>
+            </button>
+
+            <button
+              type="button"
+              class="segmented-toggle__option"
+              [class.segmented-toggle__option--active]="valueDisplayMode() === 'percentage'"
+              (click)="setValueMode('percentage')"
+            >
+              <mhd-icon [icon]="'fa-percent'"></mhd-icon>
+            </button>
+          </div>
+        }
+      </section>
+    }
+  </div>
+</mhd-report-table>

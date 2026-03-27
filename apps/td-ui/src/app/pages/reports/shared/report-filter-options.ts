@@ -45,8 +45,8 @@ export function createSimpleMetricOptions(): ReportToolbarOption[] {
 export function createApplicationsBreakdownOptions(): ReportToolbarOption[] {
   return [
     { value: 'applications', label: 'applications' },
-    { value: 'platform', label: 'platform' },
-    { value: 'product', label: 'product' },
+    { value: 'platforms', label: 'platforms' },
+    { value: 'products', label: 'products' },
   ];
 }
 

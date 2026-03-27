@@ -15,9 +15,16 @@ export class SectionsReportPageStore {
   readonly base = createReportBaseStore();
 
   readonly title = 'Sections report';
-  readonly overviewTitle = 'How sections generate pageviews';
-  readonly tableTitle =
-    'How do sections differ when broken down by main metrics';
+  readonly overviewTitle = computed(() => {
+    const metric = this.base.selectedMetricValue();
+    const breakdown = this.base.selectedBreakdownValue();
+    return `How <strong>${breakdown}</strong> generate <strong>${metric}</strong>`;
+  });
+  readonly tableTitle = computed(() => {
+    const metric = this.base.selectedMetricValue();
+    const breakdown = this.base.selectedBreakdownValue();
+    return `How do <strong>${breakdown}</strong> differ when broken down by <strong>${metric}</strong>`;
+  });
   readonly firstColumnHeader = 'Top 30 sections';
 
   readonly overviewLeftGroups = computed(() =>

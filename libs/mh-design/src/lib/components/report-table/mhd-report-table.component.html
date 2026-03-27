@@ -1,6 +1,9 @@
 <section class="report-table">
   <header class="report-table__header">
     <h3 class="report-table__title" [innerHTML]="sanitizedTitle()"></h3>
+    <div class="report-table__actions">
+      <ng-content select="[tableControls]"></ng-content>
+    </div>
   </header>
 
   <div class="report-table__wrapper">

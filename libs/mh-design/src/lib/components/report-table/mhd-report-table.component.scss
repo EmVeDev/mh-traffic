@@ -11,6 +11,9 @@
   &__header {
     padding: 18px 20px 14px;
     border-bottom: 1px solid #eceff3;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
 
   &__title {

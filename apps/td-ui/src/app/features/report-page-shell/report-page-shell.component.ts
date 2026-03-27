@@ -6,7 +6,7 @@ import {
   output,
 } from '@angular/core';
 import {
-  MhdDateRangeValue,
+  MhdDateRangeValue, MhdIconComponent,
   MhdReportOverviewComponent,
   MhdReportTableComponent,
 } from '@mh-traffic/mh-design';
@@ -37,6 +37,7 @@ export interface ReportTableTotals {
     ReportToolbarComponent,
     MhdReportOverviewComponent,
     MhdReportTableComponent,
+    MhdIconComponent,
   ],
   templateUrl: './report-page-shell.component.html',
   styleUrl: './report-page-shell.component.scss',

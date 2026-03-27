@@ -29,8 +29,16 @@ export class TagsReportPageStore {
   readonly base = createReportBaseStore();
 
   readonly title = 'Tags report';
-  readonly overviewTitle = 'How articles in tags generates pageviews';
-  readonly tableTitle = 'How do tags differ when broken down by applications';
+  readonly overviewTitle = computed(() => {
+    const metric = this.base.selectedMetricValue();
+    const breakdown = this.base.selectedBreakdownValue();
+    return `How <strong>${breakdown}</strong> generate <strong>${metric}</strong>`;
+  });
+  readonly tableTitle = computed(() => {
+    const metric = this.base.selectedMetricValue();
+    const breakdown = this.base.selectedBreakdownValue();
+    return `How do <strong>${breakdown}</strong> differ when broken down by <strong>${metric}</strong>`;
+  });
   readonly firstColumnHeader = 'Top 30 tags';
 
   private readonly sourceRows: TagRowSource[] = [
