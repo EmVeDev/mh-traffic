@@ -1,5 +1,4 @@
 import { computed, inject, Injectable } from '@angular/core';
-import type { ReportTableRow } from '@mh-traffic/mh-design';
 import { createReportBaseStore } from '../shared/create-report-base-store';
 import {
   createGenericOverviewLeftGroups,
@@ -20,7 +19,9 @@ import { TagDetailPageDataStore } from './tag-detail-page.data-store';
 @Injectable()
 export class TagDetailPageStore {
   private readonly data = inject(TagDetailPageDataStore);
+
   readonly base = createReportBaseStore();
+
   readonly title = 'Tag detail';
   readonly overviewTitle = 'How articles in this tag generate pageviews';
   readonly tableTitle = 'Top articles in this tag';
@@ -39,7 +40,7 @@ export class TagDetailPageStore {
     createGenericOverviewRightGroups()
   );
 
-  readonly tableRows = computed<ReportTableRow[]>(() =>
+  readonly tableRows = computed(() =>
     this.data
       .rows()
       .map((row) =>
@@ -57,13 +58,9 @@ export class TagDetailPageStore {
 
   constructor() {
     this.base.metricOptions.set(createSimpleMetricOptions());
-    this.base.selectedMetricValue.set(
-      this.base.metricOptions()[0]?.value ?? ''
-    );
+    this.base.selectedMetricValue.set('pageviews');
 
     this.base.breakdownOptions.set(createArticlesBreakdownOptions());
-    this.base.selectedBreakdownValue.set(
-      this.base.breakdownOptions()[0]?.value ?? ''
-    );
+    this.base.selectedBreakdownValue.set('articles');
   }
 }

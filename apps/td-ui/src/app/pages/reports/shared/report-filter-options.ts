@@ -42,34 +42,42 @@ export function createSimpleMetricOptions(): ReportToolbarOption[] {
   return createPrimaryReportMetricOptions();
 }
 
-export function createSharedReportBreakdownOptions(): ReportToolbarOption[] {
+export function createApplicationsBreakdownOptions(): ReportToolbarOption[] {
   return [
-    { value: 'main-metrics', label: 'main metrics' },
-    { value: 'reading-quality', label: 'reading quality' },
-    { value: 'referrers', label: 'referrers' },
-    { value: 'audiences', label: 'audiences' },
     { value: 'applications', label: 'applications' },
-    { value: 'devices', label: 'devices' },
-    { value: 'conversions', label: 'conversions' },
+    { value: 'platform', label: 'platform' },
+    { value: 'product', label: 'product' },
   ];
 }
 
-export function createApplicationsBreakdownOptions(): ReportToolbarOption[] {
-  return createSharedReportBreakdownOptions();
-}
-
 export function createSectionsBreakdownOptions(): ReportToolbarOption[] {
-  return createSharedReportBreakdownOptions();
+  return [
+    { value: 'sections', label: 'sections' },
+    { value: 'subsections', label: 'subsections' },
+    { value: 'articles', label: 'articles' },
+  ];
 }
 
 export function createArticlesBreakdownOptions(): ReportToolbarOption[] {
-  return createSharedReportBreakdownOptions();
+  return [
+    { value: 'articles', label: 'articles' },
+    { value: 'authors', label: 'authors' },
+    { value: 'tags', label: 'tags' },
+  ];
 }
 
 export function createReferrersBreakdownOptions(): ReportToolbarOption[] {
-  return createSharedReportBreakdownOptions();
+  return [
+    { value: 'referrers', label: 'referrers' },
+    { value: 'referrer-groups', label: 'referrer groups' },
+    { value: 'articles', label: 'articles' },
+  ];
 }
 
 export function createAudiencesBreakdownOptions(): ReportToolbarOption[] {
-  return createSharedReportBreakdownOptions();
+  return [
+    { value: 'audiences', label: 'audiences' },
+    { value: 'audience-type', label: 'audience type' },
+    { value: 'subscription-status', label: 'subscription status' },
+  ];
 }

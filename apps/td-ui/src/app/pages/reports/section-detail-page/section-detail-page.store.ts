@@ -1,5 +1,4 @@
 import { computed, inject, Injectable } from '@angular/core';
-import type { ReportTableRow } from '@mh-traffic/mh-design';
 import { createReportBaseStore } from '../shared/create-report-base-store';
 import {
   createGenericOverviewLeftGroups,
@@ -20,7 +19,9 @@ import { SectionDetailPageDataStore } from './section-detail-page.data-store';
 @Injectable()
 export class SectionDetailPageStore {
   private readonly data = inject(SectionDetailPageDataStore);
+
   readonly base = createReportBaseStore();
+
   readonly title = 'Section detail';
   readonly overviewTitle = 'How articles in this section generate pageviews';
   readonly tableTitle = 'Top articles in this section';
@@ -39,7 +40,7 @@ export class SectionDetailPageStore {
     createGenericOverviewRightGroups()
   );
 
-  readonly tableRows = computed<ReportTableRow[]>(() =>
+  readonly tableRows = computed(() =>
     this.data
       .rows()
       .map((row) =>
@@ -57,13 +58,12 @@ export class SectionDetailPageStore {
 
   constructor() {
     this.base.metricOptions.set(createSimpleMetricOptions());
-    this.base.selectedMetricValue.set(
-      this.base.metricOptions()[0]?.value ?? ''
-    );
+    this.base.selectedMetricValue.set('pageviews');
 
     this.base.breakdownOptions.set(createArticlesBreakdownOptions());
-    this.base.selectedBreakdownValue.set(
-      this.base.breakdownOptions()[0]?.value ?? ''
-    );
+    this.base.selectedBreakdownValue.set('articles');
+
+    this.base.tableDisplayMode.set('table');
+    this.base.valueDisplayMode.set('raw');
   }
 }

@@ -11,9 +11,9 @@ import {
   getDateLabelFromDateRange,
 } from './report-date';
 import {
+  createApplicationsBreakdownOptions,
   createDefaultReportSiteOptions,
   createPrimaryReportMetricOptions,
-  createSharedReportBreakdownOptions,
 } from './report-filter-options';
 import {
   createAudienceTypeOptions,
@@ -50,7 +50,7 @@ export function createReportBaseStore() {
   );
 
   const metricOptions = signal(createPrimaryReportMetricOptions());
-  const breakdownOptions = signal(createSharedReportBreakdownOptions());
+  const breakdownOptions = signal(createApplicationsBreakdownOptions());
 
   const selectedMetricValue = signal(metricOptions()[0]?.value ?? '');
   const selectedBreakdownValue = signal(breakdownOptions()[0]?.value ?? '');

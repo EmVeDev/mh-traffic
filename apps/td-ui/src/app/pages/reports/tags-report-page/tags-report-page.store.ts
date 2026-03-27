@@ -137,7 +137,7 @@ export class TagsReportPageStore {
     ];
   });
 
-  readonly tableRows = computed<ReportTableRow[]>(() =>
+  readonly tableRows = computed(() =>
     this.sourceRows.map((row) => this.mapRow(row))
   );
 
@@ -207,14 +207,12 @@ export class TagsReportPageStore {
     total: number,
     color: string
   ): ReportTableDistributionSegment {
-    const percentage = total > 0 ? (value / total) * 100 : 0;
-
     return {
       label,
       shortLabel,
       valueLabel: this.formatNumber(value),
       percentageLabel: this.formatPercent(value, total),
-      percentage,
+      percentage: total > 0 ? (value / total) * 100 : 0,
       tooltip: `${label} ${this.formatNumber(value)} (${this.formatPercent(
         value,
         total
