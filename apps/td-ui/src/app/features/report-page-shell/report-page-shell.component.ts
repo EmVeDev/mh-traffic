@@ -73,6 +73,7 @@ export class ReportPageShellComponent {
   readonly totals = input<ReportTableTotals | null>(null);
 
   readonly tableDisplayMode = input.required<'chart' | 'table'>();
+  readonly enableTablePagination = input<boolean>(true);
   readonly valueDisplayMode = input.required<'raw' | 'percentage'>();
 
   readonly enableTableModeToggle = input(false);

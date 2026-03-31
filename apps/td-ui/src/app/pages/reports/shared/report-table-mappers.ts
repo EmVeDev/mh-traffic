@@ -29,7 +29,7 @@ export function mapTagsRowToReportRow(
         valueDisplayMode === 'raw'
           ? row.newsApp
           : distribution[1].percentageLabel,
-      digipaperApp:
+      digiPaperApp:
         valueDisplayMode === 'raw'
           ? row.digiPaperApp
           : distribution[2].percentageLabel,
@@ -69,8 +69,10 @@ export function buildDistribution(
 
   return [
     {
+      key: 'www',
       label: 'www',
       shortLabel: 'www',
+      value: www,
       valueLabel: formatNumber(www),
       percentageLabel: formatPercent(wwwPct),
       percentage: wwwPct,
@@ -78,8 +80,10 @@ export function buildDistribution(
       color: '#43b2ff',
     },
     {
+      key: 'newsApp',
       label: 'news-app',
       shortLabel: 'news-app',
+      value: newsApp,
       valueLabel: formatNumber(newsApp),
       percentageLabel: formatPercent(newsAppPct),
       percentage: newsAppPct,
@@ -87,8 +91,10 @@ export function buildDistribution(
       color: '#ef6a59',
     },
     {
+      key: 'digiPaperApp',
       label: 'digipaper-app',
       shortLabel: 'digipaper',
+      value: digiPaperApp,
       valueLabel: formatNumber(digiPaperApp),
       percentageLabel: formatPercent(digiPaperPct),
       percentage: digiPaperPct,

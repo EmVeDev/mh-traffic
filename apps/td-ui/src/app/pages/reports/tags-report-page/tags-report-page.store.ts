@@ -21,7 +21,7 @@ interface TagRowSource {
   pageviews: number;
   www: number;
   newsApp: number;
-  digipaperApp: number;
+  digiPaperApp: number;
 }
 
 @Injectable()
@@ -34,11 +34,13 @@ export class TagsReportPageStore {
     const breakdown = this.base.selectedBreakdownValue();
     return `How <strong>${breakdown}</strong> generate <strong>${metric}</strong>`;
   });
+
   readonly tableTitle = computed(() => {
     const metric = this.base.selectedMetricValue();
     const breakdown = this.base.selectedBreakdownValue();
     return `How do <strong>${breakdown}</strong> differ when broken down by <strong>${metric}</strong>`;
   });
+
   readonly firstColumnHeader = 'Top 30 tags';
 
   private readonly sourceRows: TagRowSource[] = [
@@ -49,7 +51,7 @@ export class TagsReportPageStore {
       pageviews: 218579,
       www: 97581,
       newsApp: 119587,
-      digipaperApp: 1411,
+      digiPaperApp: 1411,
     },
     {
       id: 'lokale-fd',
@@ -58,7 +60,7 @@ export class TagsReportPageStore {
       pageviews: 211161,
       www: 115843,
       newsApp: 94687,
-      digipaperApp: 631,
+      digiPaperApp: 631,
     },
     {
       id: 'werkloosheid',
@@ -67,7 +69,7 @@ export class TagsReportPageStore {
       pageviews: 136581,
       www: 98967,
       newsApp: 37614,
-      digipaperApp: 0,
+      digiPaperApp: 0,
     },
     {
       id: 'weer',
@@ -76,7 +78,7 @@ export class TagsReportPageStore {
       pageviews: 111822,
       www: 53442,
       newsApp: 58380,
-      digipaperApp: 0,
+      digiPaperApp: 0,
     },
     {
       id: 'play',
@@ -85,13 +87,14 @@ export class TagsReportPageStore {
       pageviews: 102705,
       www: 54501,
       newsApp: 48204,
-      digipaperApp: 0,
+      digiPaperApp: 0,
     },
   ];
 
   readonly overviewLeftGroups = computed(() =>
     createTagReportOverviewLeftGroups()
   );
+
   readonly overviewRightGroups = computed(() =>
     createTagReportOverviewRightGroups()
   );
@@ -104,12 +107,14 @@ export class TagsReportPageStore {
           label: 'articles',
           align: 'right',
           type: 'number',
+          sortable: true,
         },
         {
           key: 'pageviews',
           label: 'pageviews',
           align: 'right',
           type: 'number',
+          sortable: true,
         },
       ];
     }
@@ -120,27 +125,32 @@ export class TagsReportPageStore {
         label: 'articles',
         align: 'right',
         type: 'number',
+        sortable: true,
       },
       {
         key: 'pageviews',
         label: 'pageviews',
         align: 'right',
         type: 'number',
+        sortable: true,
       },
       {
         key: 'www',
         label: 'www',
         align: 'right',
+        sortable: true,
       },
       {
         key: 'newsApp',
         label: 'news-app',
         align: 'right',
+        sortable: true,
       },
       {
-        key: 'digipaperApp',
+        key: 'digiPaperApp',
         label: 'digipaper-app',
         align: 'right',
+        sortable: true,
       },
     ];
   });
@@ -172,7 +182,7 @@ export class TagsReportPageStore {
         pageviews: row.pageviews,
         www: this.displayAppValue(row.www, row.pageviews),
         newsApp: this.displayAppValue(row.newsApp, row.pageviews),
-        digipaperApp: this.displayAppValue(row.digipaperApp, row.pageviews),
+        digiPaperApp: this.displayAppValue(row.digiPaperApp, row.pageviews),
       },
       distributionSegments: this.buildDistributionSegments(row),
     };
@@ -190,8 +200,16 @@ export class TagsReportPageStore {
     row: TagRowSource
   ): ReportTableDistributionSegment[] {
     return [
-      this.createSegment('www', 'www', row.www, row.pageviews, '#43b2ff'),
       this.createSegment(
+        'www',
+        'www',
+        'www',
+        row.www,
+        row.pageviews,
+        '#43b2ff'
+      ),
+      this.createSegment(
+        'newsApp',
         'news-app',
         'news-app',
         row.newsApp,
@@ -199,9 +217,10 @@ export class TagsReportPageStore {
         '#ef6a59'
       ),
       this.createSegment(
+        'digiPaperApp',
         'digipaper-app',
         'digipaper',
-        row.digipaperApp,
+        row.digiPaperApp,
         row.pageviews,
         '#f2c94c'
       ),
@@ -209,6 +228,7 @@ export class TagsReportPageStore {
   }
 
   private createSegment(
+    key: string,
     label: string,
     shortLabel: string,
     value: number,
@@ -216,8 +236,10 @@ export class TagsReportPageStore {
     color: string
   ): ReportTableDistributionSegment {
     return {
+      key,
       label,
       shortLabel,
+      value,
       valueLabel: this.formatNumber(value),
       percentageLabel: this.formatPercent(value, total),
       percentage: total > 0 ? (value / total) * 100 : 0,

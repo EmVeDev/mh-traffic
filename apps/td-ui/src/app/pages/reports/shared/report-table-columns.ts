@@ -12,6 +12,7 @@ export const ARTICLES_COLUMN: Readonly<ReportTableColumn> = {
   label: 'articles',
   align: 'right',
   type: 'number',
+  sortable: true,
 };
 
 export const PAGEVIEWS_COLUMN: Readonly<ReportTableColumn> = {
@@ -20,6 +21,7 @@ export const PAGEVIEWS_COLUMN: Readonly<ReportTableColumn> = {
   align: 'right',
   type: 'number',
   tooltip: 'Total pageviews for the selected filters',
+  sortable: true,
 };
 
 export const WWW_COLUMN: Readonly<ReportTableColumn> = {
@@ -27,6 +29,7 @@ export const WWW_COLUMN: Readonly<ReportTableColumn> = {
   label: 'www',
   align: 'right',
   type: 'number',
+  sortable: true,
 };
 
 export const NEWS_APP_COLUMN: Readonly<ReportTableColumn> = {
@@ -34,6 +37,7 @@ export const NEWS_APP_COLUMN: Readonly<ReportTableColumn> = {
   label: 'news-app',
   align: 'right',
   type: 'number',
+  sortable: true,
 };
 
 export const DIGI_PAPER_APP_COLUMN: Readonly<ReportTableColumn> = {
@@ -41,6 +45,7 @@ export const DIGI_PAPER_APP_COLUMN: Readonly<ReportTableColumn> = {
   label: 'digipaper-app',
   align: 'right',
   type: 'number',
+  sortable: true,
 };
 
 export const APPLICATION_COLUMNS: readonly ReportTableColumn[] = [

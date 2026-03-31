@@ -19,21 +19,92 @@
             class="report-table__th"
             [class.report-table__th--right]="isRightAligned(column)"
           >
+            @if (isColumnSortable(column)) {
+              <button
+                type="button"
+                class="report-table__sort-button"
+                [class.report-table__sort-button--right]="isRightAligned(column)"
+                [class.report-table__sort-button--active]="getColumnSortDirection(column) !== null"
+                (click)="toggleColumnSort(column)"
+              >
+
+                <!-- ICON FIRST FOR RIGHT ALIGNED -->
+                @if (isRightAligned(column)) {
+                  <span class="report-table__sort-icon" aria-hidden="true">
+                    <mhd-icon
+                      [icon]="getSortIcon(getColumnSortDirection(column))"
+                      iconSet="fas"
+                      size="text-xs"
+                    />
+                  </span>
+                }
+
+                <span class="report-table__th-content">
+                  <span>{{ column.label }}</span>
+
+                  @if (column.tooltip) {
+                    <span class="report-table__th-tooltip" [attr.title]="column.tooltip">
+                      <mhd-icon icon="fa-circle-info" iconSet="fas" size="text-xs" />
+                    </span>
+                  }
+                </span>
+                <!-- ICON LAST FOR LEFT ALIGNED -->
+                @if (!isRightAligned(column)) {
+                  <div class="report-table__sort-icon" aria-hidden="true">
+                    <mhd-icon
+                      [icon]="getSortIcon(getColumnSortDirection(column))"
+                      iconSet="fas"
+                      size="text-xs"
+                    />
+                  </div>
+                }
+              </button>
+            } @else {
               <span class="report-table__th-content">
-                <span>{{ column.label }}</span>
+                  <span>{{ column.label }}</span>
 
                 @if (column.tooltip) {
                   <span class="report-table__th-tooltip" [attr.title]="column.tooltip">
-                    <mhd-icon icon="fa-circle-info" iconSet="fas" size="text-xs" />
-                  </span>
+                      <mhd-icon icon="fa-circle-info" iconSet="fas" size="text-xs" />
+                    </span>
                 }
-              </span>
+                </span>
+            }
           </th>
         }
 
         @if (showDistributionColumn()) {
-          <th class="report-table__th report-table__th--right">
-            {{ distributionColumnLabel() }}
+          <th class="report-table__th report-table__th--right report-table__th--distribution">
+            <div class="distribution-header">
+                <span class="distribution-header__title">
+                  {{ distributionColumnLabel() }}
+                </span>
+
+              @if (distributionHeaderSegments().length) {
+                <div class="distribution-header__sorts">
+                  @for (segment of distributionHeaderSegments(); track segment.key; let segmentIndex = $index) {
+                    <button
+                      type="button"
+                      class="distribution-header__sort-button"
+                      [attr.title]="'Sort by ' + segment.label"
+                      (click)="toggleDistributionSort(segment)"
+                    >
+                        <span
+                          class="distribution-header__dot"
+                          [style.background]="getSegmentColor(segment, segmentIndex)"
+                          aria-hidden="true"
+                        ></span>
+
+                      <mhd-icon
+                        [icon]="getSortIcon(getDistributionSortDirection(segment))"
+                        iconSet="fas"
+                        size="text-xs"
+                      />
+                    </button>
+                  }
+                </div>
+              }
+            </div>
           </th>
         }
       </tr>
@@ -84,7 +155,7 @@
               <td class="report-table__td report-table__td--distribution">
                 <div class="distribution-cell">
                   <div class="distribution-bar">
-                    @for (segment of item.row.distributionSegments ?? []; track segment.label; let segmentIndex = $index) {
+                    @for (segment of item.row.distributionSegments ?? []; track segment.key; let segmentIndex = $index) {
                       <div
                         class="distribution-segment"
                         [style.width.%]="segment.percentage"
@@ -96,7 +167,7 @@
 
                   @if ((item.row.distributionSegments ?? []).length) {
                     <div class="distribution-legend">
-                      @for (segment of item.row.distributionSegments ?? []; track segment.label; let segmentIndex = $index) {
+                      @for (segment of item.row.distributionSegments ?? []; track segment.key; let segmentIndex = $index) {
                         <div class="distribution-legend__item" [title]="segment.tooltip">
                           <span
                             class="distribution-legend__dot"
@@ -150,4 +221,56 @@
       }
     </table>
   </div>
+
+  @if (enablePagination()) {
+    <footer class="report-table__pagination">
+      <div class="report-table__pagination-summary">
+        @if (totalTopLevelRows() > 0) {
+          <span>
+            Showing {{ paginationStart() }}–{{ paginationEnd() }} of {{ totalTopLevelRows() }}
+          </span>
+        } @else {
+          <span>Showing 0 of 0</span>
+        }
+      </div>
+
+      <div class="report-table__pagination-controls">
+        <label class="report-table__page-size">
+          <span class="report-table__page-size-label">Rows</span>
+
+          <select
+            class="report-table__page-size-select"
+            [value]="pageSize()"
+            (change)="setPageSize(($any($event.target).value))"
+          >
+            @for (size of pageSizeOptions(); track size) {
+              <option [value]="size">{{ size }}</option>
+            }
+          </select>
+        </label>
+
+        <button
+          type="button"
+          class="report-table__pagination-button"
+          [disabled]="pageIndex() === 0"
+          (click)="goToPreviousPage()"
+        >
+          Previous
+        </button>
+
+        <span class="report-table__pagination-page">
+          {{ pageIndex() + 1 }} / {{ totalPages() }}
+        </span>
+
+        <button
+          type="button"
+          class="report-table__pagination-button"
+          [disabled]="pageIndex() >= totalPages() - 1"
+          (click)="goToNextPage()"
+        >
+          Next
+        </button>
+      </div>
+    </footer>
+  }
 </section>

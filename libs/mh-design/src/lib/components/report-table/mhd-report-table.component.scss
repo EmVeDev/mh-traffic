@@ -74,6 +74,10 @@
     text-align: right;
   }
 
+  &__th--distribution {
+    min-width: 340px;
+  }
+
   &__td--distribution {
     min-width: 340px;
   }
@@ -87,12 +91,132 @@
     font-weight: 700;
     border-bottom: 0;
   }
+
+  &__sort-button {
+    appearance: none;
+    border: 0;
+    background: transparent;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    color: inherit;
+    font: inherit;
+    text-transform: inherit;
+    letter-spacing: inherit;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    justify-content: flex-start;
+    text-align: left;
+
+    &--right {
+      justify-content: flex-end;
+      text-align: right;
+    }
+
+    &:hover .report-table__sort-icon {
+      opacity: 0.5;
+    }
+
+    &--active .report-table__sort-icon {
+      opacity: 1;
+    }
+  }
+
+  &__sort-icon {
+    width: 14px;
+    min-width: 14px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #96a0ab;
+    opacity: 0;
+    transition: opacity 140ms ease, color 140ms ease;
+    flex: 0 0 14px;
+  }
+
+  &__pagination {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    padding: 14px 20px;
+    border-top: 1px solid #eceff3;
+    background: #ffffff;
+  }
+
+  &__pagination-summary {
+    color: #6f7884;
+    font-size: 0.9rem;
+  }
+
+  &__pagination-controls {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  &__pagination-button {
+    appearance: none;
+    border: 1px solid #d8dde3;
+    background: #ffffff;
+    color: #3f4854;
+    border-radius: 8px;
+    padding: 8px 12px;
+    font: inherit;
+    cursor: pointer;
+    transition:
+      background-color 140ms ease,
+      border-color 140ms ease,
+      color 140ms ease;
+
+    &:hover:not(:disabled) {
+      background: #f7f8fa;
+      border-color: #cfd6de;
+    }
+
+    &:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+  }
+
+  &__pagination-page {
+    color: #5e6874;
+    font-size: 0.9rem;
+    min-width: 56px;
+    text-align: center;
+  }
+
+  &__page-size {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  &__page-size-label {
+    color: #6f7884;
+    font-size: 0.9rem;
+  }
+
+  &__page-size-select {
+    appearance: none;
+    border: 1px solid #d8dde3;
+    background: #ffffff;
+    color: #3f4854;
+    border-radius: 8px;
+    padding: 8px 32px 8px 10px;
+    font: inherit;
+    cursor: pointer;
+  }
 }
 
 .report-table__th-content {
   display: inline-flex;
   align-items: center;
   gap: 8px;
+  min-width: 0;
 }
 
 .report-table__th-tooltip {
@@ -140,6 +264,57 @@
 
   &:hover {
     color: #e5533d;
+  }
+}
+
+.distribution-header {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  width: 100%;
+
+  &__title {
+    white-space: nowrap;
+  }
+
+  &__sorts {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  &__sort-button {
+    appearance: none;
+    border: 1px solid #dfe4ea;
+    background: #ffffff;
+    color: #6f7884;
+    border-radius: 999px;
+    min-width: 34px;
+    height: 26px;
+    padding: 0 8px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    cursor: pointer;
+    transition:
+      background-color 140ms ease,
+      border-color 140ms ease,
+      transform 140ms ease;
+
+    &:hover {
+      background: #f7f8fa;
+      border-color: #cfd6de;
+    }
+  }
+
+  &__dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    display: inline-block;
+    flex: 0 0 auto;
   }
 }
 
@@ -213,7 +388,8 @@
 }
 
 @media (max-width: 900px) {
-  .report-table__td--distribution {
+  .report-table__td--distribution,
+  .report-table__th--distribution {
     min-width: 280px;
   }
 
@@ -221,5 +397,15 @@
     flex-direction: column;
     align-items: flex-start;
     gap: 6px;
+  }
+
+  .report-table__pagination {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .report-table__pagination-controls {
+    justify-content: space-between;
+    flex-wrap: wrap;
   }
 }
