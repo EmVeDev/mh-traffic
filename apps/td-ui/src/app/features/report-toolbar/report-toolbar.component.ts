@@ -21,7 +21,7 @@ export type {
   ReportToolbarToken,
 } from './report-toolbar.types';
 
-type ReportToolbarShareAction =
+export type ReportToolbarShareAction =
   | 'share-report'
   | 'share-chart-image'
   | 'share-metric-table'

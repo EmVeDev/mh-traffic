@@ -1,6 +1,6 @@
 <td-report-page-shell
   [title]="store.title"
-  [overviewTitle]="store.overviewTitle"
+  [overviewTitle]="store.overviewTitle()"
   [tableTitle]="store.tableTitle"
   [firstColumnHeader]="store.firstColumnHeader"
   [siteOptions]="store.base.siteOptions()"
@@ -15,6 +15,7 @@
   [advancedFiltersOpen]="store.base.advancedFiltersOpen()"
   [overviewLeftGroups]="store.overviewLeftGroups()"
   [overviewRightGroups]="store.overviewRightGroups()"
+  [overviewChart]="store.overviewChart()"
   [columns]="store.tableColumns()"
   [rows]="store.tableRows()"
   [totals]="store.tableTotals()"

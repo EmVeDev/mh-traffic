@@ -1,5 +1,7 @@
 import { computed, Injectable } from '@angular/core';
 import type {
+  MhdChartConfig,
+  MhdChartPoint,
   ReportTableColumn,
   ReportTableDistributionSegment,
   ReportTableRow,
@@ -29,6 +31,7 @@ export class TagsReportPageStore {
   readonly base = createReportBaseStore();
 
   readonly title = 'Tags report';
+
   readonly overviewTitle = computed(() => {
     const metric = this.base.selectedMetricValue();
     const breakdown = this.base.selectedBreakdownValue();
@@ -98,6 +101,65 @@ export class TagsReportPageStore {
   readonly overviewRightGroups = computed(() =>
     createTagReportOverviewRightGroups()
   );
+
+  readonly overviewChart = computed<MhdChartConfig>(() => {
+    const start = Date.UTC(2026, 2, 31, 0, 0, 0, 0);
+    const end = Date.UTC(2026, 2, 31, 23, 59, 0, 0);
+    const now = Date.UTC(2026, 2, 31, 15, 15, 0, 0);
+
+    return {
+      type: 'area',
+      allowedTypes: ['line', 'area', 'bar'],
+      showLegend: true,
+      showGrid: true,
+      yAxisTicks: 3,
+      currentTimeX: now,
+      xAxisFormatter: (value: number) => this.formatHour(value),
+      yAxisFormatter: (value: number) => {
+        if (value >= 1_000_000) {
+          return `${(value / 1_000_000).toFixed(1)}M`;
+        }
+
+        if (value >= 1_000) {
+          return `${Math.round(value / 1_000)}k`;
+        }
+
+        return `${Math.round(value)}`;
+      },
+      series: [
+        {
+          id: 'politiek',
+          label: 'politiek',
+          color: '#14b86e',
+          data: this.createCurrentTagsSeries(start, now, 1, 1.1),
+        },
+        {
+          id: 'lokale-fd',
+          label: 'lokale fd',
+          color: '#b71234',
+          data: this.createCurrentTagsSeries(start, now, 0.82, 0.96),
+        },
+        {
+          id: 'werkloosheid',
+          label: 'werkloosheid',
+          color: '#f2b600',
+          data: this.createCurrentTagsSeries(start, now, 0.64, 0.84),
+        },
+        {
+          id: 'weer',
+          label: 'weer',
+          color: '#234fbe',
+          data: this.createCurrentTagsSeries(start, now, 0.52, 0.74),
+        },
+        {
+          id: 'play',
+          label: 'play',
+          color: '#0b6b4b',
+          data: this.createCurrentTagsSeries(start, now, 0.44, 0.66),
+        },
+      ],
+    };
+  });
 
   readonly tableColumns = computed<ReportTableColumn[]>(() => {
     if (this.base.tableDisplayMode() === 'chart') {
@@ -251,6 +313,73 @@ export class TagsReportPageStore {
     };
   }
 
+  private createHistoricalTagsSeries(
+    start: number,
+    end: number
+  ): MhdChartPoint[] {
+    const points: MhdChartPoint[] = [];
+    const step = 30 * 60 * 1000;
+    const totalSteps = Math.floor((end - start) / step);
+
+    for (let index = 0; index <= totalSteps; index++) {
+      const x = start + index * step;
+      const progress = index / Math.max(1, totalSteps);
+
+      const baseline = 22000;
+      const morningLift =
+        Math.max(0, Math.sin(progress * Math.PI * 1.28 - 0.98)) * 52000;
+      const middayBody =
+        Math.max(0, Math.sin(progress * Math.PI * 3.15 + 0.12)) * 34000;
+      const detail =
+        Math.max(0, Math.sin(progress * Math.PI * 12.6 - 0.24)) * 12000;
+
+      const y = Math.round(baseline + morningLift + middayBody + detail);
+
+      points.push({ x, y });
+    }
+
+    return points;
+  }
+
+  private createCurrentTagsSeries(
+    start: number,
+    now: number,
+    amplitudeFactor: number,
+    baseFactor: number
+  ): MhdChartPoint[] {
+    const points: MhdChartPoint[] = [];
+    const step = 15 * 60 * 1000;
+    const totalSteps = Math.floor((now - start) / step);
+
+    for (let index = 0; index <= totalSteps; index++) {
+      const x = start + index * step;
+      const progress = index / Math.max(1, totalSteps);
+
+      const primary =
+        Math.max(0, Math.sin(progress * Math.PI * 2.82 - 1.06)) *
+        22500 *
+        amplitudeFactor;
+      const secondary =
+        Math.max(0, Math.sin(progress * Math.PI * 6.05 + 0.3)) *
+        7600 *
+        amplitudeFactor;
+      const fineNoise =
+        Math.max(0, Math.sin(progress * Math.PI * 13.3 - 0.18)) *
+        3200 *
+        amplitudeFactor;
+
+      const baseline = 2600 + 7200 * baseFactor;
+      const spike =
+        index === Math.floor(totalSteps * 0.88) ? 24000 * amplitudeFactor : 0;
+
+      const y = Math.round(baseline + primary + secondary + fineNoise + spike);
+
+      points.push({ x, y });
+    }
+
+    return points;
+  }
+
   private formatNumber(value: number): string {
     return new Intl.NumberFormat('nl-BE').format(value);
   }
@@ -261,5 +390,17 @@ export class TagsReportPageStore {
     }
 
     return `${Math.round((value / total) * 100)}%`;
+  }
+
+  private formatHour(timestamp: number): string {
+    const date = new Date(timestamp);
+    const hours = `${date.getUTCHours()}`.padStart(2, '0');
+    const minutes = `${date.getUTCMinutes()}`.padStart(2, '0');
+
+    if (minutes === '00') {
+      return `${hours}:00`;
+    }
+
+    return `${hours}:${minutes}`;
   }
 }

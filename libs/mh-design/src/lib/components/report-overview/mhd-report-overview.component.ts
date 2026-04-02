@@ -5,16 +5,18 @@ import {
   computed,
   inject,
   input,
+  viewChild,
 } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
+import { MhdChartComponent } from '../chart/mhd-chart.component';
+import { MhdChartConfig } from '../chart/mhd-chart.types';
+import { MhdSummaryCardComponent } from '../summary-card/mhd-summary-card.component';
+import { MhdSummaryMetricComponent } from '../summary-metric/mhd-summary-metric.component';
 import {
-  MhdIconComponent,
-  MhdSummaryCardComponent,
-  MhdSummaryMetricComponent,
   MhdSummaryQualityComponent,
   MhdSummaryQualityItem,
-  MhdSummarySectionComponent,
-} from '@mh-traffic/mh-design';
+} from '../summary-quality/mhd-summary-quality.component';
+import { MhdSummarySectionComponent } from '../summary-section/mhd-summary-section.component';
 
 export interface ReportOverviewMetric {
   label: string;
@@ -41,11 +43,11 @@ export interface ReportOverviewGroup {
   selector: 'mhd-report-overview',
   standalone: true,
   imports: [
-    MhdIconComponent,
     MhdSummaryCardComponent,
     MhdSummaryMetricComponent,
     MhdSummaryQualityComponent,
     MhdSummarySectionComponent,
+    MhdChartComponent,
   ],
   templateUrl: './mhd-report-overview.component.html',
   styleUrl: './mhd-report-overview.component.scss',
@@ -54,9 +56,12 @@ export interface ReportOverviewGroup {
 export class MhdReportOverviewComponent {
   private readonly sanitizer = inject(DomSanitizer);
 
+  private readonly chartComponent = viewChild(MhdChartComponent);
+
   readonly title = input.required<string>();
   readonly leftGroups = input.required<ReportOverviewGroup[]>();
   readonly rightGroups = input.required<ReportOverviewGroup[]>();
+  readonly chartConfig = input<MhdChartConfig | null>(null);
 
   protected readonly sanitizedTitle = computed(
     () => this.sanitizer.sanitize(SecurityContext.HTML, this.title()) ?? ''
@@ -72,5 +77,9 @@ export class MhdReportOverviewComponent {
     section: ReportOverviewGroupSection
   ): MhdSummaryQualityItem[] {
     return section.qualityItems ?? [];
+  }
+
+  async exportChartAsPng(filename?: string): Promise<void> {
+    await this.chartComponent()?.exportChartAsPng(filename);
   }
 }

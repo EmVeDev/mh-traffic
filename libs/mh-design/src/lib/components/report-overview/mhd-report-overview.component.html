@@ -55,36 +55,11 @@
     </section>
   </mhd-summary-card>
 
-  <section class="chart-card" aria-label="Report overview chart">
-    <header class="chart-card__header">
-      <h2 class="chart-card__title" [innerHTML]="sanitizedTitle()"></h2>
-
-      <div class="chart-card__actions">
-        <button class="chart-action-btn" type="button" aria-label="Line chart view">
-          <mhd-icon icon="fa-chart-line" iconSet="fas" size="text-sm"></mhd-icon>
-        </button>
-
-        <button
-          class="chart-action-btn chart-action-btn--active"
-          type="button"
-          aria-label="Area chart view"
-        >
-          <mhd-icon icon="fa-chart-area" iconSet="fas" size="text-sm"></mhd-icon>
-        </button>
-
-        <button class="chart-action-btn" type="button" aria-label="Preview chart">
-          <mhd-icon icon="fa-eye" iconSet="fas" size="text-sm"></mhd-icon>
-        </button>
-      </div>
-    </header>
-
-    <div class="chart-card__body">
-      <div class="chart-placeholder" aria-hidden="true">
-        <div class="chart-placeholder__grid"></div>
-        <div class="chart-placeholder__reference"></div>
-        <div class="chart-placeholder__series"></div>
-        <div class="chart-placeholder__marker"></div>
-      </div>
-    </div>
-  </section>
+  @if (chartConfig()) {
+    <mhd-chart
+      class="report-overview-grid__chart"
+      [title]="sanitizedTitle()"
+      [config]="chartConfig()!"
+    />
+  }
 </section>

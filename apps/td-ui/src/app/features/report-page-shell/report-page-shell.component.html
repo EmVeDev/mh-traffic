@@ -20,6 +20,7 @@
   (metricSelected)="onMetricSelected($event)"
   (breakdownSelected)="onBreakdownSelected($event)"
   (filterToggle)="onFilterToggle()"
+  (shareActionSelected)="onShareActionSelected($event)"
 />
 
 @if (advancedFiltersOpen()) {
@@ -30,6 +31,7 @@
   [title]="overviewTitle()"
   [leftGroups]="overviewLeftGroups()"
   [rightGroups]="overviewRightGroups()"
+  [chartConfig]="overviewChart()"
 />
 
 <mhd-report-table
@@ -40,7 +42,8 @@
   [totals]="totals()"
   [enablePagination]="enableTablePagination()"
   [tableDisplayMode]="tableDisplayMode()"
-  [valueDisplayMode]="valueDisplayMode()">
+  [valueDisplayMode]="valueDisplayMode()"
+>
   <div tableControls>
     @if (enableTableModeToggle() || enableValueModeToggle()) {
       <section class="report-page-shell__table-controls">

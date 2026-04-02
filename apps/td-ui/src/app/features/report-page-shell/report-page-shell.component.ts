@@ -4,9 +4,12 @@ import {
   computed,
   input,
   output,
+  viewChild,
 } from '@angular/core';
 import {
-  MhdDateRangeValue, MhdIconComponent,
+  MhdChartConfig,
+  MhdDateRangeValue,
+  MhdIconComponent,
   MhdReportOverviewComponent,
   MhdReportTableComponent,
 } from '@mh-traffic/mh-design';
@@ -17,6 +20,7 @@ import {
 import {
   ReportToolbarComponent,
   ReportToolbarOption,
+  ReportToolbarShareAction,
 } from '../report-toolbar/report-toolbar.component';
 import type {
   ReportOverviewGroup,
@@ -44,6 +48,8 @@ export interface ReportTableTotals {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ReportPageShellComponent {
+  private readonly reportOverview = viewChild(MhdReportOverviewComponent);
+
   readonly title = input.required<string>();
   readonly overviewTitle = input.required<string>();
   readonly tableTitle = input.required<string>();
@@ -67,6 +73,7 @@ export class ReportPageShellComponent {
 
   readonly overviewLeftGroups = input.required<ReportOverviewGroup[]>();
   readonly overviewRightGroups = input.required<ReportOverviewGroup[]>();
+  readonly overviewChart = input<MhdChartConfig | null>(null);
 
   readonly columns = input.required<ReportTableColumn[]>();
   readonly rows = input.required<ReportTableRow[]>();
@@ -86,6 +93,7 @@ export class ReportPageShellComponent {
   readonly filterToggle = output<void>();
   readonly tableModeChange = output<'chart' | 'table'>();
   readonly valueModeChange = output<'raw' | 'percentage'>();
+  readonly shareActionSelected = output<ReportToolbarShareAction>();
 
   protected readonly resolvedToolbarLeadingLabel = computed(() => {
     const explicit = this.toolbarLeadingLabel();
@@ -122,5 +130,29 @@ export class ReportPageShellComponent {
 
   protected setValueMode(mode: 'raw' | 'percentage'): void {
     this.valueModeChange.emit(mode);
+  }
+
+  protected async onShareActionSelected(
+    action: ReportToolbarShareAction
+  ): Promise<void> {
+    switch (action) {
+      case 'share-chart-image':
+      case 'download-chart-image':
+        await this.reportOverview()?.exportChartAsPng(
+          this.buildChartExportFilename()
+        );
+        return;
+
+      default:
+        this.shareActionSelected.emit(action);
+    }
+  }
+
+  private buildChartExportFilename(): string {
+    return this.overviewTitle()
+      .toLowerCase()
+      .replace(/<[^>]+>/g, '')
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '');
   }
 }
